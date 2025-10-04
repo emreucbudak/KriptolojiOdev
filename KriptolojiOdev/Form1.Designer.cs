@@ -114,6 +114,7 @@
             button2.TabIndex = 8;
             button2.Text = "Sezar";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
