@@ -8,16 +8,29 @@ namespace KriptolojiOdev
     {
         private TcpListener tcpListener;
         private Thread thread;
+        private TcpClient client;
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
+            try
+            {
+                client = new TcpClient();
 
+                // Sadece baðlan
+                await client.ConnectAsync("127.0.0.1", 8080);
+                clientLog.AppendText("Server'a baðlandý!\n");
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+            }
         }
+
 
         private void startButton_Click(object sender, EventArgs e)
         {
@@ -62,10 +75,10 @@ namespace KriptolojiOdev
 
                 this.Invoke((MethodInvoker)(() =>
                 {
-                    serverLog.AppendText("Client mesajý: " + message + Environment.NewLine);
+                    clientLog.AppendText("Client mesajý: " + message + Environment.NewLine);
                 }));
 
-                byte[] response = Encoding.UTF8.GetBytes("Server aldý: " + message);
+                byte[] response = Encoding.UTF8.GetBytes("Servere geldi: " + message);
                 stream.Write(response, 0, response.Length);
             }
 
