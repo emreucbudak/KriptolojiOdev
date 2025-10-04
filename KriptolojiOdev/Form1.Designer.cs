@@ -39,10 +39,11 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
-            serverLog = new RichTextBox();
+            clientLog = new RichTextBox();
             startButton = new Button();
             label5 = new Label();
             openServer = new Label();
+            serverLog = new RichTextBox();
             SuspendLayout();
             // 
             // textBox2
@@ -141,13 +142,13 @@
             button5.Text = "Affine";
             button5.UseVisualStyleBackColor = true;
             // 
-            // serverLog
+            // clientLog
             // 
-            serverLog.Location = new Point(529, 13);
-            serverLog.Name = "serverLog";
-            serverLog.Size = new Size(784, 423);
-            serverLog.TabIndex = 12;
-            serverLog.Text = "";
+            clientLog.Location = new Point(529, 13);
+            clientLog.Name = "clientLog";
+            clientLog.Size = new Size(420, 423);
+            clientLog.TabIndex = 12;
+            clientLog.Text = "";
             // 
             // startButton
             // 
@@ -177,15 +178,24 @@
             openServer.TabIndex = 15;
             openServer.Text = "Kapalı";
             // 
+            // serverLog
+            // 
+            serverLog.Location = new Point(955, 12);
+            serverLog.Name = "serverLog";
+            serverLog.Size = new Size(420, 423);
+            serverLog.TabIndex = 16;
+            serverLog.Text = "";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1319, 450);
+            ClientSize = new Size(1385, 450);
+            Controls.Add(serverLog);
             Controls.Add(openServer);
             Controls.Add(label5);
             Controls.Add(startButton);
-            Controls.Add(serverLog);
+            Controls.Add(clientLog);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -216,9 +226,10 @@
         private Button button3;
         private Button button4;
         private Button button5;
-        private RichTextBox serverLog;
+        private RichTextBox clientLog;
         private Button startButton;
         private Label label5;
         private Label openServer;
+        private RichTextBox serverLog;
     }
 }
