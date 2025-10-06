@@ -22,21 +22,20 @@ namespace KriptolojiOdev.Baglanti.Class
         public Action<string> OnMessage { get; set; }
 
 
-        public async Task<string> ConnectToServer()
+        public async Task<(string message, TcpClient client)> ConnectToServer()
         {
             try
             {
                 client = new TcpClient();
-
-                // Sadece bağlan
                 await client.ConnectAsync("127.0.0.1", 8080);
-                return "Server'a bağlandı!\n";
+                return ("Server'a bağlandı!\n", client); 
             }
             catch (Exception ex)
             {
-                return "Hata: " + ex.Message + Environment.NewLine;
+                return ("Hata: " + ex.Message + Environment.NewLine,client); 
             }
         }
+
 
         public string StartServer()
         {
@@ -106,7 +105,8 @@ namespace KriptolojiOdev.Baglanti.Class
 
         public void StopServer()
         {
-            throw new NotImplementedException();
+            listener.Stop();
+            thread.Interrupt();
         }
     }
 }
