@@ -9,7 +9,8 @@ namespace KriptolojiOdev.Baglanti.Interface
     public interface IConnectionService
     {
         string StartServer();
-        void ConnectToServer();
+        Task<string> ConnectToServer();
         void StopServer();
+        public Action<string> OnMessage { get; set; }
     }
 }

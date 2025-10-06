@@ -18,6 +18,13 @@ namespace KriptolojiOdev
         public Form1()
         {
             InitializeComponent();
+            connectionService.OnMessage = (msg) =>
+            {
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    serverLog.AppendText(msg + Environment.NewLine);
+                }));
+            };
 
         }
 
@@ -25,11 +32,8 @@ namespace KriptolojiOdev
         {
             try
             {
-                client = new TcpClient();
+                clientLog.AppendText(await connectionService.ConnectToServer());
 
-                // Sadece baðlan
-                await client.ConnectAsync("127.0.0.1", 8080);
-                clientLog.AppendText("Server'a baðlandý!\n");
             }
             catch (Exception ex)
             {
@@ -42,7 +46,7 @@ namespace KriptolojiOdev
         {
             try
             {
-                serverLog.AppendText(connectionService.StartServer());   
+                serverLog.AppendText(connectionService.StartServer());
             }
             catch (Exception ex)
             {
@@ -50,7 +54,6 @@ namespace KriptolojiOdev
                 return;
             }
         }
-
         private void ListenForClients()
         {
             while (true)
