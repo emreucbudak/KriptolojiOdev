@@ -90,6 +90,10 @@ namespace KriptolojiOdev.Baglanti.Class
                 {
                     responseText = encryptor.CaesarEncrypt(text);
                 }
+                if (algorithm == "SUBSTİTİUİON")
+                {
+                    responseText = encryptor.SubstitutionEncrypt(text);
+                }
                 else
                 {
                     responseText = text;
@@ -103,10 +107,6 @@ namespace KriptolojiOdev.Baglanti.Class
         }
 
 
-        public void StopServer()
-        {
-            listener.Stop();
-            thread.Interrupt();
-        }
+
     }
 }
