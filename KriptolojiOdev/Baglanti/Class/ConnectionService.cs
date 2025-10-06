@@ -98,6 +98,10 @@ namespace KriptolojiOdev.Baglanti.Class
                 {
                     responseText = encryptor.AffineEncrypt(text);
                 }
+                if (algorithm == "VİGENERE")
+                {
+                    responseText = encryptor.VigenereEncrypt(text);
+                }
                 else
                 {
                     responseText = text;
