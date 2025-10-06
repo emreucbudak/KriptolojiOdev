@@ -1,4 +1,6 @@
 ﻿using KriptolojiOdev.Baglanti.Interface;
+using KriptolojiOdev.Sifreleme.Class;
+using KriptolojiOdev.Sifreleme.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,25 @@ namespace KriptolojiOdev.Baglanti.Class
         int port = 8080;
         private TcpListener listener;
         private Thread thread;
+        private TcpClient client;
+        private IEncryptorService encryptor = new EncryptorService();
+        public Action<string> OnMessage { get; set; }
 
 
-        public void ConnectToServer()
+        public async Task<string> ConnectToServer()
         {
-            throw new NotImplementedException();
+            try
+            {
+                client = new TcpClient();
+
+                // Sadece bağlan
+                await client.ConnectAsync("127.0.0.1", 8080);
+                return "Server'a bağlandı!\n";
+            }
+            catch (Exception ex)
+            {
+                return "Hata: " + ex.Message + Environment.NewLine;
+            }
         }
 
         public string StartServer()
@@ -28,6 +44,9 @@ namespace KriptolojiOdev.Baglanti.Class
             {
                 listener = new TcpListener(ip, port);
                 listener.Start();
+                thread = new Thread(ListenForClients);
+                thread.IsBackground = true;
+                thread.Start();
 
                 return "Server " + ip + ":" + port + " Başlatıldı!" + Environment.NewLine;
 
@@ -36,6 +55,52 @@ namespace KriptolojiOdev.Baglanti.Class
             {
                 return "Hata: " + ex.Message + Environment.NewLine;
             }
+        }
+
+        private void ListenForClients()
+        {
+            while (true)
+            {
+                TcpClient client = listener.AcceptTcpClient();
+
+                OnMessage?.Invoke("Yeni client bağlandı!");
+                Thread clientThread = new Thread(() => HandleClient(client));
+                clientThread.IsBackground = true;
+                clientThread.Start();
+            }
+        }
+        private void HandleClient(TcpClient client)
+        {
+            NetworkStream stream = client.GetStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+            {
+                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+
+                string[] parts = message.Split('|');
+                if (parts.Length != 2) continue;
+
+                string algorithm = parts[0].ToUpper();
+                string text = parts[1];
+                string responseText;
+
+                if (algorithm == "CAESAR")
+                {
+                    responseText = encryptor.CaesarEncrypt(text);
+                }
+                else
+                {
+                    responseText = text;
+                }
+
+                byte[] response = Encoding.UTF8.GetBytes(responseText);
+                stream.Write(response, 0, response.Length);
+            }
+
+            client.Close();
         }
 
 
