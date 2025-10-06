@@ -1,3 +1,5 @@
+using KriptolojiOdev.Baglanti.Class;
+using KriptolojiOdev.Baglanti.Interface;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,10 +11,14 @@ namespace KriptolojiOdev
         private TcpListener tcpListener;
         private Thread thread;
         private TcpClient client;
+        private IConnectionService connectionService = new ConnectionService();
+
+
 
         public Form1()
         {
             InitializeComponent();
+
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -34,17 +40,15 @@ namespace KriptolojiOdev
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            int port = 8080;
-            tcpListener = new TcpListener(ip, port);
-            tcpListener.Start();
-            serverLog.AppendText("Server " + ip + ":" + port + " Baþlatýldý!\n");
-            openServer.Text = "Açýk";
-
-
-            thread = new Thread(ListenForClients);
-            thread.IsBackground = true;
-            thread.Start();
+            try
+            {
+                serverLog.AppendText(connectionService.StartServer());   
+            }
+            catch (Exception ex)
+            {
+                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+                return;
+            }
         }
 
         private void ListenForClients()

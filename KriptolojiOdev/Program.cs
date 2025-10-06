@@ -1,3 +1,5 @@
+using KriptolojiOdev.Baglanti.Interface;
+
 namespace KriptolojiOdev
 {
     internal static class Program

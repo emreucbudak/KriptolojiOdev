@@ -13,7 +13,8 @@ namespace KriptolojiOdev.Baglanti.Class
     {
         private readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
         int port = 8080;
-        TcpListener listener;
+        private TcpListener listener;
+        private Thread thread;
 
 
         public void ConnectToServer()
@@ -27,6 +28,7 @@ namespace KriptolojiOdev.Baglanti.Class
             {
                 listener = new TcpListener(ip, port);
                 listener.Start();
+
                 return "Server " + ip + ":" + port + " Başlatıldı!" + Environment.NewLine;
 
             }
@@ -35,6 +37,7 @@ namespace KriptolojiOdev.Baglanti.Class
                 return "Hata: " + ex.Message + Environment.NewLine;
             }
         }
+
 
         public void StopServer()
         {
