@@ -50,6 +50,44 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             return result.ToString();
         }
+        public string AffineEncrypt(string metin, int a = 5, int b = 8)
+        {
+            if (GCD(a, 26) != 1)
+                throw new ArgumentException("a ve 26 aralarında asal olmalı!");
+
+            StringBuilder result = new StringBuilder();
+
+            foreach (char c in metin)
+            {
+                if (char.IsLetter(c))
+                {
+                    bool isUpper = char.IsUpper(c);
+                    int x = char.ToUpper(c) - 'A';
+                    int y = (a * x + b) % 26;
+                    char encryptedChar = (char)(y + 'A');
+                    result.Append(isUpper ? encryptedChar : char.ToLower(encryptedChar));
+                }
+                else
+                {
+                    result.Append(c);
+                }
+            }
+
+            return result.ToString();
+        }
+
+
+        private int GCD(int x, int y)
+        {
+            while (y != 0)
+            {
+                int temp = y;
+                y = x % y;
+                x = temp;
+            }
+            return x;
+        }
+
     }
 }
 
