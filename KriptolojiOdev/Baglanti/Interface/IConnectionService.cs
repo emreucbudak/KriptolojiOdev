@@ -11,7 +11,7 @@ namespace KriptolojiOdev.Baglanti.Interface
     {
         string StartServer();
         Task<(string message, TcpClient client)> ConnectToServer();
-        void StopServer();
+
         public Action<string> OnMessage { get; set; }
     }
 }

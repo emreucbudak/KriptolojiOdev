@@ -9,5 +9,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
     public interface IEncryptorService
     {
         string CaesarEncrypt(string metin);
+        string SubstitutionEncrypt(string metin);
     }
 }
