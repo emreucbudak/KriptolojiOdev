@@ -10,6 +10,7 @@ namespace KriptolojiOdev.Sifreleme.Class
     public class EncryptorService : IEncryptorService
     {
         private readonly string substitutionKey = "QWERTYUIOPASDFGHJKLZXCVBNM";
+        private readonly string vigenereKey = "ANAHTAR";
         public string CaesarEncrypt(string metin)
         {
             StringBuilder result = new StringBuilder();
@@ -86,6 +87,32 @@ namespace KriptolojiOdev.Sifreleme.Class
                 x = temp;
             }
             return x;
+        }
+        public string VigenereEncrypt(string metin)
+        {
+            StringBuilder result = new StringBuilder();
+            string key = vigenereKey.ToUpper();
+            int keyIndex = 0;
+
+            foreach (char c in metin)
+            {
+                if (char.IsLetter(c))
+                {
+                    bool isUpper = char.IsUpper(c);
+                    int x = char.ToUpper(c) - 'A';
+                    int k = key[keyIndex % key.Length] - 'A';
+                    int y = (x + k) % 26;
+                    char encryptedChar = (char)(y + 'A');
+                    result.Append(isUpper ? encryptedChar : char.ToLower(encryptedChar));
+                    keyIndex++;
+                }
+                else
+                {
+                    result.Append(c);
+                }
+            }
+
+            return result.ToString();
         }
 
     }
