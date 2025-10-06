@@ -121,6 +121,7 @@
             button5.TabIndex = 11;
             button5.Text = "Affine";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // clientLog
             // 

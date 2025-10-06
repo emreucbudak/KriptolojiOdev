@@ -94,6 +94,10 @@ namespace KriptolojiOdev.Baglanti.Class
                 {
                     responseText = encryptor.SubstitutionEncrypt(text);
                 }
+                if (algorithm == "AFFİNE")
+                {
+                    responseText = encryptor.AffineEncrypt(text);
+                }
                 else
                 {
                     responseText = text;
