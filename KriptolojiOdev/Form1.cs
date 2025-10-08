@@ -61,15 +61,16 @@ namespace KriptolojiOdev
 
                 NetworkStream stream = client.GetStream();
                 string msg = "CAESAR|" + textBox2.Text;
-                string encryptmsg = serverForm.MesajYaz(msg);
-               
-                byte[] data = Encoding.UTF8.GetBytes(encryptmsg);
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
-
+                await stream.FlushAsync();
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
 
                 textBox1.Text = response;
             }
@@ -90,6 +91,7 @@ namespace KriptolojiOdev
 
                 NetworkStream stream = client.GetStream();
                 string msg = "SUBSTÝTÝUÝON|" + textBox2.Text;
+
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
@@ -97,7 +99,7 @@ namespace KriptolojiOdev
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
+                serverForm.MesajYaz(msg);
                 textBox1.Text = response;
             }
             catch (Exception ex)
@@ -118,6 +120,7 @@ namespace KriptolojiOdev
 
                 NetworkStream stream = client.GetStream();
                 string msg = "AFFÝNE|" + textBox2.Text;
+
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
@@ -125,7 +128,7 @@ namespace KriptolojiOdev
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
+                serverForm.MesajYaz(msg);
                 textBox1.Text = response;
             }
             catch (Exception ex)
@@ -146,6 +149,7 @@ namespace KriptolojiOdev
 
                 NetworkStream stream = client.GetStream();
                 string msg = "VÝGENERE|" + textBox2.Text;
+  
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
@@ -153,7 +157,7 @@ namespace KriptolojiOdev
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
+                serverForm.MesajYaz(msg);
                 textBox1.Text = response;
             }
             catch (Exception ex)

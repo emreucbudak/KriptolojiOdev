@@ -47,7 +47,7 @@ namespace KriptolojiOdev.Baglanti.Class
                 thread.IsBackground = true;
                 thread.Start();
 
-                return "Server " + ip + ":" + port + " Başlatıldı!" + Environment.NewLine;
+                return "Server " + ip + ":" + port + " Başlatıldı." + Environment.NewLine;
 
             }
             catch (Exception ex)
@@ -84,28 +84,14 @@ namespace KriptolojiOdev.Baglanti.Class
 
                 string algorithm = parts[0].ToUpper();
                 string text = parts[1];
-                string responseText;
-
-                if (algorithm == "CAESAR")
+                string responseText = algorithm switch
                 {
-                    responseText = encryptor.CaesarEncrypt(text);
-                }
-                if (algorithm == "SUBSTİTİUİON")
-                {
-                    responseText = encryptor.SubstitutionEncrypt(text);
-                }
-                if (algorithm == "AFFİNE")
-                {
-                    responseText = encryptor.AffineEncrypt(text);
-                }
-                if (algorithm == "VİGENERE")
-                {
-                    responseText = encryptor.VigenereEncrypt(text);
-                }
-                else
-                {
-                    responseText = text;
-                }
+                    "CAESAR" => encryptor.CaesarEncrypt(text),
+                    "VİGENERE" => encryptor.VigenereEncrypt(text),
+                    "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(text),
+                    "AFFİNE" => encryptor.AffineEncrypt(text),
+                    _ => "İstenilen Şifreleme Özelliğine Sahip Değilim"
+                };
 
                 byte[] response = Encoding.UTF8.GetBytes(responseText);
                 stream.Write(response, 0, response.Length);

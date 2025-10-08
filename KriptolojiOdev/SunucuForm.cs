@@ -30,20 +30,13 @@ namespace KriptolojiOdev
                 }));
             };
         }
-        public string MesajYaz(string mesaj)
+        public void MesajYaz(string mesaj)
         {
             var gelen = mesaj.Split('|');
-            var sifreleme = gelen[0];
-            var metin = gelen[1];
-            string sifrele = sifreleme switch
-            {
-                "CAESAR" => encryptorService.CaesarEncrypt(metin),
-                "VİGENERE" => encryptorService.VigenereEncrypt(metin),
-                "SUBSTİTİUİON" => encryptorService.SubstitutionEncrypt(metin),
-                "AFFİNE" => encryptorService.SubstitutionEncrypt(metin),
-                _ => mesaj 
-            };
-            return sifrele;
+            var algorithm = gelen[0];
+            var message = gelen[1];
+            serverLog.AppendText("Gelen Mesaj:"+ message +"\nİstenilen Algoritma: " + algorithm + Environment.NewLine);
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
