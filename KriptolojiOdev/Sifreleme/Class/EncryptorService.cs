@@ -30,26 +30,32 @@ namespace KriptolojiOdev.Sifreleme.Class
 
         public string SubstitutionEncrypt(string metin, string key)
         {
+            if (string.IsNullOrEmpty(key) || key.Length != 26)
+                throw new ArgumentException("Key 26 harf uzunluğunda olmalı.");
+
+            if (!key.All(char.IsLetter))
+                throw new ArgumentException("Key yalnızca harflerden oluşmalı.");
+
             StringBuilder result = new StringBuilder();
             string upperKey = key.ToUpper();
+            metin = metin.ToUpper(); 
 
             foreach (char c in metin)
             {
-                if (char.IsLetter(c))
+                if (c >= 'A' && c <= 'Z') 
                 {
-                    bool isUpper = char.IsUpper(c);
-                    int index = char.ToUpper(c) - 'A';
-                    char encryptedChar = upperKey[index];
-                    result.Append(isUpper ? encryptedChar : char.ToLower(encryptedChar));
+                    int index = c - 'A'; 
+                    result.Append(upperKey[index]); 
                 }
                 else
                 {
-                    result.Append(c);
+                    result.Append(c); 
                 }
             }
 
             return result.ToString();
         }
+
         public string AffineEncrypt(string metin, int a = 5, int b = 8)
         {
             if (GCD(a, 26) != 1)
