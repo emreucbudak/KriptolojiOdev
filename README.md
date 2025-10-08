@@ -1,4 +1,4 @@
-#🛡️ Kriptoloji – Form Üzerinden Şifreleme pROGRAMI
+#🛡️ Kriptoloji – Form Üzerinden Şifreleme PROGRAMI
 
 
 **Bu proje, TCP üzerinden çalışan bir client-server uygulamasıdır ve Windows Forms üzerinden şifreleme işlemleri yapılmasını sağlar.
