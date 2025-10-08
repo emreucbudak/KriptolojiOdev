@@ -24,25 +24,6 @@ namespace KriptolojiOdev
             this.serverForm = serverForm;
         }
 
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (isConnected)
-                {
-                    throw new Exception("Zaten baðlý durumdasýnýz!");
-
-                }
-                var connect = await connectionService.ConnectToServer();
-                clientLog.AppendText(connect.message);
-                isConnected = true;
-
-            }
-            catch (Exception ex)
-            {
-                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-            }
-        }
 
 
 
@@ -66,12 +47,12 @@ namespace KriptolojiOdev
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
-                await stream.FlushAsync();
+
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
-
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
                 textBox1.Text = response;
             }
             catch (Exception ex)
@@ -85,7 +66,7 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-
+                clientLog.AppendText(message);
 
                 if (client == null) return; 
 
@@ -106,6 +87,7 @@ namespace KriptolojiOdev
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
                 textBox1.Text = response;
             }
             catch (Exception ex)
@@ -121,7 +103,7 @@ namespace KriptolojiOdev
             {
                 var (message, client) = await connectionService.ConnectToServer();
 
-
+                clientLog.AppendText(message);
                 if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
@@ -135,6 +117,7 @@ namespace KriptolojiOdev
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
                 textBox1.Text = response;
             }
             catch (Exception ex)
@@ -149,7 +132,7 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-
+                clientLog.AppendText(message);
 
                 if (client == null) return; 
 
@@ -171,6 +154,7 @@ namespace KriptolojiOdev
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
                 textBox1.Text = response;
             }
             catch (Exception ex)
