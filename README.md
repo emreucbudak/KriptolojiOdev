@@ -30,6 +30,11 @@
 <img width="1063" height="545" alt="image" src="https://github.com/user-attachments/assets/e1027c5b-5e45-4a9e-994f-629234fd2b2f" />
 **4)Client tarafında key gerektiren şifrelemelerde 
 <img width="1067" height="483" alt="image" src="https://github.com/user-attachments/assets/19322d96-920f-4203-8727-00b209f9aff3" />
+##📸 Wireshark Görüntüleri
+<img width="1917" height="1017" alt="image" src="https://github.com/user-attachments/assets/ccb132b7-d42d-4990-bc02-e0b650e8765a" />
+**Wireshark içinden sunucuya gönderilen metin ve alınan şifrelenmiş metnin görseli
+<img width="1282" height="1016" alt="wireshark2" src="https://github.com/user-attachments/assets/6994e0f6-8ed8-4fb2-9a74-ff74fd929478" />
+
 
 
 
