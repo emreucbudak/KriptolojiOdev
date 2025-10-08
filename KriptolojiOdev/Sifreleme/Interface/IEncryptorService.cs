@@ -9,8 +9,8 @@ namespace KriptolojiOdev.Sifreleme.Interface
     public interface IEncryptorService
     {
         string CaesarEncrypt(string metin);
-        string SubstitutionEncrypt(string metin);
+        string SubstitutionEncrypt(string metin, string key);
         string AffineEncrypt(string metin, int a = 5, int b = 8);
-        string VigenereEncrypt(string metin);
+        string VigenereEncrypt(string metin, string key);
     }
 }
