@@ -80,15 +80,16 @@ namespace KriptolojiOdev.Baglanti.Class
 
 
                 string[] parts = message.Split('|');
-                if (parts.Length != 2) continue;
+  
 
                 string algorithm = parts[0].ToUpper();
                 string text = parts[1];
+                string key = parts.Length > 2 ? parts[2] : string.Empty;
                 string responseText = algorithm switch
                 {
                     "CAESAR" => encryptor.CaesarEncrypt(text),
-                    "VİGENERE" => encryptor.VigenereEncrypt(text),
-                    "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(text),
+                    "VİGENERE" => encryptor.VigenereEncrypt(text,key),
+                    "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(text,key),
                     "AFFİNE" => encryptor.AffineEncrypt(text),
                     _ => "İstenilen Şifreleme Özelliğine Sahip Değilim"
                 };

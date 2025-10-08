@@ -71,6 +71,7 @@
             Controls.Add(serverLog);
             Name = "SunucuForm";
             Text = "Sunucu";
+            Load += SunucuForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

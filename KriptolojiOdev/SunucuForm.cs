@@ -35,7 +35,7 @@ namespace KriptolojiOdev
             var gelen = mesaj.Split('|');
             var algorithm = gelen[0];
             var message = gelen[1];
-            serverLog.AppendText("Gelen Mesaj:"+ message +"\nİstenilen Algoritma: " + algorithm + Environment.NewLine);
+            serverLog.AppendText("Gelen Mesaj:" + message + "\nİstenilen Algoritma: " + algorithm + Environment.NewLine);
 
         }
         private void button1_Click(object sender, EventArgs e)
@@ -49,6 +49,11 @@ namespace KriptolojiOdev
                 serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
                 return;
             }
+        }
+
+        private void SunucuForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
