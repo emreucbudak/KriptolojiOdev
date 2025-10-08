@@ -34,12 +34,13 @@ namespace KriptolojiOdev
         {
             var gelen = mesaj.Split('|');
             var sifreleme = gelen[0];
+            var metin = gelen[1];
             string sifrele = sifreleme switch
             {
-                "CAESAR" => encryptorService.CaesarEncrypt(mesaj),
-                "VİGENERE" => encryptorService.VigenereEncrypt(mesaj),
-                "SUBSTİTİUİON" => encryptorService.SubstitutionEncrypt(mesaj),
-                "AFFİNE" => encryptorService.SubstitutionEncrypt(mesaj),
+                "CAESAR" => encryptorService.CaesarEncrypt(metin),
+                "VİGENERE" => encryptorService.VigenereEncrypt(metin),
+                "SUBSTİTİUİON" => encryptorService.SubstitutionEncrypt(metin),
+                "AFFİNE" => encryptorService.SubstitutionEncrypt(metin),
                 _ => mesaj 
             };
             return sifrele;
