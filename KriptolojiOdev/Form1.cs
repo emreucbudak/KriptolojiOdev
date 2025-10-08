@@ -10,22 +10,32 @@ namespace KriptolojiOdev
     {
         private TcpListener tcpListener;
         private Thread thread;
-        private TcpClient client;
+        private TcpClient client = new TcpClient();
+       
         private IConnectionService connectionService = new ConnectionService();
+        private bool isConnected = false;
+        private SunucuForm serverForm;
 
 
 
-        public Form1()
+        public Form1(SunucuForm serverForm)
         {
             InitializeComponent();
+            this.serverForm = serverForm;
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
             try
             {
+                if (isConnected)
+                {
+                    throw new Exception("Zaten baðlý durumdasýnýz!");
+
+                }
                 var connect = await connectionService.ConnectToServer();
                 clientLog.AppendText(connect.message);
+                isConnected = true;
 
             }
             catch (Exception ex)
@@ -42,14 +52,18 @@ namespace KriptolojiOdev
         {
             try
             {
-                var (message, client) = await connectionService.ConnectToServer();
-            
 
+
+                var (message,client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+       
                 if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
                 string msg = "CAESAR|" + textBox2.Text;
-                byte[] data = Encoding.UTF8.GetBytes(msg);
+                string encryptmsg = serverForm.MesajYaz(msg);
+               
+                byte[] data = Encoding.UTF8.GetBytes(encryptmsg);
 
                 await stream.WriteAsync(data, 0, data.Length);
 
