@@ -12,8 +12,15 @@ namespace KriptolojiOdev
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            ApplicationConfiguration.Initialize(); // Önce yapýlandýrmayý baþlat
+
+            SunucuForm serverForm = new SunucuForm();
+            Form1 clientForm = new Form1();
+
+            serverForm.Show();
+            clientForm.Show();
+
+            Application.Run();
         }
     }
 }

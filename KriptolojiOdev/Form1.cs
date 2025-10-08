@@ -18,14 +18,6 @@ namespace KriptolojiOdev
         public Form1()
         {
             InitializeComponent();
-            connectionService.OnMessage = (msg) =>
-            {
-                this.Invoke((MethodInvoker)(() =>
-                {
-                    serverLog.AppendText(msg + Environment.NewLine);
-                }));
-            };
-
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -43,18 +35,7 @@ namespace KriptolojiOdev
         }
 
 
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                serverLog.AppendText(connectionService.StartServer());
-            }
-            catch (Exception ex)
-            {
-                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-                return;
-            }
-        }
+
 
 
         private async void button2_Click(object sender, EventArgs e)
@@ -62,9 +43,9 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-                serverLog.AppendText(message); // string mesajý göster
+            
 
-                if (client == null) return; // baðlantý baþarýsýzsa iþlemi durdur
+                if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
                 string msg = "CAESAR|" + textBox2.Text;
@@ -89,9 +70,9 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-                serverLog.AppendText(message); // string mesajý göster
 
-                if (client == null) return; // baðlantý baþarýsýzsa iþlemi durdur
+
+                if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
                 string msg = "SUBSTÝTÝUÝON|" + textBox2.Text;
@@ -108,7 +89,7 @@ namespace KriptolojiOdev
             catch (Exception ex)
             {
                 clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
             }
         }
 
@@ -117,9 +98,9 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-                serverLog.AppendText(message); // string mesajý göster
 
-                if (client == null) return; // baðlantý baþarýsýzsa iþlemi durdur
+
+                if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
                 string msg = "AFFÝNE|" + textBox2.Text;
@@ -136,7 +117,7 @@ namespace KriptolojiOdev
             catch (Exception ex)
             {
                 clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
             }
         }
 
@@ -145,9 +126,9 @@ namespace KriptolojiOdev
             try
             {
                 var (message, client) = await connectionService.ConnectToServer();
-                serverLog.AppendText(message); // string mesajý göster
 
-                if (client == null) return; // baðlantý baþarýsýzsa iþlemi durdur
+
+                if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
                 string msg = "VÝGENERE|" + textBox2.Text;
@@ -164,7 +145,7 @@ namespace KriptolojiOdev
             catch (Exception ex)
             {
                 clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
             }
         }
     }
