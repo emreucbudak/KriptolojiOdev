@@ -9,8 +9,7 @@ namespace KriptolojiOdev.Sifreleme.Class
 {
     public class EncryptorService : IEncryptorService
     {
-        private readonly string substitutionKey = "QWERTYUIOPASDFGHJKLZXCVBNM";
-        private readonly string vigenereKey = "ANAHTAR";
+
         public string CaesarEncrypt(string metin)
         {
             StringBuilder result = new StringBuilder();
@@ -29,10 +28,10 @@ namespace KriptolojiOdev.Sifreleme.Class
             return result.ToString();
         }
 
-        public string SubstitutionEncrypt(string metin)
+        public string SubstitutionEncrypt(string metin, string key)
         {
             StringBuilder result = new StringBuilder();
-            string upperKey = substitutionKey.ToUpper();
+            string upperKey = key.ToUpper();
 
             foreach (char c in metin)
             {
@@ -88,7 +87,7 @@ namespace KriptolojiOdev.Sifreleme.Class
             }
             return x;
         }
-        public string VigenereEncrypt(string metin)
+        public string VigenereEncrypt(string metin,string vigenereKey)
         {
             StringBuilder result = new StringBuilder();
             string key = vigenereKey.ToUpper();

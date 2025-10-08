@@ -90,7 +90,13 @@ namespace KriptolojiOdev
                 if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
-                string msg = "SUBSTÝTÝUÝON|" + textBox2.Text;
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "SUBSTÝTÝUÝON|" + textBox2.Text+"|"+key;
+                //Örnek substitiuion key isterseniz QWERTYUIOPASDFGHJKLZXCVBNM
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
@@ -148,8 +154,15 @@ namespace KriptolojiOdev
                 if (client == null) return; 
 
                 NetworkStream stream = client.GetStream();
-                string msg = "VÝGENERE|" + textBox2.Text;
-  
+                string key = textBox3.Text.ToUpper();
+
+                if (string.IsNullOrWhiteSpace(key) || !key.All(char.IsLetter))
+                {
+                    throw new Exception("Hata! Vigenere þifrelemesi yalnýzca harflerden oluþmalýdýr.");
+                }
+                string msg = "VÝGENERE|" + textBox2.Text+"|"+textBox3.Text;
+                // Örnek Vigenere key isterseniz ANAHTAR
+
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
                 await stream.WriteAsync(data, 0, data.Length);
