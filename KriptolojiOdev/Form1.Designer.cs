@@ -38,8 +38,6 @@
             button4 = new Button();
             button5 = new Button();
             clientLog = new RichTextBox();
-            startButton = new Button();
-            serverLog = new RichTextBox();
             SuspendLayout();
             // 
             // textBox2
@@ -76,7 +74,7 @@
             // 
             // connection
             // 
-            connection.Location = new Point(200, 184);
+            connection.Location = new Point(43, 184);
             connection.Name = "connection";
             connection.Size = new Size(116, 28);
             connection.TabIndex = 7;
@@ -86,7 +84,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(362, 184);
+            button2.Location = new Point(200, 184);
             button2.Name = "button2";
             button2.Size = new Size(116, 28);
             button2.TabIndex = 8;
@@ -96,7 +94,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(362, 245);
+            button3.Location = new Point(357, 184);
             button3.Name = "button3";
             button3.Size = new Size(116, 28);
             button3.TabIndex = 9;
@@ -128,35 +126,15 @@
             // 
             clientLog.Location = new Point(529, 13);
             clientLog.Name = "clientLog";
-            clientLog.Size = new Size(420, 423);
+            clientLog.Size = new Size(524, 423);
             clientLog.TabIndex = 12;
             clientLog.Text = "";
-            // 
-            // startButton
-            // 
-            startButton.Location = new Point(43, 184);
-            startButton.Name = "startButton";
-            startButton.Size = new Size(116, 28);
-            startButton.TabIndex = 13;
-            startButton.Text = "Başlat";
-            startButton.UseVisualStyleBackColor = true;
-            startButton.Click += startButton_Click;
-            // 
-            // serverLog
-            // 
-            serverLog.Location = new Point(955, 12);
-            serverLog.Name = "serverLog";
-            serverLog.Size = new Size(420, 423);
-            serverLog.TabIndex = 16;
-            serverLog.Text = "";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1385, 450);
-            Controls.Add(serverLog);
-            Controls.Add(startButton);
+            ClientSize = new Size(1065, 450);
             Controls.Add(clientLog);
             Controls.Add(button5);
             Controls.Add(button4);
@@ -185,7 +163,5 @@
         private Button button4;
         private Button button5;
         private RichTextBox clientLog;
-        private Button startButton;
-        private RichTextBox serverLog;
     }
 }
