@@ -198,7 +198,7 @@ namespace KriptolojiOdev
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
                 clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu  = " + response + Environment.NewLine);
-                textBox1.Text = response;
+                textBox6.Text = response;
             }
             catch (Exception ex)
             {
@@ -235,7 +235,7 @@ namespace KriptolojiOdev
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
                 clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
-                textBox1.Text = response;
+                textBox6.Text = response;
             }
             catch (Exception ex)
             {
@@ -272,7 +272,7 @@ namespace KriptolojiOdev
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
                 clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
-                textBox1.Text = response;
+                textBox6.Text = response;
             }
             catch (Exception ex)
             {
@@ -302,7 +302,7 @@ namespace KriptolojiOdev
                 string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 serverForm.MesajYaz(msg);
                 clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
-                textBox1.Text = response;
+                textBox6.Text = response;
             }
             catch (Exception ex)
             {
