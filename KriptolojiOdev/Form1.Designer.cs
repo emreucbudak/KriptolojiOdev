@@ -207,6 +207,7 @@
             button7.TabIndex = 8;
             button7.Text = "Substitiuion";
             button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // button6
             // 
