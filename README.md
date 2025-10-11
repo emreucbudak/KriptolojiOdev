@@ -35,9 +35,18 @@
 
 
 ##📸 Wireshark Görüntüleri
-<img width="1917" height="1017" alt="image" src="https://github.com/user-attachments/assets/ccb132b7-d42d-4990-bc02-e0b650e8765a" />
-**Wireshark içinden sunucuya gönderilen metin ve alınan şifrelenmiş metnin görseli
-<img width="1282" height="1016" alt="wireshark2" src="https://github.com/user-attachments/assets/6994e0f6-8ed8-4fb2-9a74-ff74fd929478" />
+<img width="1913" height="1022" alt="image" src="https://github.com/user-attachments/assets/2f8c3e21-e4f1-43cd-b3fa-046a3d41677f" />
+
+**Wireshark içinden key gerektirmeyen şifreleme ile sunucuya gönderilen metnin şifrelendiğinin görüntüleri
+<img width="1287" height="1017" alt="keygerekmeyenwiresharkencrypt" src="https://github.com/user-attachments/assets/cbffde51-fea3-4d4d-a78d-6285abc6dbdf" />
+**Wireshark içinden key gerektiren şifreleme ile sunucuya gönderilen metnin şifrelendiğinin görüntüleri
+<img width="1283" height="1017" alt="image" src="https://github.com/user-attachments/assets/02c336ff-4b80-4950-b68e-6e6aaf2e3dc0" />
+**Wireshark içinden key gerektirmeyen şifrelemenin çözülmesi işleminin yapıldığının görüntüleri
+<img width="1917" height="1021" alt="image" src="https://github.com/user-attachments/assets/1652a60d-eb82-42f2-9039-66253d6244d1" />
+**Wireshark içinden key gerektiren şifrelemenin çözülmesi işleminin yapıldığının görüntüleri
+<img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/c709372a-a649-4ca3-9521-de9c49848f85" />
+
+
 
 
 
