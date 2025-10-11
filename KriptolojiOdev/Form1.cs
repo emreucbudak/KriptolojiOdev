@@ -186,7 +186,7 @@ namespace KriptolojiOdev
                 if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
-                string msg = "Decrypt|" + "CAESAR|" + textBox2.Text;
+                string msg = "Decrypt|" + "CAESAR|" + textBox4.Text;
 
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
@@ -223,7 +223,7 @@ namespace KriptolojiOdev
                 {
                     throw new Exception("Hata! Vigenere þifrelemesi yalnýzca harflerden oluþmalýdýr.");
                 }
-                string msg = "Decrypt|" + "VÝGENERE|" + textBox2.Text + "|" + textBox3.Text;
+                string msg = "Decrypt|" + "VÝGENERE|" + textBox4.Text + "|" + textBox5.Text;
                 //Kullandýgýnýz keyi kullanmalýsýnýz
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
@@ -255,12 +255,12 @@ namespace KriptolojiOdev
                 if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
-                string key = textBox3.Text.ToUpper();
+                string key = textBox5.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
                     throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
-                string msg = "Decrypt|" + "SUBSTÝTÝUÝON|" + textBox2.Text + "|" + key;
+                string msg = "Decrypt|" + "SUBSTÝTÝUÝON|" + textBox4.Text + "|" + key;
                 //Kullandýgýnýz keyi kullanmalýsýnýz
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
@@ -291,7 +291,7 @@ namespace KriptolojiOdev
                 if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
-                string msg = "Decrypt|" + "AFFÝNE|" + textBox2.Text;
+                string msg = "Decrypt|" + "AFFÝNE|" + textBox4.Text;
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
