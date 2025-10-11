@@ -16,6 +16,8 @@
 **🔑 Caesar Cipher – Sabit kaydırma: +3.
 
 **🔑 Affine Cipher – Basit affine algoritması ile şifreleme.
+##✨ Desteklenen Çözme Algoritmaları
+** Desteklenen tüm şifreleme algoritmalarının çözmesi yani decrypt işlemide klendi
 ##⚡ Kullanım
 **1) Şifrelenmesi istenen metin girilir
 **2) Eğer İlgili Şifreleme Türü için key gerekiyorsa key girilir
@@ -30,6 +32,12 @@
 <img width="1063" height="545" alt="image" src="https://github.com/user-attachments/assets/e1027c5b-5e45-4a9e-994f-629234fd2b2f" />
 **4)Client tarafında key gerektiren şifrelemelerde 
 <img width="1067" height="483" alt="image" src="https://github.com/user-attachments/assets/19322d96-920f-4203-8727-00b209f9aff3" />
+**5) Key Gerektirmeyen şifrelerin decrypt işlemi
+<img width="1293" height="677" alt="image" src="https://github.com/user-attachments/assets/dac92671-3e13-4ab4-be68-e83d7148507e" />
+**6) Key gerektiren şifrelerin decrypt işlemi
+<img width="1287" height="677" alt="image" src="https://github.com/user-attachments/assets/5cd195b2-36b5-49e3-8c3d-e58e405cc0f0" />
+
+
 ##📸 Wireshark Görüntüleri
 <img width="1917" height="1017" alt="image" src="https://github.com/user-attachments/assets/ccb132b7-d42d-4990-bc02-e0b650e8765a" />
 **Wireshark içinden sunucuya gönderilen metin ve alınan şifrelenmiş metnin görseli
