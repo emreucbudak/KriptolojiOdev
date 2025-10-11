@@ -25,6 +25,8 @@
 **4) Program arka planda Tcp-Server üzerinden serverla bağlantıyı kurar şifrelemeyi gerçekleştirir ve kullanıcıya geri döner
 ##📸 Uygulamadan Ekran Görüntüleri
 **1) Sunucu Başlatılmadan Önce:
+
+
 <img width="1153" height="528" alt="image" src="https://github.com/user-attachments/assets/ddf718f3-1bb1-4d91-8bab-561f4f4a2a12" />
 **2) Sunucu Başlatıldığında:
 <img width="1153" height="485" alt="image" src="https://github.com/user-attachments/assets/e7faa831-8dbd-499e-b360-954a2d70fe01" />
