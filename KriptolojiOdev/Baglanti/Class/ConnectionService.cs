@@ -19,6 +19,8 @@ namespace KriptolojiOdev.Baglanti.Class
         private Thread thread;
         private TcpClient client;
         private IEncryptorService encryptor = new EncryptorService();
+        private IDecryptorService decryptor = new DecryptorService();
+
         public Action<string> OnMessage { get; set; }
 
 
@@ -81,17 +83,16 @@ namespace KriptolojiOdev.Baglanti.Class
 
                 string[] parts = message.Split('|');
   
-
-                string algorithm = parts[0].ToUpper();
-                string text = parts[1];
-                string key = parts.Length > 2 ? parts[2] : string.Empty;
-                string responseText = algorithm switch
+                string chooseCrypt = parts[0];
+                string algorithm = parts[1].ToUpper();
+                string text = parts[2];
+                string key = parts.Length > 3 ? parts[3] : string.Empty;
+                string responseText = chooseCrypt switch
                 {
-                    "CAESAR" => encryptor.CaesarEncrypt(text),
-                    "VİGENERE" => encryptor.VigenereEncrypt(text,key),
-                    "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(text,key),
-                    "AFFİNE" => encryptor.AffineEncrypt(text),
-                    _ => "İstenilen Şifreleme Özelliğine Sahip Değilim"
+                    "Encrypt" => EncryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key),
+                    "Decrypt" => DecryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key),
+                    _ => "Istediğin şifreleme türü yokk"
+
                 };
 
                 byte[] response = Encoding.UTF8.GetBytes(responseText);
@@ -99,6 +100,31 @@ namespace KriptolojiOdev.Baglanti.Class
             }
 
             client.Close();
+        }
+        private string EncryptorServiceCaller (string algorithm, string metin, string? key)
+        {
+            var encryptedText = algorithm switch
+            {
+                "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(metin, key),
+                "VİGENERE" => encryptor.VigenereEncrypt(metin, key),
+                "AFFİNE" => encryptor.AffineEncrypt(metin),
+                "CAESAR" => encryptor.CaesarEncrypt(metin),
+                _ => "İstenilen Encryptor Mevcut Değil"
+            };
+            return encryptedText;
+        }
+        private string DecryptorServiceCaller(string algorithm, string metin, string? key)
+        {
+            var decryptedText = algorithm switch
+            {
+                "SUBSTİTİUİON" => decryptor.DecryptorSubstitiuion(metin, key),
+                "VİGENERE" => decryptor.DecryptorVigenere(metin, key),
+                "AFFİNE" => decryptor.DecryptorAffine(metin),
+                "CAESAR" => decryptor.DecryptorCaesar(metin),
+                _ => "İstenilen Encryptor Mevcut Değil"
+            };
+            return decryptedText;
+
         }
 
 
