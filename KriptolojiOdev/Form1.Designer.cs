@@ -198,6 +198,7 @@
             button8.TabIndex = 9;
             button8.Text = "Affine";
             button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
             // 
             // button7
             // 
