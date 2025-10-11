@@ -28,9 +28,9 @@
 <img width="1153" height="528" alt="image" src="https://github.com/user-attachments/assets/ddf718f3-1bb1-4d91-8bab-561f4f4a2a12" />
 **2) Sunucu Başlatıldığında:
 <img width="1153" height="485" alt="image" src="https://github.com/user-attachments/assets/e7faa831-8dbd-499e-b360-954a2d70fe01" />
-**3) Key Gerektirmeyen şifrelerin decrypt işlemi
+**3) Key Gerektirmeyen şifrelerin encrypt ve decrypt işlemi
 <img width="1293" height="677" alt="image" src="https://github.com/user-attachments/assets/dac92671-3e13-4ab4-be68-e83d7148507e" />
-**4) Key gerektiren şifrelerin decrypt işlemi
+**4) Key gerektiren şifrelerin encrypt ve decrypt işlemi
 <img width="1287" height="677" alt="image" src="https://github.com/user-attachments/assets/5cd195b2-36b5-49e3-8c3d-e58e405cc0f0" />
 
 
