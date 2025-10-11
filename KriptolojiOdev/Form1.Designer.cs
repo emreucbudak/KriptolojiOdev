@@ -41,16 +41,16 @@
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
-            label5 = new Label();
-            textBox4 = new TextBox();
-            label2 = new Label();
-            label6 = new Label();
-            textBox5 = new TextBox();
-            textBox6 = new TextBox();
-            button1 = new Button();
-            button6 = new Button();
-            button7 = new Button();
             button8 = new Button();
+            button7 = new Button();
+            button6 = new Button();
+            button1 = new Button();
+            textBox6 = new TextBox();
+            textBox5 = new TextBox();
+            label6 = new Label();
+            label2 = new Label();
+            textBox4 = new TextBox();
+            label5 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -131,7 +131,7 @@
             // 
             clientLog.Location = new Point(522, 13);
             clientLog.Name = "clientLog";
-            clientLog.Size = new Size(732, 584);
+            clientLog.Size = new Size(732, 611);
             clientLog.TabIndex = 12;
             clientLog.Text = "";
             // 
@@ -190,72 +190,14 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
             // 
-            // label5
+            // button8
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(28, 41);
-            label5.Name = "label5";
-            label5.Size = new Size(54, 20);
-            label5.TabIndex = 0;
-            label5.Text = "Metin :";
-            label5.Click += label5_Click;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(168, 38);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(255, 27);
-            textBox4.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(28, 101);
-            label2.Name = "label2";
-            label2.Size = new Size(40, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Key :";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(28, 153);
-            label6.Name = "label6";
-            label6.Size = new Size(45, 20);
-            label6.TabIndex = 3;
-            label6.Text = "Çıktı :";
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(168, 98);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(255, 27);
-            textBox5.TabIndex = 4;
-            // 
-            // textBox6
-            // 
-            textBox6.Location = new Point(168, 146);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(255, 27);
-            textBox6.TabIndex = 5;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(34, 199);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 6;
-            button1.Text = "Sezar";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            button6.Location = new Point(177, 199);
-            button6.Name = "button6";
-            button6.Size = new Size(94, 29);
-            button6.TabIndex = 7;
-            button6.Text = "Vigenere";
-            button6.UseVisualStyleBackColor = true;
+            button8.Location = new Point(34, 256);
+            button8.Name = "button8";
+            button8.Size = new Size(94, 29);
+            button8.TabIndex = 9;
+            button8.Text = "Affine";
+            button8.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
@@ -266,20 +208,80 @@
             button7.Text = "Substitiuion";
             button7.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // button6
             // 
-            button8.Location = new Point(34, 256);
-            button8.Name = "button8";
-            button8.Size = new Size(94, 29);
-            button8.TabIndex = 9;
-            button8.Text = "Affine";
-            button8.UseVisualStyleBackColor = true;
+            button6.Location = new Point(177, 199);
+            button6.Name = "button6";
+            button6.Size = new Size(94, 29);
+            button6.TabIndex = 7;
+            button6.Text = "Vigenere";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(34, 199);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 6;
+            button1.Text = "Sezar";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(168, 146);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(255, 27);
+            textBox6.TabIndex = 5;
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(168, 98);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(255, 27);
+            textBox5.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(28, 153);
+            label6.Name = "label6";
+            label6.Size = new Size(45, 20);
+            label6.TabIndex = 3;
+            label6.Text = "Çıktı :";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(28, 101);
+            label2.Name = "label2";
+            label2.Size = new Size(40, 20);
+            label2.TabIndex = 2;
+            label2.Text = "Key :";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(168, 38);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(255, 27);
+            textBox4.TabIndex = 1;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(28, 41);
+            label5.Name = "label5";
+            label5.Size = new Size(54, 20);
+            label5.TabIndex = 0;
+            label5.Text = "Metin :";
+            label5.Click += label5_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1287, 842);
+            ClientSize = new Size(1287, 639);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(clientLog);
