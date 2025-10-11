@@ -280,5 +280,35 @@ namespace KriptolojiOdev
 
             }
         }
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt" + "AFFÝNE|" + textBox2.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
     }
 }
