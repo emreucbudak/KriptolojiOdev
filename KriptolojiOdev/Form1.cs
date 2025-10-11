@@ -11,7 +11,7 @@ namespace KriptolojiOdev
         private TcpListener tcpListener;
         private Thread thread;
         private TcpClient client = new TcpClient();
-       
+
         private IConnectionService connectionService = new ConnectionService();
         private bool isConnected = false;
         private SunucuForm serverForm;
@@ -35,10 +35,10 @@ namespace KriptolojiOdev
             {
 
 
-                var (message,client) = await connectionService.ConnectToServer();
+                var (message, client) = await connectionService.ConnectToServer();
                 clientLog.AppendText(message);
-       
-                if (client == null) return; 
+
+                if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
                 string msg = "CAESAR|" + textBox2.Text;
@@ -68,7 +68,7 @@ namespace KriptolojiOdev
                 var (message, client) = await connectionService.ConnectToServer();
                 clientLog.AppendText(message);
 
-                if (client == null) return; 
+                if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
                 string key = textBox3.Text.ToUpper();
@@ -76,7 +76,7 @@ namespace KriptolojiOdev
                 {
                     throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
-                string msg = "SUBSTÝTÝUÝON|" + textBox2.Text+"|"+key;
+                string msg = "SUBSTÝTÝUÝON|" + textBox2.Text + "|" + key;
                 //Örnek substitiuion key isterseniz QWERTYUIOPASDFGHJKLZXCVBNM
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
@@ -104,7 +104,7 @@ namespace KriptolojiOdev
                 var (message, client) = await connectionService.ConnectToServer();
 
                 clientLog.AppendText(message);
-                if (client == null) return; 
+                if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
                 string msg = "AFFÝNE|" + textBox2.Text;
@@ -134,7 +134,7 @@ namespace KriptolojiOdev
                 var (message, client) = await connectionService.ConnectToServer();
                 clientLog.AppendText(message);
 
-                if (client == null) return; 
+                if (client == null) return;
 
                 NetworkStream stream = client.GetStream();
                 string key = textBox3.Text.ToUpper();
@@ -143,7 +143,7 @@ namespace KriptolojiOdev
                 {
                     throw new Exception("Hata! Vigenere þifrelemesi yalnýzca harflerden oluþmalýdýr.");
                 }
-                string msg = "VÝGENERE|" + textBox2.Text+"|"+textBox3.Text;
+                string msg = "VÝGENERE|" + textBox2.Text + "|" + textBox3.Text;
                 // Örnek Vigenere key isterseniz ANAHTAR
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
@@ -162,6 +162,16 @@ namespace KriptolojiOdev
                 clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
 
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
