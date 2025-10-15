@@ -12,5 +12,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string SubstitutionEncrypt(string metin, string key);
         string AffineEncrypt(string metin, int a = 5, int b = 8);
         string VigenereEncrypt(string metin, string key);
+        string ColumnarEncrypt(string metin, string key);
     }
 }
