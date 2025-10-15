@@ -258,6 +258,35 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             return cipherText.ToString();
         }
+
+        public string RotaEncrypt(string metin, string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException("Key boş olamaz.");
+
+     
+            if (!int.TryParse(key, out int shift))
+                throw new ArgumentException("Key sayı olmalıdır.");
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in metin)
+            {
+                if (char.IsLetter(c))
+                {
+                    char offset = char.IsUpper(c) ? 'A' : 'a';
+                    char encryptedChar = (char)(((c + shift - offset) % 26) + offset);
+                    sb.Append(encryptedChar);
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
+        }
+
     }
 }
 

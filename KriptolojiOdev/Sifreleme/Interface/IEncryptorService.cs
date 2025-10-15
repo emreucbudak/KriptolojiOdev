@@ -16,5 +16,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string PolybiusEncrypt(string metin, string key);
         string PigpenEncrypt(string metin, string key);
         string HillEncrypt (string metin, string key);
+        string RotaEncrypt(string metin, string key);   
     }
 }
