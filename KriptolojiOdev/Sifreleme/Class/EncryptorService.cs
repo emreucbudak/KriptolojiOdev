@@ -224,6 +224,40 @@ namespace KriptolojiOdev.Sifreleme.Class
             return cipherText.ToString();
         }
 
+        public string HillEncrypt(string metin, string key)
+        {
+        
+            metin = metin.ToUpper().Replace(" ", "");
+            key = key.ToUpper().Replace(" ", "");
+
+            if (key.Length != 4)
+                throw new ArgumentException("Key uzunluğu 4 karakter olmalı (2x2 matris için).");
+
+            int[,] keyMatrix = new int[2, 2];
+            for (int i = 0; i < 4; i++)
+            {
+                keyMatrix[i / 2, i % 2] = key[i] - 'A';
+            }
+
+            if (metin.Length % 2 != 0)
+                metin += "X";
+
+            StringBuilder cipherText = new StringBuilder();
+
+            for (int i = 0; i < metin.Length; i += 2)
+            {
+                int a = metin[i] - 'A';
+                int b = metin[i + 1] - 'A';
+
+                int c1 = (keyMatrix[0, 0] * a + keyMatrix[0, 1] * b) % 26;
+                int c2 = (keyMatrix[1, 0] * a + keyMatrix[1, 1] * b) % 26;
+
+                cipherText.Append((char)(c1 + 'A'));
+                cipherText.Append((char)(c2 + 'A'));
+            }
+
+            return cipherText.ToString();
+        }
     }
 }
 
