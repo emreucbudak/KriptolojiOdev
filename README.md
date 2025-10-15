@@ -9,13 +9,23 @@
 
 ##✨ Desteklenen Şifreleme Algoritmaları
 
-**🔑 Vigenere Cipher – Key kullanıcıdan alınır, sadece harflerden oluşmalı (A-Z).
+🔑 Vigenere Cipher – Key kullanıcıdan alınır, sadece harflerden oluşmalı (A-Z).
 
-**🔑 Substitution Cipher – 26 farklı harf, her harf benzersiz olmalı.
+🔑 Substitution Cipher – 26 farklı harf, her harf benzersiz olmalı.
 
-**🔑 Caesar Cipher – Sabit kaydırma: +3.
+🔑 Caesar Cipher – Sabit kaydırma: +3.
 
-**🔑 Affine Cipher – Basit affine algoritması ile şifreleme.
+🔑 Affine Cipher – Basit affine algoritması ile şifreleme.
+
+🔑 Rota Cipher – Key sayı olmalı, harfleri belirli bir kaydırma ile şifreler.
+
+🔑 Columnar Transposition Cipher – Key kullanıcıdan alınır, metin sütunlar halinde yeniden sıralanır.
+
+🔑 Hill Cipher – 2x2 matris key ile şifreleme, matematiksel lineer dönüşüm kullanır.
+
+🔑 Polybius Cipher – 5x5 tablo ile harfleri rakam çiftleri ile şifreler.
+
+🔑 Pigpen Cipher – Özel sembol tablosu kullanarak harfleri şifreler.
 ##✨ Desteklenen Çözme Algoritmaları
 ** Desteklenen tüm şifreleme algoritmalarının çözmesi yani decrypt işlemide klendi
 ##⚡ Kullanım
