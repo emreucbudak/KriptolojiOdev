@@ -109,6 +109,11 @@ namespace KriptolojiOdev.Baglanti.Class
                 "VİGENERE" => encryptor.VigenereEncrypt(metin, key),
                 "AFFİNE" => encryptor.AffineEncrypt(metin),
                 "CAESAR" => encryptor.CaesarEncrypt(metin),
+                "ROTA" => encryptor.RotaEncrypt(metin,key),
+                "COLUMNAR" => encryptor.ColumnarEncrypt(metin,key),
+                "POLYBİUS" => encryptor.PolybiusEncrypt(metin,key),
+                "PİGPEN" => encryptor.PigpenEncrypt(metin,key),
+                "HİLL" => encryptor.HillEncrypt(metin,key),
                 _ => "İstenilen Encryptor Mevcut Değil"
             };
             return encryptedText;
@@ -121,6 +126,11 @@ namespace KriptolojiOdev.Baglanti.Class
                 "VİGENERE" => decryptor.DecryptorVigenere(metin, key),
                 "AFFİNE" => decryptor.DecryptorAffine(metin),
                 "CAESAR" => decryptor.DecryptorCaesar(metin),
+                "ROTA" => decryptor.RotaDecrypt(metin, key),
+                "COLUMNAR" => decryptor.ColumnarDecrypt(metin, key),
+                "POLYBİUS" => decryptor.PolybiusDecrypt(metin, key),
+                "PİGPEN" => decryptor.PigpenDecrypt(metin, key),
+                "HİLL" => decryptor.HillDecrypt(metin, key),
                 _ => "İstenilen Encryptor Mevcut Değil"
             };
             return decryptedText;
