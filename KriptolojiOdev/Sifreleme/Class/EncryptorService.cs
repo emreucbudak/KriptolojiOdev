@@ -157,6 +157,41 @@ namespace KriptolojiOdev.Sifreleme.Class
             return cipherText.ToString();
         }
 
+        public string PolybiusEncrypt(string metin, string key)
+        {
+
+            string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"; 
+            string square = "";
+
+       
+            foreach (char c in key.ToUpper())
+            {
+                if (!square.Contains(c) && alphabet.Contains(c))
+                    square += c;
+            }
+            foreach (char c in alphabet)
+            {
+                if (!square.Contains(c))
+                    square += c;
+            }
+
+            StringBuilder cipherText = new StringBuilder();
+            metin = metin.ToUpper().Replace("J", "I"); 
+
+            foreach (char c in metin)
+            {
+                if (!alphabet.Contains(c))
+                    continue; 
+
+                int index = square.IndexOf(c);
+                int row = index / 5 + 1; 
+                int col = index % 5 + 1; 
+                cipherText.Append(row).Append(col);
+            }
+
+            return cipherText.ToString(); 
+        }
+
     }
 }
 
