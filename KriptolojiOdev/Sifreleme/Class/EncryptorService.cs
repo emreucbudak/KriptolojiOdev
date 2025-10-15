@@ -191,6 +191,38 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             return cipherText.ToString(); 
         }
+        public string PigpenEncrypt(string metin, string key)
+        {
+         
+            string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string[] symbols = new string[]
+            {
+        "!", "@", "#", "$", "%", "^", "&", "*", "(", ")",
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+        "1", "2", "3", "4", "5", "6"
+            };
+
+            metin = metin.ToUpper();
+
+            StringBuilder cipherText = new StringBuilder();
+            foreach (char c in metin)
+            {
+                if (letters.Contains(c))
+                {
+                    int idx = letters.IndexOf(c);
+                    if (!string.IsNullOrEmpty(key))
+                        idx = (idx + key.Length) % letters.Length;
+
+                    cipherText.Append(symbols[idx]);
+                }
+                else
+                {
+                    cipherText.Append(c); 
+                }
+            }
+
+            return cipherText.ToString();
+        }
 
     }
 }
