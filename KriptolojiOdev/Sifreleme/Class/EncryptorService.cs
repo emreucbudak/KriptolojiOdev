@@ -119,6 +119,43 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             return result.ToString();
         }
+        public string ColumnarEncrypt(string metin, string key)
+        {
+            int colCount = key.Length;
+            int rowCount = (int)Math.Ceiling((double)metin.Length / colCount);
+
+            char[,] grid = new char[rowCount, colCount];
+
+        
+            int index = 0;
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount; c++)
+                {
+                    if (index < metin.Length)
+                        grid[r, c] = metin[index++];
+                    else
+                        grid[r, c] = 'X'; 
+                }
+            }
+
+  
+            var keyOrder = key
+                .Select((ch, idx) => new { Ch = ch, Index = idx })
+                .OrderBy(x => x.Ch)
+                .ToList();
+
+            var cipherText = new StringBuilder();
+            foreach (var k in keyOrder)
+            {
+                for (int r = 0; r < rowCount; r++)
+                {
+                    cipherText.Append(grid[r, k.Index]);
+                }
+            }
+
+            return cipherText.ToString();
+        }
 
     }
 }
