@@ -40,7 +40,17 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            button13 = new Button();
+            button12 = new Button();
+            button11 = new Button();
+            button10 = new Button();
+            button9 = new Button();
             groupBox2 = new GroupBox();
+            button18 = new Button();
+            button17 = new Button();
+            button16 = new Button();
+            button15 = new Button();
+            button14 = new Button();
             button8 = new Button();
             button7 = new Button();
             button6 = new Button();
@@ -51,16 +61,6 @@
             label2 = new Label();
             textBox4 = new TextBox();
             label5 = new Label();
-            button9 = new Button();
-            button10 = new Button();
-            button11 = new Button();
-            button12 = new Button();
-            button13 = new Button();
-            button14 = new Button();
-            button15 = new Button();
-            button16 = new Button();
-            button17 = new Button();
-            button18 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -186,6 +186,56 @@
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
             // 
+            // button13
+            // 
+            button13.Location = new Point(373, 223);
+            button13.Name = "button13";
+            button13.Size = new Size(50, 29);
+            button13.TabIndex = 19;
+            button13.Text = "Hill";
+            button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
+            // 
+            // button12
+            // 
+            button12.Location = new Point(256, 223);
+            button12.Name = "button12";
+            button12.Size = new Size(94, 29);
+            button12.TabIndex = 18;
+            button12.Text = "Pigpen";
+            button12.UseVisualStyleBackColor = true;
+            button12.Click += button12_Click;
+            // 
+            // button11
+            // 
+            button11.Location = new Point(146, 223);
+            button11.Name = "button11";
+            button11.Size = new Size(94, 29);
+            button11.TabIndex = 17;
+            button11.Text = "Polybius";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
+            // 
+            // button10
+            // 
+            button10.Location = new Point(34, 223);
+            button10.Name = "button10";
+            button10.Size = new Size(94, 29);
+            button10.TabIndex = 16;
+            button10.Text = "Columnar";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
+            // button9
+            // 
+            button9.Location = new Point(361, 192);
+            button9.Name = "button9";
+            button9.Size = new Size(62, 25);
+            button9.TabIndex = 15;
+            button9.Text = "ROTA";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(button18);
@@ -209,6 +259,56 @@
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
+            // 
+            // button18
+            // 
+            button18.Location = new Point(373, 227);
+            button18.Name = "button18";
+            button18.Size = new Size(50, 25);
+            button18.TabIndex = 14;
+            button18.Text = "Hill";
+            button18.UseVisualStyleBackColor = true;
+            button18.Click += button18_Click;
+            // 
+            // button17
+            // 
+            button17.Location = new Point(256, 223);
+            button17.Name = "button17";
+            button17.Size = new Size(94, 29);
+            button17.TabIndex = 13;
+            button17.Text = "Pigpen";
+            button17.UseVisualStyleBackColor = true;
+            button17.Click += button17_Click;
+            // 
+            // button16
+            // 
+            button16.Location = new Point(146, 223);
+            button16.Name = "button16";
+            button16.Size = new Size(94, 29);
+            button16.TabIndex = 12;
+            button16.Text = "Polybius";
+            button16.UseVisualStyleBackColor = true;
+            button16.Click += button16_Click;
+            // 
+            // button15
+            // 
+            button15.Location = new Point(28, 223);
+            button15.Name = "button15";
+            button15.Size = new Size(100, 29);
+            button15.TabIndex = 11;
+            button15.Text = "Columnar";
+            button15.UseVisualStyleBackColor = true;
+            button15.Click += button15_Click;
+            // 
+            // button14
+            // 
+            button14.Location = new Point(361, 188);
+            button14.Name = "button14";
+            button14.Size = new Size(62, 29);
+            button14.TabIndex = 10;
+            button14.Text = "ROTA";
+            button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
             // 
             // button8
             // 
@@ -298,96 +398,6 @@
             label5.TabIndex = 0;
             label5.Text = "Metin :";
             label5.Click += label5_Click;
-            // 
-            // button9
-            // 
-            button9.Location = new Point(361, 192);
-            button9.Name = "button9";
-            button9.Size = new Size(62, 25);
-            button9.TabIndex = 15;
-            button9.Text = "ROTA";
-            button9.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            button10.Location = new Point(34, 223);
-            button10.Name = "button10";
-            button10.Size = new Size(94, 29);
-            button10.TabIndex = 16;
-            button10.Text = "Columnar";
-            button10.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            button11.Location = new Point(146, 223);
-            button11.Name = "button11";
-            button11.Size = new Size(94, 29);
-            button11.TabIndex = 17;
-            button11.Text = "Polybius";
-            button11.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            button12.Location = new Point(256, 223);
-            button12.Name = "button12";
-            button12.Size = new Size(94, 29);
-            button12.TabIndex = 18;
-            button12.Text = "Pigpen";
-            button12.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            button13.Location = new Point(373, 223);
-            button13.Name = "button13";
-            button13.Size = new Size(50, 29);
-            button13.TabIndex = 19;
-            button13.Text = "Hill";
-            button13.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            button14.Location = new Point(361, 188);
-            button14.Name = "button14";
-            button14.Size = new Size(62, 29);
-            button14.TabIndex = 10;
-            button14.Text = "ROTA";
-            button14.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            button15.Location = new Point(28, 223);
-            button15.Name = "button15";
-            button15.Size = new Size(100, 29);
-            button15.TabIndex = 11;
-            button15.Text = "Columnar";
-            button15.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            button16.Location = new Point(146, 223);
-            button16.Name = "button16";
-            button16.Size = new Size(94, 29);
-            button16.TabIndex = 12;
-            button16.Text = "Polybius";
-            button16.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            button17.Location = new Point(256, 223);
-            button17.Name = "button17";
-            button17.Size = new Size(94, 29);
-            button17.TabIndex = 13;
-            button17.Text = "Pigpen";
-            button17.UseVisualStyleBackColor = true;
-            // 
-            // button18
-            // 
-            button18.Location = new Point(373, 227);
-            button18.Name = "button18";
-            button18.Size = new Size(50, 25);
-            button18.TabIndex = 14;
-            button18.Text = "Hill";
-            button18.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

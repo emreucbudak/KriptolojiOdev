@@ -310,5 +310,335 @@ namespace KriptolojiOdev
 
             }
         }
+
+        private async void button9_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "ROTA|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "COLUMNAR|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "POLYBÝUS|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button12_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "PÝGPEN|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button13_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "HÝLL|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button14_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "ROTA|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button15_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "COLUMNAR|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button16_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "POLYBÝUS|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button17_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "PÝGPEN|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button18_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "HÝLL|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
     }
 }
