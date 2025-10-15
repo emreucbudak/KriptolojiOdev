@@ -14,5 +14,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string VigenereEncrypt(string metin, string key);
         string ColumnarEncrypt(string metin, string key);
         string PolybiusEncrypt(string metin, string key);
+        string PigpenEncrypt(string metin, string key);
     }
 }
