@@ -12,5 +12,10 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string DecryptorSubstitiuion (string metin,string key);
         string DecryptorAffine(string metin, int a = 5, int b = 8);
         string DecryptorVigenere (string metin,string key);
+        string ColumnarDecrypt(string metin, string key);
+        string PolybiusDecrypt(string metin, string key);
+        string PigpenDecrypt(string metin, string key);
+        string HillDecrypt(string metin, string key);
+        string RotaDecrypt(string metin, string key);
     }
 }
