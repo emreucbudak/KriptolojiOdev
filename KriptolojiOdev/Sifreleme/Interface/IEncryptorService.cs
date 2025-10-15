@@ -15,5 +15,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string ColumnarEncrypt(string metin, string key);
         string PolybiusEncrypt(string metin, string key);
         string PigpenEncrypt(string metin, string key);
+        string HillEncrypt (string metin, string key);
     }
 }
