@@ -287,6 +287,38 @@ namespace KriptolojiOdev.Sifreleme.Class
             return sb.ToString();
         }
 
+        public string TrenRayiEncrypt(string metin, string key)
+        {
+            if (metin == null) return null;
+
+            if (!int.TryParse(key, out int rails) || rails < 1)
+            {
+                rails = 3;
+            }
+
+            if (rails == 1) return metin;
+
+            var rows = new System.Text.StringBuilder[rails];
+            for (int i = 0; i < rails; i++) rows[i] = new System.Text.StringBuilder();
+
+            int currentRow = 0;
+            int direction = 1;
+
+            foreach (char ch in metin)
+            {
+                rows[currentRow].Append(ch);
+                currentRow += direction;
+
+                if (currentRow == rails - 1) direction = -1;
+                else if (currentRow == 0) direction = 1;
+            }
+
+            var result = new System.Text.StringBuilder();
+            foreach (var r in rows) result.Append(r);
+
+            return result.ToString();
+        }
+
     }
 }
 
