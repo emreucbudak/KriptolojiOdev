@@ -324,7 +324,7 @@ namespace KriptolojiOdev
                 string key = textBox3.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
-                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                    throw new Exception("Girdiðiniz key geçersiz ROTA þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
                 string msg = "Encrypt|" + "ROTA|" + textBox2.Text + "|" + key;
 
@@ -360,7 +360,7 @@ namespace KriptolojiOdev
                 string key = textBox3.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
-                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                    throw new Exception("Girdiðiniz key geçersiz COLUMNAR þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
                 string msg = "Encrypt|" + "COLUMNAR|" + textBox2.Text + "|" + key;
 
@@ -396,7 +396,7 @@ namespace KriptolojiOdev
                 string key = textBox3.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
-                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                    throw new Exception("Girdiðiniz key geçersiz POLYBÝUS þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
                 string msg = "Encrypt|" + "POLYBÝUS|" + textBox2.Text + "|" + key;
 
@@ -432,7 +432,7 @@ namespace KriptolojiOdev
                 string key = textBox3.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
-                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                    throw new Exception("Girdiðiniz key geçersiz PÝGPEN þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
                 string msg = "Encrypt|" + "PÝGPEN|" + textBox2.Text + "|" + key;
 
@@ -468,7 +468,7 @@ namespace KriptolojiOdev
                 string key = textBox3.Text.ToUpper();
                 if (key.Length != 26 || key.Distinct().Count() != 26)
                 {
-                    throw new Exception("Girdiðiniz key geçersiz substitiuion þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                    throw new Exception("Girdiðiniz key geçersiz HÝLL þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
                 }
                 string msg = "Encrypt|" + "HÝLL|" + textBox2.Text + "|" + key;
 
@@ -622,6 +622,72 @@ namespace KriptolojiOdev
 
                 NetworkStream stream = client.GetStream();
                 string msg = "Decrypt|" + "HÝLL|" + textBox4.Text;
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Çözme Sonucu = " + response + Environment.NewLine);
+                textBox6.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button19_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz key geçersiz TREN RAYI þifrelemesi için 26 harflik ve her harf benzersiz olacak þekilde bir key girmelisiniz.");
+                }
+                string msg = "Encrypt|" + "TRENRAYI|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private async void button20_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+
+                clientLog.AppendText(message);
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string msg = "Decrypt|" + "TRENRAYI|" + textBox4.Text;
 
                 byte[] data = Encoding.UTF8.GetBytes(msg);
 
