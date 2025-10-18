@@ -114,6 +114,7 @@ namespace KriptolojiOdev.Baglanti.Class
                 "POLYBİUS" => encryptor.PolybiusEncrypt(metin,key),
                 "PİGPEN" => encryptor.PigpenEncrypt(metin,key),
                 "HİLL" => encryptor.HillEncrypt(metin,key),
+                "TRENRAYI" => encryptor.TrenRayiEncrypt(metin,key),
                 _ => "İstenilen Encryptor Mevcut Değil"
             };
             return encryptedText;
@@ -131,7 +132,8 @@ namespace KriptolojiOdev.Baglanti.Class
                 "POLYBİUS" => decryptor.PolybiusDecrypt(metin, key),
                 "PİGPEN" => decryptor.PigpenDecrypt(metin, key),
                 "HİLL" => decryptor.HillDecrypt(metin, key),
-                _ => "İstenilen Encryptor Mevcut Değil"
+                "TRENRAYI" => decryptor.TrenRayiDecrypt(metin, key),
+                _ => "İstenilen decryptor Mevcut Değil"
             };
             return decryptedText;
 
