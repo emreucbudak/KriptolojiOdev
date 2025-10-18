@@ -318,5 +318,55 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             return sb.ToString();
         }
+
+        public string TrenRayiDecrypt(string metin, string key)
+        {
+            if (metin == null) return null;
+
+            if (!int.TryParse(key, out int rails) || rails < 1)
+            {
+                rails = 3;
+            }
+
+            if (rails == 1) return metin;
+
+            int length = metin.Length;
+            char[] decrypted = new char[length];
+
+           
+            int[] rowIndex = new int[length];
+            int currentRow = 0;
+            int direction = 1;
+            for (int i = 0; i < length; i++)
+            {
+                rowIndex[i] = currentRow;
+                currentRow += direction;
+                if (currentRow == rails - 1) direction = -1;
+                else if (currentRow == 0) direction = 1;
+            }
+
+            int[] railCounts = new int[rails];
+            for (int i = 0; i < length; i++)
+                railCounts[rowIndex[i]]++;
+
+         
+            int[] railStartIndex = new int[rails];
+            railStartIndex[0] = 0;
+            for (int r = 1; r < rails; r++)
+                railStartIndex[r] = railStartIndex[r - 1] + railCounts[r - 1];
+
+            int[] railCurrentIndex = new int[rails];
+            Array.Copy(railStartIndex, railCurrentIndex, rails);
+
+            for (int i = 0; i < length; i++)
+            {
+                int r = rowIndex[i];
+                decrypted[i] = metin[railCurrentIndex[r]];
+                railCurrentIndex[r]++;
+            }
+
+            return new string(decrypted);
+        }
+
     }
 }

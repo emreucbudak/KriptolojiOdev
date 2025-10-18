@@ -17,5 +17,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string PigpenDecrypt(string metin, string key);
         string HillDecrypt(string metin, string key);
         string RotaDecrypt(string metin, string key);
+        string TrenRayiDecrypt (string metin, string key);
     }
 }
