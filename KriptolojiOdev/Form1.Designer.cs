@@ -40,12 +40,14 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            button19 = new Button();
             button13 = new Button();
             button12 = new Button();
             button11 = new Button();
             button10 = new Button();
             button9 = new Button();
             groupBox2 = new GroupBox();
+            button20 = new Button();
             button18 = new Button();
             button17 = new Button();
             button16 = new Button();
@@ -163,6 +165,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button19);
             groupBox1.Controls.Add(button13);
             groupBox1.Controls.Add(button12);
             groupBox1.Controls.Add(button11);
@@ -185,6 +188,16 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // button19
+            // 
+            button19.Location = new Point(34, 258);
+            button19.Name = "button19";
+            button19.Size = new Size(94, 29);
+            button19.TabIndex = 20;
+            button19.Text = "Tren Rayı";
+            button19.UseVisualStyleBackColor = true;
+            button19.Click += button19_Click;
             // 
             // button13
             // 
@@ -238,6 +251,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(button20);
             groupBox2.Controls.Add(button18);
             groupBox2.Controls.Add(button17);
             groupBox2.Controls.Add(button16);
@@ -259,6 +273,16 @@
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
+            // 
+            // button20
+            // 
+            button20.Location = new Point(28, 258);
+            button20.Name = "button20";
+            button20.Size = new Size(94, 29);
+            button20.TabIndex = 15;
+            button20.Text = "Tren Rayı";
+            button20.UseVisualStyleBackColor = true;
+            button20.Click += button20_Click;
             // 
             // button18
             // 
@@ -451,5 +475,7 @@
         private Button button16;
         private Button button15;
         private Button button14;
+        private Button button19;
+        private Button button20;
     }
 }
