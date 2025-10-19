@@ -24,7 +24,7 @@
 🔑 Hill Cipher – 2x2 matris key ile şifreleme, matematiksel lineer dönüşüm kullanır.
 
 🔑 Polybius Cipher – 5x5 tablo ile harfleri rakam çiftleri ile şifreler.
-
+🔑 Tren Rayı Şifrelemesi
 🔑 Pigpen Cipher – Özel sembol tablosu kullanarak harfleri şifreler.
 ##✨ Desteklenen Çözme Algoritmaları
 ** Desteklenen tüm şifreleme algoritmalarının çözmesi yani decrypt işlemide klendi
