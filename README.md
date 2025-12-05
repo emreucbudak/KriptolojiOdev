@@ -1,63 +1,115 @@
-#🛡️ Kriptoloji – Form Üzerinden Şifreleme PROGRAMI
+<div align="center">
 
+# 🛡️ Kriptoloji – TCP Tabanlı Şifreleme Simülasyonu
 
-**Bu proje, TCP üzerinden çalışan bir client-server uygulamasıdır ve Windows Forms üzerinden şifreleme işlemleri yapılmasını sağlar.
+[![C#](https://img.shields.io/badge/Language-C%23-239120?style=for-the-badge&logo=c-sharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+[![.NET](https://img.shields.io/badge/Framework-.NET_Windows_Forms-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+[![TCP](https://img.shields.io/badge/Protocol-TCP%2FIP-blue?style=for-the-badge)](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
 
-**🌐 Client: Kullanıcının girdiği metni ve şifreleme key’ini alır, server’a gönderir.
+<p>Bu proje, TCP soket programlama kullanılarak geliştirilmiş bir Client-Server (İstemci-Sunucu) şifreleme uygulamasıdır. Windows Forms arayüzü üzerinden metinleri ve anahtarları alır, sunucuda işler ve sonucu döndürür.</p>
 
-**🖥️ Server: Mesajı alır, seçilen algoritmaya göre şifreler ve client’a geri yollar.
+</div>
 
-##✨ Desteklenen Şifreleme Algoritmaları
+---
 
-🔑 Vigenere Cipher – Key kullanıcıdan alınır, sadece harflerden oluşmalı (A-Z).
+## 🏗️ Mimari Yapı
 
-🔑 Substitution Cipher – 26 farklı harf, her harf benzersiz olmalı.
+| Bileşen | Görevi |
+| :--- | :--- |
+| **🌐 Client (İstemci)** | Kullanıcıdan ham metni ve (gerekirse) şifreleme anahtarını (Key) alır, TCP üzerinden sunucuya iletir. |
+| **🖥️ Server (Sunucu)** | Gelen veriyi yakalar, seçilen algoritmaya göre **Şifreleme (Encrypt)** veya **Çözme (Decrypt)** işlemini yapar ve sonucu Client'a geri yollar. |
 
-🔑 Caesar Cipher – Sabit kaydırma: +3.
+---
 
-🔑 Affine Cipher – Basit affine algoritması ile şifreleme.
+## ✨ Desteklenen Algoritmalar
 
-🔑 Rota Cipher – Key sayı olmalı, harfleri belirli bir kaydırma ile şifreler.
+Proje, hem şifreleme hem de şifre çözme işlemlerini desteklemektedir.
 
-🔑 Columnar Transposition Cipher – Key kullanıcıdan alınır, metin sütunlar halinde yeniden sıralanır.
+| Algoritma | Key Durumu | Açıklama |
+| :--- | :---: | :--- |
+| **Vigenere Cipher** | 🔑 Var | Key sadece harflerden oluşmalıdır (A-Z). |
+| **Substitution Cipher** | 🔑 Var | 26 benzersiz harften oluşan bir alfabe anahtarı gerektirir. |
+| **Caesar Cipher** | 🔓 Yok | Sabit (+3) kaydırma algoritması. |
+| **Affine Cipher** | 🔑 Var | Doğrusal fonksiyon (ax + b) mantığıyla çalışır. |
+| **Rota Cipher** | 🔑 Var | Key sayı olmalıdır; yönlü kaydırma yapar. |
+| **Columnar Transposition**| 🔑 Var | Metin, anahtara göre sütunlar halinde yeniden sıralanır. |
+| **Hill Cipher** | 🔑 Var | 2x2 matris anahtarı kullanır (Lineer Cebir). |
+| **Polybius Cipher** | 🔓 Yok | 5x5 tablo ile harfleri koordinat (rakam) çiftlerine dönüştürür. |
+| **Tren Rayı (Rail Fence)** | 🔑 Var | Metni zikzak (ray) şeklinde yazar ve şifreler. |
+| **Pigpen Cipher** | 🔓 Yok | Harfleri geometrik şekillerle sembolize eder. |
 
-🔑 Hill Cipher – 2x2 matris key ile şifreleme, matematiksel lineer dönüşüm kullanır.
+---
 
-🔑 Polybius Cipher – 5x5 tablo ile harfleri rakam çiftleri ile şifreler.
-🔑 Tren Rayı Şifrelemesi
-🔑 Pigpen Cipher – Özel sembol tablosu kullanarak harfleri şifreler.
-##✨ Desteklenen Çözme Algoritmaları
-** Desteklenen tüm şifreleme algoritmalarının çözmesi yani decrypt işlemide klendi
-##⚡ Kullanım
-**1) Şifrelenmesi istenen metin girilir
-**2) Eğer İlgili Şifreleme Türü için key gerekiyorsa key girilir
-**3) İstenilen Şifreleme türünün butonuna basılır
-**4) Program arka planda Tcp-Server üzerinden serverla bağlantıyı kurar şifrelemeyi gerçekleştirir ve kullanıcıya geri döner
-##📸 Uygulamadan Ekran Görüntüleri
-**1) Sunucu Başlatılmadan Önce:
-<img width="1153" height="528" alt="image" src="https://github.com/user-attachments/assets/ddf718f3-1bb1-4d91-8bab-561f4f4a2a12" />
-**2) Sunucu Başlatıldığında:
-<img width="1153" height="485" alt="image" src="https://github.com/user-attachments/assets/e7faa831-8dbd-499e-b360-954a2d70fe01" />
-**3) Key Gerektirmeyen şifrelerin encrypt ve decrypt işlemi
-<img width="1293" height="677" alt="image" src="https://github.com/user-attachments/assets/dac92671-3e13-4ab4-be68-e83d7148507e" />
-**4) Key gerektiren şifrelerin encrypt ve decrypt işlemi
-<img width="1287" height="677" alt="image" src="https://github.com/user-attachments/assets/5cd195b2-36b5-49e3-8c3d-e58e405cc0f0" />
+## ⚡ Nasıl Kullanılır?
 
+1.  **Metin Girişi:** Şifrelenmesi veya çözülmesi istenen metni ilgili kutuya girin.
+2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa (Tabloya bakınız), geçerli bir key girin.
+3.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
+4.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
 
-##📸 Wireshark Görüntüleri
-<img width="1913" height="1022" alt="image" src="https://github.com/user-attachments/assets/2f8c3e21-e4f1-43cd-b3fa-046a3d41677f" />
+---
 
-**Wireshark içinden key gerektirmeyen şifreleme ile sunucuya gönderilen metnin şifrelendiğinin görüntüleri
-<img width="1287" height="1017" alt="keygerekmeyenwiresharkencrypt" src="https://github.com/user-attachments/assets/cbffde51-fea3-4d4d-a78d-6285abc6dbdf" />
-**Wireshark içinden key gerektiren şifreleme ile sunucuya gönderilen metnin şifrelendiğinin görüntüleri
-<img width="1283" height="1017" alt="image" src="https://github.com/user-attachments/assets/02c336ff-4b80-4950-b68e-6e6aaf2e3dc0" />
-**Wireshark içinden key gerektirmeyen şifrelemenin çözülmesi işleminin yapıldığının görüntüleri
-<img width="1917" height="1021" alt="image" src="https://github.com/user-attachments/assets/1652a60d-eb82-42f2-9039-66253d6244d1" />
-**Wireshark içinden key gerektiren şifrelemenin çözülmesi işleminin yapıldığının görüntüleri
-<img width="1918" height="1021" alt="image" src="https://github.com/user-attachments/assets/c709372a-a649-4ca3-9521-de9c49848f85" />
+## 📸 Uygulama Ekran Görüntüleri
 
+Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
 
+<details>
+<summary><b>1️⃣ Sunucu Durumları (Başlatma)</b></summary>
+<br>
 
+**Sunucu Başlatılmadan Önce:**
+<img width="800" src="https://github.com/user-attachments/assets/ddf718f3-1bb1-4d91-8bab-561f4f4a2a12" />
 
+**Sunucu Başlatıldığında (Dinleme Modu):**
+<img width="800" src="https://github.com/user-attachments/assets/e7faa831-8dbd-499e-b360-954a2d70fe01" />
+</details>
 
+<details>
+<summary><b>2️⃣ Şifreleme Örnekleri (Key Gerektirmeyen)</b></summary>
+<br>
 
+**Caesar, Polybius vb. algoritmalar için Encrypt/Decrypt işlemleri:**
+<img width="800" src="https://github.com/user-attachments/assets/dac92671-3e13-4ab4-be68-e83d7148507e" />
+</details>
+
+<details>
+<summary><b>3️⃣ Şifreleme Örnekleri (Key Gerektiren)</b></summary>
+<br>
+
+**Vigenere, Hill, Rota vb. algoritmalar için Encrypt/Decrypt işlemleri:**
+<img width="800" src="https://github.com/user-attachments/assets/5cd195b2-36b5-49e3-8c3d-e58e405cc0f0" />
+</details>
+
+---
+
+## 🦈 Wireshark Ağ Analizi
+
+Uygulamanın TCP paketleri üzerinden veri transferini kanıtlayan analiz görüntüleri.
+
+<details>
+<summary><b>📡 Genel Wireshark Görünümü</b></summary>
+<br>
+<img width="800" src="https://github.com/user-attachments/assets/2f8c3e21-e4f1-43cd-b3fa-046a3d41677f" />
+</details>
+
+<details>
+<summary><b>🔒 Şifreleme (Encrypt) Paketleri</b></summary>
+<br>
+
+**Key GEREKTİRMEYEN algoritma ile gönderilen paket:**
+<img width="800" src="https://github.com/user-attachments/assets/cbffde51-fea3-4d4d-a78d-6285abc6dbdf" />
+
+**Key GEREKTİREN algoritma ile gönderilen paket:**
+<img width="800" src="https://github.com/user-attachments/assets/02c336ff-4b80-4950-b68e-6e6aaf2e3dc0" />
+</details>
+
+<details>
+<summary><b>🔓 Şifre Çözme (Decrypt) Paketleri</b></summary>
+<br>
+
+**Key GEREKTİRMEYEN algoritma için Decrypt paketi:**
+<img width="800" src="https://github.com/user-attachments/assets/1652a60d-eb82-42f2-9039-66253d6244d1" />
+
+**Key GEREKTİREN algoritma için Decrypt paketi:**
+<img width="800" src="https://github.com/user-attachments/assets/c709372a-a649-4ca3-9521-de9c49848f85" />
+</details>
