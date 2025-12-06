@@ -80,7 +80,7 @@ Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
 <br>
 
 **Vigenere, Hill, Rota vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="800" src="https://github.com/user-attachments/assets/5cd195b2-36b5-49e3-8c3d-e58e405cc0f0" />
+<img width="800" src="<img width="1282" height="673" alt="image" src="https://github.com/user-attachments/assets/2b4070a3-5ec0-4a4c-91f3-aaeb00c0aa43" />
 </details>
 
 ---
