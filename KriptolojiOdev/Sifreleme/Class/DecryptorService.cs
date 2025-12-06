@@ -54,12 +54,10 @@ namespace KriptolojiOdev.Sifreleme.Class
         {
             if (string.IsNullOrEmpty(key) || key.Length != 26) throw new ArgumentException("Key 26 harf uzunluğunda vermelisin");
             if (!key.All(char.IsLetter)) throw new ArgumentException("Key yalnızca harflerden vermelisin");
-
             StringBuilder res = new StringBuilder();
             string alfabe = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string upperKey = key.ToUpper();
             metin = metin.ToUpper();
-
             foreach (char c in metin)
             {
                 if (c >= 'A' && c <= 'Z')
@@ -77,7 +75,6 @@ namespace KriptolojiOdev.Sifreleme.Class
             if (GCD(a, 26) != 1) throw new ArgumentException("a ve 26 aralarında asal bir sayı vermelisin.");
             StringBuilder result = new StringBuilder();
             int aInverse = ModInverse(a, 26);
-
             foreach (char c in metin)
             {
                 if (char.IsLetter(c))
@@ -85,8 +82,8 @@ namespace KriptolojiOdev.Sifreleme.Class
                     bool isUpper = char.IsUpper(c);
                     int y = char.ToUpper(c) - 'A';
                     int x = (aInverse * (y - b + 26)) % 26;
-                    char decryptedChar = (char)(x + 'A');
-                    result.Append(isUpper ? decryptedChar : char.ToLower(decryptedChar));
+                    char dec = (char)(x + 'A');
+                    result.Append(isUpper ? dec : char.ToLower(dec));
                 }
                 else result.Append(c);
             }
@@ -98,7 +95,6 @@ namespace KriptolojiOdev.Sifreleme.Class
             StringBuilder result = new StringBuilder();
             string upperKey = key.ToUpper();
             int keyIndex = 0;
-
             foreach (char c in metin)
             {
                 if (char.IsLetter(c))
@@ -107,8 +103,8 @@ namespace KriptolojiOdev.Sifreleme.Class
                     int y = char.ToUpper(c) - 'A';
                     int k = upperKey[keyIndex % upperKey.Length] - 'A';
                     int x = (y - k + 26) % 26;
-                    char decryptedChar = (char)(x + 'A');
-                    result.Append(isUpper ? decryptedChar : char.ToLower(decryptedChar));
+                    char dec = (char)(x + 'A');
+                    result.Append(isUpper ? dec : char.ToLower(dec));
                     keyIndex++;
                 }
                 else result.Append(c);
@@ -121,10 +117,8 @@ namespace KriptolojiOdev.Sifreleme.Class
             int len = key.Length;
             int rows = (int)Math.Ceiling((double)metin.Length / len);
             char[,] grid = new char[rows, len];
-
             var keyOrder = key.Select((c, i) => new { Char = c, Index = i }).OrderBy(x => x.Char).ToArray();
             int k = 0;
-
             foreach (var colInfo in keyOrder)
             {
                 int col = colInfo.Index;
@@ -134,32 +128,23 @@ namespace KriptolojiOdev.Sifreleme.Class
                     else grid[r, col] = ' ';
                 }
             }
-
             StringBuilder sb = new StringBuilder();
-            for (int r = 0; r < rows; r++)
-            {
-                for (int c = 0; c < len; c++) sb.Append(grid[r, c]);
-            }
+            for (int r = 0; r < rows; r++) for (int c = 0; c < len; c++) sb.Append(grid[r, c]);
             return sb.ToString().TrimEnd();
         }
 
         public string PolybiusDecrypt(string metin, string key)
         {
             string polybiusSquare = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-            int size = 5;
+            int size = 5; // EKLENEN KISIM
             StringBuilder sb = new StringBuilder();
-
             for (int i = 0; i < metin.Length; i += 2)
             {
                 if (i + 1 >= metin.Length) break;
-                char rowChar = metin[i];
-                char colChar = metin[i + 1];
+                char rowChar = metin[i]; char colChar = metin[i + 1];
                 if (!char.IsDigit(rowChar) || !char.IsDigit(colChar)) continue;
-
-                int row = (rowChar - '1');
-                int col = (colChar - '1');
+                int row = (rowChar - '1'); int col = (colChar - '1');
                 if (row < 0 || row >= size || col < 0 || col >= size) continue;
-
                 int index = row * size + col;
                 sb.Append(polybiusSquare[index]);
             }
@@ -169,13 +154,8 @@ namespace KriptolojiOdev.Sifreleme.Class
         public string PigpenDecrypt(string metin, string key)
         {
             Dictionary<char, char> pigpenDict = new Dictionary<char, char>() {
-                {'!', 'A'}, {'@', 'B'}, {'#', 'C'}, {'$', 'D'}, {'%', 'E'},
-                {'^', 'F'}, {'&', 'G'}, {'*', 'H'}, {'(', 'I'}, {')', 'J'},
-                {'a', 'K'}, {'b', 'L'}, {'c', 'M'}, {'d', 'N'}, {'e', 'O'},
-                {'f', 'P'}, {'g', 'Q'}, {'h', 'R'}, {'i', 'S'}, {'j', 'T'},
-                {'1', 'U'}, {'2', 'V'}, {'3', 'W'}, {'4', 'X'}, {'5', 'Y'}, {'6', 'Z'}
+                {'!', 'A'}, {'@', 'B'}, {'#', 'C'}, {'$', 'D'}, {'%', 'E'}, {'^', 'F'}, {'&', 'G'}, {'*', 'H'}, {'(', 'I'}, {')', 'J'}, {'a', 'K'}, {'b', 'L'}, {'c', 'M'}, {'d', 'N'}, {'e', 'O'}, {'f', 'P'}, {'g', 'Q'}, {'h', 'R'}, {'i', 'S'}, {'j', 'T'}, {'1', 'U'}, {'2', 'V'}, {'3', 'W'}, {'4', 'X'}, {'5', 'Y'}, {'6', 'Z'}
             };
-
             StringBuilder sb = new StringBuilder();
             foreach (char c in metin)
             {
@@ -190,35 +170,25 @@ namespace KriptolojiOdev.Sifreleme.Class
             metin = metin.ToUpper().Replace(" ", "");
             key = key.ToUpper().Replace(" ", "");
             if (key.Length != 4) throw new ArgumentException("Key uzunluğu 4 karakter olmalı (2x2 matris için).");
-
             int[,] k = new int[2, 2];
             for (int i = 0; i < 4; i++) k[i / 2, i % 2] = key[i] - 'A';
-
             int det = (k[0, 0] * k[1, 1] - k[0, 1] * k[1, 0]) % 26;
             if (det < 0) det += 26;
-
             int detInv = -1;
-            for (int i = 0; i < 26; i++)
-            {
-                if ((det * i) % 26 == 1) { detInv = i; break; }
-            }
-            if (detInv == -1) throw new Exception("Matrisin tersi yok (determinant invertible değil).");
-
+            for (int i = 0; i < 26; i++) { if ((det * i) % 26 == 1) { detInv = i; break; } }
+            if (detInv == -1) throw new Exception("Matrisin tersi yok.");
             int[,] invKey = new int[2, 2];
             invKey[0, 0] = (k[1, 1] * detInv) % 26;
             invKey[0, 1] = ((-k[0, 1] + 26) * detInv) % 26;
             invKey[1, 0] = ((-k[1, 0] + 26) * detInv) % 26;
             invKey[1, 1] = (k[0, 0] * detInv) % 26;
-
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < metin.Length; i += 2)
             {
-                int a = metin[i] - 'A';
-                int b = metin[i + 1] - 'A';
+                int a = metin[i] - 'A'; int b = metin[i + 1] - 'A';
                 int c1 = (invKey[0, 0] * a + invKey[0, 1] * b) % 26;
                 int c2 = (invKey[1, 0] * a + invKey[1, 1] * b) % 26;
-                sb.Append((char)(c1 + 'A'));
-                sb.Append((char)(c2 + 'A'));
+                sb.Append((char)(c1 + 'A')); sb.Append((char)(c2 + 'A'));
             }
             return sb.ToString();
         }
@@ -227,16 +197,10 @@ namespace KriptolojiOdev.Sifreleme.Class
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("Key boş olamaz.");
             if (!int.TryParse(key, out int shift)) throw new ArgumentException("Key sayı olmalıdır.");
-
             StringBuilder sb = new StringBuilder();
             foreach (char c in metin)
             {
-                if (char.IsLetter(c))
-                {
-                    char offset = char.IsUpper(c) ? 'A' : 'a';
-                    char decryptedChar = (char)(((c - shift - offset + 26) % 26) + offset);
-                    sb.Append(decryptedChar);
-                }
+                if (char.IsLetter(c)) { char offset = char.IsUpper(c) ? 'A' : 'a'; char dec = (char)(((c - shift - offset + 26) % 26) + offset); sb.Append(dec); }
                 else sb.Append(c);
             }
             return sb.ToString();
@@ -247,37 +211,13 @@ namespace KriptolojiOdev.Sifreleme.Class
             if (metin == null) return null;
             if (!int.TryParse(key, out int rails) || rails < 1) rails = 3;
             if (rails == 1) return metin;
-
-            int length = metin.Length;
-            char[] decrypted = new char[length];
-            int[] rowIndex = new int[length];
-            int currentRow = 0;
-            int direction = 1;
-
-            for (int i = 0; i < length; i++)
-            {
-                rowIndex[i] = currentRow;
-                currentRow += direction;
-                if (currentRow == rails - 1) direction = -1;
-                else if (currentRow == 0) direction = 1;
-            }
-
-            int[] railCounts = new int[rails];
-            for (int i = 0; i < length; i++) railCounts[rowIndex[i]]++;
-
-            int[] railStartIndex = new int[rails];
-            railStartIndex[0] = 0;
-            for (int r = 1; r < rails; r++) railStartIndex[r] = railStartIndex[r - 1] + railCounts[r - 1];
-
-            int[] railCurrentIndex = new int[rails];
-            Array.Copy(railStartIndex, railCurrentIndex, rails);
-
-            for (int i = 0; i < length; i++)
-            {
-                int r = rowIndex[i];
-                decrypted[i] = metin[railCurrentIndex[r]];
-                railCurrentIndex[r]++;
-            }
+            int length = metin.Length; char[] decrypted = new char[length];
+            int[] rowIndex = new int[length]; int currentRow = 0; int direction = 1;
+            for (int i = 0; i < length; i++) { rowIndex[i] = currentRow; currentRow += direction; if (currentRow == rails - 1) direction = -1; else if (currentRow == 0) direction = 1; }
+            int[] railCounts = new int[rails]; for (int i = 0; i < length; i++) railCounts[rowIndex[i]]++;
+            int[] railStartIndex = new int[rails]; railStartIndex[0] = 0; for (int r = 1; r < rails; r++) railStartIndex[r] = railStartIndex[r - 1] + railCounts[r - 1];
+            int[] railCurrentIndex = new int[rails]; Array.Copy(railStartIndex, railCurrentIndex, rails);
+            for (int i = 0; i < length; i++) { int r = rowIndex[i]; decrypted[i] = metin[railCurrentIndex[r]]; railCurrentIndex[r]++; }
             return new string(decrypted);
         }
 
@@ -285,58 +225,39 @@ namespace KriptolojiOdev.Sifreleme.Class
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("AES için key gereklidir.");
             if (string.IsNullOrEmpty(metin)) return "";
-
             try
             {
                 byte[] fullCipher = Convert.FromBase64String(metin);
                 byte[] ivBytes = new byte[16];
                 Array.Copy(fullCipher, 0, ivBytes, 0, 16);
-
                 byte[] customIV = AesPrepareIV(iv);
                 if (customIV != null) ivBytes = customIV;
-
                 byte[] cipherText = new byte[fullCipher.Length - 16];
                 Array.Copy(fullCipher, 16, cipherText, 0, cipherText.Length);
-
                 byte[] keyBytes;
                 using (SHA256 sha256 = SHA256.Create()) keyBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(key));
                 byte[][] roundKeys = AesKeyExpansion(keyBytes);
-
                 List<byte> plainTextBytes = new List<byte>();
                 byte[] prev = ivBytes;
-
-                for (int i = 0; i < cipherText.Length; i += 16)
-                {
-                    byte[] block = new byte[16];
-                    Array.Copy(cipherText, i, block, 0, 16);
-                    byte[] decryptedBlock = AesInvCipher(block, roundKeys);
-                    for (int k = 0; k < 16; k++) decryptedBlock[k] ^= prev[k];
-                    plainTextBytes.AddRange(decryptedBlock);
-                    prev = block;
-                }
-
+                for (int i = 0; i < cipherText.Length; i += 16) { byte[] block = new byte[16]; Array.Copy(cipherText, i, block, 0, 16); byte[] decryptedBlock = AesInvCipher(block, roundKeys); for (int k = 0; k < 16; k++) decryptedBlock[k] ^= prev[k]; plainTextBytes.AddRange(decryptedBlock); prev = block; }
                 byte[] decryptedArray = plainTextBytes.ToArray();
                 int padLen = decryptedArray[decryptedArray.Length - 1];
                 if (padLen < 1 || padLen > 16) throw new Exception("Padding hatası!");
-
                 byte[] finalPlain = new byte[decryptedArray.Length - padLen];
                 Array.Copy(decryptedArray, finalPlain, finalPlain.Length);
-
                 return Encoding.UTF8.GetString(finalPlain);
             }
-            catch { return "Hata: Şifre veya veri hatalı."; }
+            catch (Exception ex) { return "Hata: " + ex.Message; }
         }
 
         public string DesDecrypt(string metin, string key, string iv = null)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentException("DES anahtarı boş olamaz.");
-
             try
             {
                 byte[] fullCipher = Convert.FromBase64String(metin);
                 byte[] ivBytes = new byte[8];
                 Array.Copy(fullCipher, 0, ivBytes, 0, 8);
-
                 if (!string.IsNullOrEmpty(iv))
                 {
                     byte[] temp = Encoding.UTF8.GetBytes(iv);
@@ -344,15 +265,11 @@ namespace KriptolojiOdev.Sifreleme.Class
                     Array.Copy(temp, finalIV, Math.Min(temp.Length, 8));
                     ivBytes = finalIV;
                 }
-
                 byte[] cipherText = new byte[fullCipher.Length - 8];
                 Array.Copy(fullCipher, 8, cipherText, 0, cipherText.Length);
-
-                byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-                if (keyBytes.Length < 8) { byte[] temp = new byte[8]; Array.Copy(keyBytes, temp, keyBytes.Length); keyBytes = temp; }
-                else if (keyBytes.Length > 8) { byte[] temp = new byte[8]; Array.Copy(keyBytes, temp, 8); keyBytes = temp; }
-
-                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                byte[] keyBytes;
+                using (MD5 md5 = MD5.Create()) { byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(key)); keyBytes = new byte[8]; Array.Copy(hash, 0, keyBytes, 0, 8); }
+                using (DES des = DES.Create())
                 {
                     des.Key = keyBytes;
                     des.IV = ivBytes;
@@ -360,138 +277,24 @@ namespace KriptolojiOdev.Sifreleme.Class
                     des.Padding = PaddingMode.PKCS7;
                     using (ICryptoTransform decryptor = des.CreateDecryptor())
                     {
-                        try
-                        {
-                            // HATA BURADA OLUŞUYOR
-                            byte[] plainBytes = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
-                            return Encoding.UTF8.GetString(plainBytes);
-                        }
-                        catch (CryptographicException ex)
-                        {
-                            // Eğer Key veya IV yanlışsa buraya düşer
-                            return ex.Message.ToString();
-                        }
-                        catch (Exception ex)
-                        {
-                            return "Hata: " + ex.Message;
-                        }
+                        byte[] plainBytes = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                        return Encoding.UTF8.GetString(plainBytes);
                     }
                 }
             }
-            catch { return "Hata: Şifre veya veri hatalı."; }
+            catch (CryptographicException) { return "Hata: Şifre (Key) yanlış veya IV uyumsuz."; }
+            catch (Exception ex) { return "Hata: " + ex.Message; }
         }
 
-        private int GCD(int x, int y)
-        {
-            while (y != 0) { int temp = y; y = x % y; x = temp; }
-            return x;
-        }
-
-        private int ModInverse(int a, int m)
-        {
-            for (int i = 1; i < m; i++) { if ((a * i) % m == 1) return i; }
-            throw new ArgumentException("Mod tersi bulamadım.");
-        }
-
+        private int GCD(int x, int y) { while (y != 0) { int temp = y; y = x % y; x = temp; } return x; }
+        private int ModInverse(int a, int m) { for (int i = 1; i < m; i++) { if ((a * i) % m == 1) return i; } throw new ArgumentException("Mod tersi bulamadım."); }
         private static byte AesGMul2(byte a) => (byte)(((a & 0x80) != 0) ? ((a << 1) ^ 0x1B) : (a << 1));
-
-        private static void AesInvSubBytes(byte[] state)
-        {
-            for (int i = 0; i < 16; i++) state[i] = AesInvSBox[state[i]];
-        }
-
-        private static void AesInvShiftRows(byte[] state)
-        {
-            byte temp = state[13]; state[13] = state[9]; state[9] = state[5]; state[5] = state[1]; state[1] = temp;
-            temp = state[2]; state[2] = state[10]; state[10] = temp;
-            temp = state[6]; state[6] = state[14]; state[14] = temp;
-            temp = state[3]; state[3] = state[7]; state[7] = state[11]; state[11] = state[15]; state[15] = temp;
-        }
-
-        private static void AesInvMixColumns(byte[] state)
-        {
-            for (int i = 0; i < 16; i += 4)
-            {
-                byte s0 = state[i], s1 = state[i + 1], s2 = state[i + 2], s3 = state[i + 3];
-                byte u = AesGMul2(AesGMul2((byte)(s0 ^ s2)));
-                byte v = AesGMul2(AesGMul2((byte)(s1 ^ s3)));
-                s0 ^= u; s1 ^= v; s2 ^= u; s3 ^= v;
-                state[i] = (byte)(AesGMul2(s0) ^ (AesGMul2(s1) ^ s1) ^ s2 ^ s3);
-                state[i + 1] = (byte)(s0 ^ AesGMul2(s1) ^ (AesGMul2(s2) ^ s2) ^ s3);
-                state[i + 2] = (byte)(s0 ^ s1 ^ AesGMul2(s2) ^ (AesGMul2(s3) ^ s3));
-                state[i + 3] = (byte)((AesGMul2(s0) ^ s0) ^ s1 ^ s2 ^ AesGMul2(s3));
-            }
-        }
-
-        private static void AesAddRoundKey(byte[] state, byte[] roundKey)
-        {
-            for (int i = 0; i < 16; i++) state[i] ^= roundKey[i];
-        }
-
-        private static byte[][] AesKeyExpansion(byte[] key)
-        {
-            int Nk = key.Length / 4;
-            int Nr = Nk + 6;
-            int Nb = 4;
-            byte[] expanded = new byte[Nb * (Nr + 1) * 4];
-            Array.Copy(key, expanded, key.Length);
-            int bytesGen = key.Length;
-            int rconIter = 1;
-            byte[] temp = new byte[4];
-
-            while (bytesGen < expanded.Length)
-            {
-                for (int i = 0; i < 4; i++) temp[i] = expanded[bytesGen - 4 + i];
-                if (bytesGen % key.Length == 0)
-                {
-                    byte t = temp[0]; temp[0] = temp[1]; temp[1] = temp[2]; temp[2] = temp[3]; temp[3] = t;
-                    for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]];
-                    temp[0] ^= AesRcon[rconIter++];
-                }
-                else if (Nk > 6 && bytesGen % key.Length == 16)
-                {
-                    for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]];
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    expanded[bytesGen] = (byte)(expanded[bytesGen - key.Length] ^ temp[i]);
-                    bytesGen++;
-                }
-            }
-            byte[][] roundKeys = new byte[Nr + 1][];
-            for (int i = 0; i <= Nr; i++)
-            {
-                roundKeys[i] = new byte[16];
-                Array.Copy(expanded, i * 16, roundKeys[i], 0, 16);
-            }
-            return roundKeys;
-        }
-
-        private static byte[] AesInvCipher(byte[] block, byte[][] roundKeys)
-        {
-            byte[] state = (byte[])block.Clone();
-            int Nr = roundKeys.Length - 1;
-            AesAddRoundKey(state, roundKeys[Nr]);
-            for (int r = Nr - 1; r > 0; r--)
-            {
-                AesInvShiftRows(state);
-                AesInvSubBytes(state);
-                AesAddRoundKey(state, roundKeys[r]);
-                AesInvMixColumns(state);
-            }
-            AesInvShiftRows(state);
-            AesInvSubBytes(state);
-            AesAddRoundKey(state, roundKeys[0]);
-            return state;
-        }
-
-        private static byte[] AesPrepareIV(string ivString)
-        {
-            if (string.IsNullOrEmpty(ivString)) return null;
-            byte[] ivBytes = Encoding.UTF8.GetBytes(ivString);
-            byte[] finalIV = new byte[16];
-            Array.Copy(ivBytes, finalIV, Math.Min(ivBytes.Length, 16));
-            return finalIV;
-        }
+        private static void AesInvSubBytes(byte[] state) { for (int i = 0; i < 16; i++) state[i] = AesInvSBox[state[i]]; }
+        private static void AesInvShiftRows(byte[] state) { byte temp = state[13]; state[13] = state[9]; state[9] = state[5]; state[5] = state[1]; state[1] = temp; temp = state[2]; state[2] = state[10]; state[10] = temp; temp = state[6]; state[6] = state[14]; state[14] = temp; temp = state[3]; state[3] = state[7]; state[7] = state[11]; state[11] = state[15]; state[15] = temp; }
+        private static void AesInvMixColumns(byte[] state) { for (int i = 0; i < 16; i += 4) { byte s0 = state[i], s1 = state[i + 1], s2 = state[i + 2], s3 = state[i + 3]; byte u = AesGMul2(AesGMul2((byte)(s0 ^ s2))); byte v = AesGMul2(AesGMul2((byte)(s1 ^ s3))); s0 ^= u; s1 ^= v; s2 ^= u; s3 ^= v; state[i] = (byte)(AesGMul2(s0) ^ (AesGMul2(s1) ^ s1) ^ s2 ^ s3); state[i + 1] = (byte)(s0 ^ AesGMul2(s1) ^ (AesGMul2(s2) ^ s2) ^ s3); state[i + 2] = (byte)(s0 ^ s1 ^ AesGMul2(s2) ^ (AesGMul2(s3) ^ s3)); state[i + 3] = (byte)((AesGMul2(s0) ^ s0) ^ s1 ^ s2 ^ AesGMul2(s3)); } }
+        private static void AesAddRoundKey(byte[] state, byte[] roundKey) { for (int i = 0; i < 16; i++) state[i] ^= roundKey[i]; }
+        private static byte[][] AesKeyExpansion(byte[] key) { int Nk = key.Length / 4; int Nr = Nk + 6; int Nb = 4; byte[] expanded = new byte[Nb * (Nr + 1) * 4]; Array.Copy(key, expanded, key.Length); int bytesGen = key.Length; int rconIter = 1; byte[] temp = new byte[4]; while (bytesGen < expanded.Length) { for (int i = 0; i < 4; i++) temp[i] = expanded[bytesGen - 4 + i]; if (bytesGen % key.Length == 0) { byte t = temp[0]; temp[0] = temp[1]; temp[1] = temp[2]; temp[2] = temp[3]; temp[3] = t; for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]]; temp[0] ^= AesRcon[rconIter++]; } else if (Nk > 6 && bytesGen % key.Length == 16) { for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]]; } for (int i = 0; i < 4; i++) { expanded[bytesGen] = (byte)(expanded[bytesGen - key.Length] ^ temp[i]); bytesGen++; } } byte[][] roundKeys = new byte[Nr + 1][]; for (int i = 0; i <= Nr; i++) { roundKeys[i] = new byte[16]; Array.Copy(expanded, i * 16, roundKeys[i], 0, 16); } return roundKeys; }
+        private static byte[] AesInvCipher(byte[] block, byte[][] roundKeys) { byte[] state = (byte[])block.Clone(); int Nr = roundKeys.Length - 1; AesAddRoundKey(state, roundKeys[Nr]); for (int r = Nr - 1; r > 0; r--) { AesInvShiftRows(state); AesInvSubBytes(state); AesAddRoundKey(state, roundKeys[r]); AesInvMixColumns(state); } AesInvShiftRows(state); AesInvSubBytes(state); AesAddRoundKey(state, roundKeys[0]); return state; }
+        private static byte[] AesPrepareIV(string ivString) { if (string.IsNullOrEmpty(ivString)) return null; byte[] ivBytes = Encoding.UTF8.GetBytes(ivString); byte[] finalIV = new byte[16]; Array.Copy(ivBytes, finalIV, Math.Min(ivBytes.Length, 16)); return finalIV; }
     }
 }
