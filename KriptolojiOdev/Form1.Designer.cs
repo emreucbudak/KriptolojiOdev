@@ -40,6 +40,8 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            textBox7 = new TextBox();
+            label7 = new Label();
             button22 = new Button();
             button21 = new Button();
             button19 = new Button();
@@ -49,6 +51,8 @@
             button10 = new Button();
             button9 = new Button();
             groupBox2 = new GroupBox();
+            textBox8 = new TextBox();
+            label8 = new Label();
             button24 = new Button();
             button23 = new Button();
             button20 = new Button();
@@ -67,10 +71,6 @@
             label2 = new Label();
             textBox4 = new TextBox();
             label5 = new Label();
-            label7 = new Label();
-            textBox7 = new TextBox();
-            label8 = new Label();
-            textBox8 = new TextBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -202,6 +202,22 @@
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
             // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(177, 108);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(246, 27);
+            textBox7.TabIndex = 24;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(34, 110);
+            label7.Name = "label7";
+            label7.Size = new Size(95, 20);
+            label7.TabIndex = 23;
+            label7.Text = "Opsiyonel IV:";
+            // 
             // button22
             // 
             button22.Location = new Point(256, 258);
@@ -210,6 +226,7 @@
             button22.TabIndex = 22;
             button22.Text = "DES";
             button22.UseVisualStyleBackColor = true;
+            button22.Click += button22_Click;
             // 
             // button21
             // 
@@ -309,6 +326,22 @@
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(168, 113);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(255, 27);
+            textBox8.TabIndex = 19;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(28, 116);
+            label8.Name = "label8";
+            label8.Size = new Size(95, 20);
+            label8.TabIndex = 18;
+            label8.Text = "Opsiyonel IV:";
             // 
             // button24
             // 
@@ -476,38 +509,6 @@
             label5.TabIndex = 0;
             label5.Text = "Metin :";
             label5.Click += label5_Click;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(34, 110);
-            label7.Name = "label7";
-            label7.Size = new Size(95, 20);
-            label7.TabIndex = 23;
-            label7.Text = "Opsiyonel IV:";
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(177, 108);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(246, 27);
-            textBox7.TabIndex = 24;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(28, 116);
-            label8.Name = "label8";
-            label8.Size = new Size(95, 20);
-            label8.TabIndex = 18;
-            label8.Text = "Opsiyonel IV:";
-            // 
-            // textBox8
-            // 
-            textBox8.Location = new Point(168, 113);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(255, 27);
-            textBox8.TabIndex = 19;
             // 
             // Form1
             // 
