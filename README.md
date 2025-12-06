@@ -72,7 +72,8 @@ Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
 <br>
 
 **Caesar, Polybius vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="800" src="https://github.com/user-attachments/assets/dac92671-3e13-4ab4-be68-e83d7148507e" />
+<img width="800" src="<img width="1287" height="681" alt="image" src="https://github.com/user-attachments/assets/8fa531f9-edab-49d5-918b-b0e64d5da811" />
+" />
 </details>
 
 <details>
