@@ -92,7 +92,8 @@ Uygulamanın TCP paketleri üzerinden veri transferini kanıtlayan analiz görü
 <details>
 <summary><b>📡 Genel Wireshark Görünümü</b></summary>
 <br>
-<img width="800" src="https://github.com/user-attachments/assets/2f8c3e21-e4f1-43cd-b3fa-046a3d41677f" />
+<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/63af27f9-6a9d-4327-8322-773a3a9b8cee" />
+
 </details>
 
 <details>
