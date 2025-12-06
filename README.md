@@ -104,7 +104,8 @@ Uygulamanın TCP paketleri üzerinden veri transferini kanıtlayan analiz görü
 
 
 **Key GEREKTİREN algoritma ile gönderilen paket:**
-<img width="800" src="https://github.com/user-attachments/assets/02c336ff-4b80-4950-b68e-6e6aaf2e3dc0" />
+<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/982f9c18-30c6-4c63-9ede-385510a16b5d" />
+
 </details>
 
 <details>
