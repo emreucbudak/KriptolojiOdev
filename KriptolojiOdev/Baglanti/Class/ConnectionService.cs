@@ -91,7 +91,7 @@ namespace KriptolojiOdev.Baglanti.Class
                 string responseText = chooseCrypt switch
                 {
                     "Encrypt" => EncryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key,string.IsNullOrEmpty(iv) ? null : iv) ,
-                    "Decrypt" => DecryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key),
+                    "Decrypt" => DecryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key, string.IsNullOrEmpty(iv) ? null : iv),
                     _ => "Istediğin şifreleme türü yokk"
 
                 };
@@ -122,7 +122,7 @@ namespace KriptolojiOdev.Baglanti.Class
             };
             return encryptedText;
         }
-        private string DecryptorServiceCaller(string algorithm, string metin, string? key)
+        private string DecryptorServiceCaller(string algorithm, string metin, string? key,string? iv)
         {
             var decryptedText = algorithm switch
             {
@@ -136,6 +136,8 @@ namespace KriptolojiOdev.Baglanti.Class
                 "PİGPEN" => decryptor.PigpenDecrypt(metin, key),
                 "HİLL" => decryptor.HillDecrypt(metin, key),
                 "TRENRAYI" => decryptor.TrenRayiDecrypt(metin, key),
+                "AES" => decryptor.AesDecrypt(metin, key, iv),
+                "DES" => decryptor.DesDecrypt(metin, key, iv),
                 _ => "İstenilen decryptor Mevcut Değil"
             };
             return decryptedText;

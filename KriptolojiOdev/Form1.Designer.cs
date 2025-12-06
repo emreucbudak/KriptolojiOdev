@@ -351,6 +351,7 @@
             button24.TabIndex = 17;
             button24.Text = "DES";
             button24.UseVisualStyleBackColor = true;
+            button24.Click += button24_Click;
             // 
             // button23
             // 
@@ -360,6 +361,7 @@
             button23.TabIndex = 16;
             button23.Text = "AES";
             button23.UseVisualStyleBackColor = true;
+            button23.Click += button23_Click;
             // 
             // button20
             // 
