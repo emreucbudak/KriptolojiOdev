@@ -497,8 +497,17 @@ namespace KriptolojiOdev.Sifreleme.Class
                 uint output = 0;
                 for (int j = 0; j < 8; j++)
                 {
-                    int row = (int)(((expanded >> (42 - 6 * j)) & 0x20) | ((expanded >> (42 - 6 * j + 4)) & 0x01));
-                    int col = (int)((expanded >> (43 - 6 * j)) & 0x0F);
+
+                    int shiftAmount = 42 - (6 * j);
+                    uint sixBits = (uint)((expanded >> shiftAmount) & 0x3F);
+
+
+                    int row = (int)(((sixBits & 0x20) >> 4) | (sixBits & 0x01));
+
+
+                    int col = (int)((sixBits >> 1) & 0x0F);
+
+
                     output = (output << 4) | (uint)DesSBox[j, row * 16 + col];
                 }
 
