@@ -23,29 +23,32 @@
 
 ## ✨ Desteklenen Algoritmalar
 
-Proje, hem şifreleme hem de şifre çözme işlemlerini desteklemektedir.
+Proje, hem klasik hem de modern (Blok) şifreleme algoritmalarını desteklemektedir.
 
-| Algoritma | Key Durumu | Açıklama |
+| Algoritma | Key / IV Durumu | Açıklama |
 | :--- | :---: | :--- |
-| **Vigenere Cipher** | 🔑 Var | Key sadece harflerden oluşmalıdır (A-Z). |
-| **Substitution Cipher** | 🔑 Var | 26 benzersiz harften oluşan bir alfabe anahtarı gerektirir. |
-| **Caesar Cipher** | 🔓 Yok | Sabit (+3) kaydırma algoritması. |
-| **Affine Cipher** | 🔑 Var | Doğrusal fonksiyon (ax + b) mantığıyla çalışır. |
-| **Rota Cipher** | 🔑 Var | Key sayı olmalıdır; yönlü kaydırma yapar. |
-| **Columnar Transposition**| 🔑 Var | Metin, anahtara göre sütunlar halinde yeniden sıralanır. |
-| **Hill Cipher** | 🔑 Var | 2x2 matris anahtarı kullanır (Lineer Cebir). |
-| **Polybius Cipher** | 🔓 Yok | 5x5 tablo ile harfleri koordinat (rakam) çiftlerine dönüştürür. |
-| **Tren Rayı (Rail Fence)** | 🔑 Var | Metni zikzak (ray) şeklinde yazar ve şifreler. |
-| **Pigpen Cipher** | 🔓 Yok | Harfleri geometrik şekillerle sembolize eder. |
+| **AES Encryption** | 🔑 Key + Opsiyonel IV | Modern standart (Advanced Encryption Standard). 128-bit blok şifreleme. |
+| **DES Encryption** | 🔑 Key + Opsiyonel IV | Klasik standart (Data Encryption Standard). 64-bit blok şifreleme. |
+| **Vigenere Cipher** | 🔑 Key Var | Key sadece harflerden oluşmalıdır (A-Z). |
+| **Substitution Cipher** | 🔑 Key Var | 26 benzersiz harften oluşan bir alfabe anahtarı gerektirir. |
+| **Caesar Cipher** | 🔓 Key Yok | Sabit (+3) kaydırma algoritması. |
+| **Affine Cipher** | 🔑 Key Var | Doğrusal fonksiyon (ax + b) mantığıyla çalışır. |
+| **Rota Cipher** | 🔑 Key Var | Key sayı olmalıdır; yönlü kaydırma yapar. |
+| **Columnar Transposition**| 🔑 Key Var | Metin, anahtara göre sütunlar halinde yeniden sıralanır. |
+| **Hill Cipher** | 🔑 Key Var | 2x2 matris anahtarı kullanır (Lineer Cebir). |
+| **Polybius Cipher** | 🔓 Key Yok | 5x5 tablo ile harfleri koordinat (rakam) çiftlerine dönüştürür. |
+| **Tren Rayı (Rail Fence)** | 🔑 Key Var | Metni zikzak (ray) şeklinde yazar ve şifreler. |
+| **Pigpen Cipher** | 🔓 Key Yok | Harfleri geometrik şekillerle sembolize eder. |
 
 ---
 
 ## ⚡ Nasıl Kullanılır?
 
 1.  **Metin Girişi:** Şifrelenmesi veya çözülmesi istenen metni ilgili kutuya girin.
-2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa (Tabloya bakınız), geçerli bir key girin.
-3.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
-4.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
+2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa geçerli bir key girin.
+3.  **Opsiyonel IV (AES/DES):** AES veya DES seçerseniz, dilerseniz özel bir IV (Initialization Vector) girebilirsiniz. Boş bırakırsanız sistem otomatik güvenli bir IV üretir.
+4.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
+5.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
 
 ---
 
