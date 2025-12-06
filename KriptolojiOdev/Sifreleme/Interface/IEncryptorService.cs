@@ -18,5 +18,7 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string HillEncrypt (string metin, string key);
         string RotaEncrypt(string metin, string key);
         string TrenRayiEncrypt(string metin, string key);
+        string AesEncrypt(string metin, string key, string iv = null);
+        string DesEncrypt(string metin, string key, string iv = null);
     }
 }

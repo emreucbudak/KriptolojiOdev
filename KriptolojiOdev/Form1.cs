@@ -706,5 +706,46 @@ namespace KriptolojiOdev
 
             }
         }
+
+        private async void button21_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var (message, client) = await connectionService.ConnectToServer();
+                clientLog.AppendText(message);
+
+                if (client == null) return;
+
+                NetworkStream stream = client.GetStream();
+                string key = textBox3.Text.ToUpper();
+                if (key.Length != 26 || key.Distinct().Count() != 26)
+                {
+                    throw new Exception("Girdiðiniz IV Geçersiz!");
+                }
+                string msg = "Encrypt|" + "AES|" + textBox2.Text + "|" + key;
+
+
+                byte[] data = Encoding.UTF8.GetBytes(msg);
+
+                await stream.WriteAsync(data, 0, data.Length);
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                serverForm.MesajYaz(msg);
+                clientLog.AppendText("Gönderilen Mesaj: " + msg + "Þifreleme Sonucu = " + response + Environment.NewLine);
+                textBox1.Text = response;
+            }
+            catch (Exception ex)
+            {
+                clientLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
+
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

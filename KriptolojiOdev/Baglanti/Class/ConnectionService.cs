@@ -115,6 +115,7 @@ namespace KriptolojiOdev.Baglanti.Class
                 "PİGPEN" => encryptor.PigpenEncrypt(metin,key),
                 "HİLL" => encryptor.HillEncrypt(metin,key),
                 "TRENRAYI" => encryptor.TrenRayiEncrypt(metin,key),
+                "AES" => encryptor.AesEncrypt(metin,key),
                 _ => "İstenilen Encryptor Mevcut Değil"
             };
             return encryptedText;

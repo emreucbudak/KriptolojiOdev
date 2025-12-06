@@ -40,6 +40,8 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            button22 = new Button();
+            button21 = new Button();
             button19 = new Button();
             button13 = new Button();
             button12 = new Button();
@@ -47,6 +49,8 @@
             button10 = new Button();
             button9 = new Button();
             groupBox2 = new GroupBox();
+            button24 = new Button();
+            button23 = new Button();
             button20 = new Button();
             button18 = new Button();
             button17 = new Button();
@@ -63,10 +67,10 @@
             label2 = new Label();
             textBox4 = new TextBox();
             label5 = new Label();
-            button21 = new Button();
-            button22 = new Button();
-            button23 = new Button();
-            button24 = new Button();
+            label7 = new Label();
+            textBox7 = new TextBox();
+            label8 = new Label();
+            textBox8 = new TextBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -154,21 +158,24 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(34, 99);
+            label1.Location = new Point(34, 75);
             label1.Name = "label1";
-            label1.Size = new Size(92, 20);
+            label1.Size = new Size(36, 20);
             label1.TabIndex = 13;
-            label1.Text = "Key Veya IV: ";
+            label1.Text = "Key:";
+            label1.Click += label1_Click;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(177, 96);
+            textBox3.Location = new Point(177, 75);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(246, 27);
             textBox3.TabIndex = 14;
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(textBox7);
+            groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(button22);
             groupBox1.Controls.Add(button21);
             groupBox1.Controls.Add(button19);
@@ -194,6 +201,25 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // button22
+            // 
+            button22.Location = new Point(256, 258);
+            button22.Name = "button22";
+            button22.Size = new Size(94, 29);
+            button22.TabIndex = 22;
+            button22.Text = "DES";
+            button22.UseVisualStyleBackColor = true;
+            // 
+            // button21
+            // 
+            button21.Location = new Point(146, 258);
+            button21.Name = "button21";
+            button21.Size = new Size(94, 29);
+            button21.TabIndex = 21;
+            button21.Text = "AES";
+            button21.UseVisualStyleBackColor = true;
+            button21.Click += button21_Click;
             // 
             // button19
             // 
@@ -257,6 +283,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(textBox8);
+            groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(button24);
             groupBox2.Controls.Add(button23);
             groupBox2.Controls.Add(button20);
@@ -281,6 +309,24 @@
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
+            // 
+            // button24
+            // 
+            button24.Location = new Point(256, 258);
+            button24.Name = "button24";
+            button24.Size = new Size(94, 29);
+            button24.TabIndex = 17;
+            button24.Text = "DES";
+            button24.UseVisualStyleBackColor = true;
+            // 
+            // button23
+            // 
+            button23.Location = new Point(146, 258);
+            button23.Name = "button23";
+            button23.Size = new Size(94, 29);
+            button23.TabIndex = 16;
+            button23.Text = "AES";
+            button23.UseVisualStyleBackColor = true;
             // 
             // button20
             // 
@@ -391,7 +437,7 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(168, 98);
+            textBox5.Location = new Point(168, 75);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(255, 27);
             textBox5.TabIndex = 4;
@@ -408,11 +454,11 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(28, 101);
+            label2.Location = new Point(28, 75);
             label2.Name = "label2";
-            label2.Size = new Size(88, 20);
+            label2.Size = new Size(36, 20);
             label2.TabIndex = 2;
-            label2.Text = "Key Veya IV:";
+            label2.Text = "Key:";
             // 
             // textBox4
             // 
@@ -431,41 +477,37 @@
             label5.Text = "Metin :";
             label5.Click += label5_Click;
             // 
-            // button21
+            // label7
             // 
-            button21.Location = new Point(146, 258);
-            button21.Name = "button21";
-            button21.Size = new Size(94, 29);
-            button21.TabIndex = 21;
-            button21.Text = "AES";
-            button21.UseVisualStyleBackColor = true;
+            label7.AutoSize = true;
+            label7.Location = new Point(34, 110);
+            label7.Name = "label7";
+            label7.Size = new Size(95, 20);
+            label7.TabIndex = 23;
+            label7.Text = "Opsiyonel IV:";
             // 
-            // button22
+            // textBox7
             // 
-            button22.Location = new Point(256, 258);
-            button22.Name = "button22";
-            button22.Size = new Size(94, 29);
-            button22.TabIndex = 22;
-            button22.Text = "DES";
-            button22.UseVisualStyleBackColor = true;
+            textBox7.Location = new Point(177, 108);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(246, 27);
+            textBox7.TabIndex = 24;
             // 
-            // button23
+            // label8
             // 
-            button23.Location = new Point(146, 258);
-            button23.Name = "button23";
-            button23.Size = new Size(94, 29);
-            button23.TabIndex = 16;
-            button23.Text = "AES";
-            button23.UseVisualStyleBackColor = true;
+            label8.AutoSize = true;
+            label8.Location = new Point(28, 116);
+            label8.Name = "label8";
+            label8.Size = new Size(95, 20);
+            label8.TabIndex = 18;
+            label8.Text = "Opsiyonel IV:";
             // 
-            // button24
+            // textBox8
             // 
-            button24.Location = new Point(256, 258);
-            button24.Name = "button24";
-            button24.Size = new Size(94, 29);
-            button24.TabIndex = 17;
-            button24.Text = "DES";
-            button24.UseVisualStyleBackColor = true;
+            textBox8.Location = new Point(168, 113);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(255, 27);
+            textBox8.TabIndex = 19;
             // 
             // Form1
             // 
@@ -525,5 +567,9 @@
         private Button button21;
         private Button button24;
         private Button button23;
+        private TextBox textBox7;
+        private Label label7;
+        private TextBox textBox8;
+        private Label label8;
     }
 }
