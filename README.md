@@ -115,5 +115,6 @@ Uygulamanın TCP paketleri üzerinden veri transferini kanıtlayan analiz görü
 **Key GEREKTİRMEYEN algoritma için Decrypt paketi:**
 <img width="1918" height="1017" alt="image" src="https://github.com/user-attachments/assets/5e3ceff4-3511-40ca-abfa-d5d7f08ae496" />
 **Key GEREKTİREN algoritma için Decrypt paketi:**
-<img width="800" src="https://github.com/user-attachments/assets/c709372a-a649-4ca3-9521-de9c49848f85" />
+<img width="1917" height="1018" alt="image" src="https://github.com/user-attachments/assets/f4ccb0e6-838a-4e3d-8f2d-61c671da7b8e" />
+
 </details>
