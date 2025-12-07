@@ -20,9 +20,7 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string TrenRayiEncrypt(string metin, string key);
         string AesEncrypt(string metin, string key, string iv = null);
         string DesEncrypt(string metin, string key, string iv = null);
-
-        // --- YENİ EKLENEN KISIM ---
-        // RSA Şifreleme (Parametre olarak Public Key alır)
         string RsaEncrypt(string metin, string publicKeyXml);
+        string ManuelDesEncrypt(string metin, string key, string iv = null);
     }
 }

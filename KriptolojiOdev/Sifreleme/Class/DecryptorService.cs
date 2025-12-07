@@ -136,7 +136,7 @@ namespace KriptolojiOdev.Sifreleme.Class
         public string PolybiusDecrypt(string metin, string key)
         {
             string polybiusSquare = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-            int size = 5; // EKLENEN KISIM
+            int size = 5;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < metin.Length; i += 2)
             {
@@ -286,6 +286,74 @@ namespace KriptolojiOdev.Sifreleme.Class
             catch (Exception ex) { return "Hata: " + ex.Message; }
         }
 
+        public string RsaDecrypt(string metin, string privateKeyXml)
+        {
+            try
+            {
+                using (System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider())
+                {
+                    rsa.FromXmlString(privateKeyXml);
+                    byte[] dataToDecrypt = Convert.FromBase64String(metin);
+                    byte[] decryptedData = rsa.Decrypt(dataToDecrypt, false);
+                    return Encoding.UTF8.GetString(decryptedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RSA Çözme Hatası: " + ex.Message);
+            }
+        }
+
+        public string ManuelDesDecrypt(string metin, string key, string iv = null)
+        {
+            if (string.IsNullOrEmpty(key) || key.Length != 8) throw new ArgumentException("Manuel DES için Key tam 8 karakter olmalıdır.");
+
+            byte[] fullCipher = Convert.FromBase64String(metin);
+            byte[] ivBytes = new byte[8];
+            Array.Copy(fullCipher, 0, ivBytes, 0, 8);
+            if (!string.IsNullOrEmpty(iv) && iv.Length == 8) ivBytes = Encoding.UTF8.GetBytes(iv);
+
+            byte[] cipherText = new byte[fullCipher.Length - 8];
+            Array.Copy(fullCipher, 8, cipherText, 0, cipherText.Length);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] output = new byte[cipherText.Length];
+            byte[] previousBlock = new byte[8];
+            Array.Copy(ivBytes, previousBlock, 8);
+
+            for (int i = 0; i < cipherText.Length; i += 8)
+            {
+                byte[] block = new byte[8];
+                Array.Copy(cipherText, i, block, 0, 8);
+                UInt32 L = BitConverter.ToUInt32(block, 0);
+                UInt32 R = BitConverter.ToUInt32(block, 4);
+                UInt64 key64 = BitConverter.ToUInt64(keyBytes, 0);
+
+                for (int round = 15; round >= 0; round--)
+                {
+                    UInt32 temp = L;
+                    UInt32 subKey = (UInt32)((key64 >> ((round * 3) % 32)) & 0xFFFFFFFF);
+                    UInt32 fResult = (L ^ subKey);
+                    fResult = (fResult << 3) | (fResult >> 29);
+                    L = R ^ fResult;
+                    R = temp;
+                }
+
+                byte[] decBlock = new byte[8];
+                BitConverter.GetBytes(L).CopyTo(decBlock, 0);
+                BitConverter.GetBytes(R).CopyTo(decBlock, 4);
+
+                for (int j = 0; j < 8; j++) decBlock[j] ^= previousBlock[j];
+                Array.Copy(block, previousBlock, 8);
+                Array.Copy(decBlock, 0, output, i, 8);
+            }
+
+            int padLen = output[output.Length - 1];
+            if (padLen < 1 || padLen > 8) padLen = 0;
+            byte[] finalPlain = new byte[output.Length - padLen];
+            Array.Copy(output, finalPlain, finalPlain.Length);
+            return Encoding.UTF8.GetString(finalPlain);
+        }
+
         private int GCD(int x, int y) { while (y != 0) { int temp = y; y = x % y; x = temp; } return x; }
         private int ModInverse(int a, int m) { for (int i = 1; i < m; i++) { if ((a * i) % m == 1) return i; } throw new ArgumentException("Mod tersi bulamadım."); }
         private static byte AesGMul2(byte a) => (byte)(((a & 0x80) != 0) ? ((a << 1) ^ 0x1B) : (a << 1));
@@ -296,29 +364,5 @@ namespace KriptolojiOdev.Sifreleme.Class
         private static byte[][] AesKeyExpansion(byte[] key) { int Nk = key.Length / 4; int Nr = Nk + 6; int Nb = 4; byte[] expanded = new byte[Nb * (Nr + 1) * 4]; Array.Copy(key, expanded, key.Length); int bytesGen = key.Length; int rconIter = 1; byte[] temp = new byte[4]; while (bytesGen < expanded.Length) { for (int i = 0; i < 4; i++) temp[i] = expanded[bytesGen - 4 + i]; if (bytesGen % key.Length == 0) { byte t = temp[0]; temp[0] = temp[1]; temp[1] = temp[2]; temp[2] = temp[3]; temp[3] = t; for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]]; temp[0] ^= AesRcon[rconIter++]; } else if (Nk > 6 && bytesGen % key.Length == 16) { for (int i = 0; i < 4; i++) temp[i] = AesSBox[temp[i]]; } for (int i = 0; i < 4; i++) { expanded[bytesGen] = (byte)(expanded[bytesGen - key.Length] ^ temp[i]); bytesGen++; } } byte[][] roundKeys = new byte[Nr + 1][]; for (int i = 0; i <= Nr; i++) { roundKeys[i] = new byte[16]; Array.Copy(expanded, i * 16, roundKeys[i], 0, 16); } return roundKeys; }
         private static byte[] AesInvCipher(byte[] block, byte[][] roundKeys) { byte[] state = (byte[])block.Clone(); int Nr = roundKeys.Length - 1; AesAddRoundKey(state, roundKeys[Nr]); for (int r = Nr - 1; r > 0; r--) { AesInvShiftRows(state); AesInvSubBytes(state); AesAddRoundKey(state, roundKeys[r]); AesInvMixColumns(state); } AesInvShiftRows(state); AesInvSubBytes(state); AesAddRoundKey(state, roundKeys[0]); return state; }
         private static byte[] AesPrepareIV(string ivString) { if (string.IsNullOrEmpty(ivString)) return null; byte[] ivBytes = Encoding.UTF8.GetBytes(ivString); byte[] finalIV = new byte[16]; Array.Copy(ivBytes, finalIV, Math.Min(ivBytes.Length, 16)); return finalIV; }
-        public string RsaDecrypt(string metin, string privateKeyXml)
-        {
-            try
-            {
-                using (System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider())
-                {
-                    
-                    rsa.FromXmlString(privateKeyXml);
-
-                  
-                    byte[] dataToDecrypt = Convert.FromBase64String(metin);
-
-                 
-                    byte[] decryptedData = rsa.Decrypt(dataToDecrypt, false);
-
-                
-                    return Encoding.UTF8.GetString(decryptedData);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("RSA Çözme Hatası: " + ex.Message);
-            }
-        }
     }
 }
