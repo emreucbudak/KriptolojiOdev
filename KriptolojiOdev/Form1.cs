@@ -229,7 +229,6 @@ namespace KriptolojiOdev
                 if (string.IsNullOrEmpty(textBox3.Text))
                 {
                     string yeniPublicKey, yeniPrivateKey;
-
                     RsaAnahtarUret(out yeniPublicKey, out yeniPrivateKey);
 
                     textBox3.Text = yeniPublicKey;
@@ -245,13 +244,9 @@ namespace KriptolojiOdev
                 MessageBox.Show("Hata: " + ex.Message);
             }
         }
-        private void groupBox1_Enter(object sender, EventArgs e) { }
-        private void label5_Click(object sender, EventArgs e) { }
-        private void label1_Click(object sender, EventArgs e) { }
 
         private async void button26_Click_1(object sender, EventArgs e)
         {
- 
             try
             {
                 await SendMessageToServerAsync("Decrypt", "RSA", textBox4.Text, textBox5.Text, "");
@@ -261,5 +256,67 @@ namespace KriptolojiOdev
                 MessageBox.Show("Hata: " + ex.Message);
             }
         }
+
+        private async void button27_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(textBox2.Text))
+                {
+                    MessageBox.Show("Lütfen þifrelenecek metni giriniz.");
+                    return;
+                }
+
+                string key = textBox3.Text;
+                if (key.Length != 8)
+                {
+                    MessageBox.Show("Manuel DES için Anahtar (Key) tam 8 karakter olmalýdýr!");
+                    return;
+                }
+
+                string iv = textBox7.Text;
+                if (!string.IsNullOrEmpty(iv) && iv.Length != 8)
+                {
+                    MessageBox.Show("Manuel DES için IV deðeri tam 8 karakter olmalýdýr!");
+                    return;
+                }
+
+                await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, key, iv);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message);
+            }
+        }
+
+        private async void button28_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string key = textBox5.Text;
+                if (key.Length != 8)
+                {
+                    MessageBox.Show("Manuel DES için Anahtar (Key) tam 8 karakter olmalýdýr!");
+                    return;
+                }
+
+                string iv = textBox8.Text;
+                if (!string.IsNullOrEmpty(iv) && iv.Length != 8)
+                {
+                    MessageBox.Show("Manuel DES için IV deðeri tam 8 karakter olmalýdýr!");
+                    return;
+                }
+
+                await SendMessageToServerAsync("Decrypt", "MANUEL_DES", textBox4.Text, key, iv);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message);
+            }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e) { }
+        private void label5_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
     }
 }

@@ -127,6 +127,7 @@ namespace KriptolojiOdev.Baglanti.Class
                     "AES" => encryptor.AesEncrypt(metin, key, iv),
                     "DES" => encryptor.DesEncrypt(metin, key, iv),
                     "RSA" => encryptor.RsaEncrypt(metin, key),
+                    "MANUEL_DES" => encryptor.ManuelDesEncrypt(metin, key, iv),
                     _ => "İstenilen Algoritma Bulunamadı"
                 };
             }
@@ -152,6 +153,7 @@ namespace KriptolojiOdev.Baglanti.Class
                     "AES" => decryptor.AesDecrypt(metin, key, iv),
                     "DES" => decryptor.DesDecrypt(metin, key, iv),
                     "RSA" => decryptor.RsaDecrypt(metin, key),
+                    "MANUEL_DES" => decryptor.ManuelDesDecrypt(metin, key, iv),
                     _ => "İstenilen Algoritma Bulunamadı"
                 };
             }

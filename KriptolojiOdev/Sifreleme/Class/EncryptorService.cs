@@ -42,21 +42,15 @@ namespace KriptolojiOdev.Sifreleme.Class
                     char baseChar = char.IsUpper(c) ? 'A' : 'a';
                     result.Append((char)(((c - baseChar + 3) % 26) + baseChar));
                 }
-                else
-                {
-                    result.Append(c);
-                }
+                else result.Append(c);
             }
             return result.ToString();
         }
 
         public string SubstitutionEncrypt(string metin, string key)
         {
-            if (string.IsNullOrEmpty(key) || key.Length != 26)
-                throw new ArgumentException("Key 26 harf uzunluğunda olmalı.");
-
-            if (!key.All(char.IsLetter))
-                throw new ArgumentException("Key yalnızca harflerden oluşmalı.");
+            if (string.IsNullOrEmpty(key) || key.Length != 26) throw new ArgumentException("Key 26 harf uzunluğunda olmalı.");
+            if (!key.All(char.IsLetter)) throw new ArgumentException("Key yalnızca harflerden oluşmalı.");
 
             StringBuilder result = new StringBuilder();
             string upperKey = key.ToUpper();
@@ -64,23 +58,15 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             foreach (char c in metin)
             {
-                if (c >= 'A' && c <= 'Z')
-                {
-                    int index = c - 'A';
-                    result.Append(upperKey[index]);
-                }
-                else
-                {
-                    result.Append(c);
-                }
+                if (c >= 'A' && c <= 'Z') result.Append(upperKey[c - 'A']);
+                else result.Append(c);
             }
             return result.ToString();
         }
 
         public string AffineEncrypt(string metin, int a = 5, int b = 8)
         {
-            if (GCD(a, 26) != 1)
-                throw new ArgumentException("a ve 26 aralarında asal olmalı!");
+            if (GCD(a, 26) != 1) throw new ArgumentException("a ve 26 aralarında asal olmalı!");
 
             StringBuilder result = new StringBuilder();
             foreach (char c in metin)
@@ -93,10 +79,7 @@ namespace KriptolojiOdev.Sifreleme.Class
                     char enc = (char)(y + 'A');
                     result.Append(isUpper ? enc : char.ToLower(enc));
                 }
-                else
-                {
-                    result.Append(c);
-                }
+                else result.Append(c);
             }
             return result.ToString();
         }
@@ -119,10 +102,7 @@ namespace KriptolojiOdev.Sifreleme.Class
                     result.Append(isUpper ? enc : char.ToLower(enc));
                     keyIndex++;
                 }
-                else
-                {
-                    result.Append(c);
-                }
+                else result.Append(c);
             }
             return result.ToString();
         }
@@ -138,10 +118,8 @@ namespace KriptolojiOdev.Sifreleme.Class
             {
                 for (int c = 0; c < colCount; c++)
                 {
-                    if (index < metin.Length)
-                        grid[r, c] = metin[index++];
-                    else
-                        grid[r, c] = 'X';
+                    if (index < metin.Length) grid[r, c] = metin[index++];
+                    else grid[r, c] = 'X';
                 }
             }
 
@@ -165,13 +143,11 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             foreach (char c in key.ToUpper())
             {
-                if (!square.Contains(c) && alphabet.Contains(c))
-                    square += c;
+                if (!square.Contains(c) && alphabet.Contains(c)) square += c;
             }
             foreach (char c in alphabet)
             {
-                if (!square.Contains(c))
-                    square += c;
+                if (!square.Contains(c)) square += c;
             }
 
             StringBuilder cipherText = new StringBuilder();
@@ -179,9 +155,7 @@ namespace KriptolojiOdev.Sifreleme.Class
 
             foreach (char c in metin)
             {
-                if (!alphabet.Contains(c))
-                    continue;
-
+                if (!alphabet.Contains(c)) continue;
                 int index = square.IndexOf(c);
                 cipherText.Append(index / 5 + 1).Append(index % 5 + 1);
             }
@@ -205,15 +179,10 @@ namespace KriptolojiOdev.Sifreleme.Class
                 if (letters.Contains(c))
                 {
                     int idx = letters.IndexOf(c);
-                    if (!string.IsNullOrEmpty(key))
-                        idx = (idx + key.Length) % letters.Length;
-
+                    if (!string.IsNullOrEmpty(key)) idx = (idx + key.Length) % letters.Length;
                     cipherText.Append(symbols[idx]);
                 }
-                else
-                {
-                    cipherText.Append(c);
-                }
+                else cipherText.Append(c);
             }
             return cipherText.ToString();
         }
@@ -222,18 +191,12 @@ namespace KriptolojiOdev.Sifreleme.Class
         {
             metin = metin.ToUpper().Replace(" ", "");
             key = key.ToUpper().Replace(" ", "");
-
-            if (key.Length != 4)
-                throw new ArgumentException("Key uzunluğu 4 karakter olmalı");
+            if (key.Length != 4) throw new ArgumentException("Key uzunluğu 4 karakter olmalı");
 
             int[,] keyMatrix = new int[2, 2];
-            for (int i = 0; i < 4; i++)
-            {
-                keyMatrix[i / 2, i % 2] = key[i] - 'A';
-            }
+            for (int i = 0; i < 4; i++) keyMatrix[i / 2, i % 2] = key[i] - 'A';
 
-            if (metin.Length % 2 != 0)
-                metin += "X";
+            if (metin.Length % 2 != 0) metin += "X";
 
             StringBuilder cipherText = new StringBuilder();
             for (int i = 0; i < metin.Length; i += 2)
@@ -250,10 +213,8 @@ namespace KriptolojiOdev.Sifreleme.Class
 
         public string RotaEncrypt(string metin, string key)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentException("Key boş olamaz.");
-            if (!int.TryParse(key, out int shift))
-                throw new ArgumentException("Key sayı olmalıdır.");
+            if (string.IsNullOrEmpty(key)) throw new ArgumentException("Key boş olamaz.");
+            if (!int.TryParse(key, out int shift)) throw new ArgumentException("Key sayı olmalıdır.");
 
             StringBuilder sb = new StringBuilder();
             foreach (char c in metin)
@@ -264,10 +225,7 @@ namespace KriptolojiOdev.Sifreleme.Class
                     char enc = (char)(((c + shift - offset) % 26) + offset);
                     sb.Append(enc);
                 }
-                else
-                {
-                    sb.Append(c);
-                }
+                else sb.Append(c);
             }
             return sb.ToString();
         }
@@ -378,14 +336,87 @@ namespace KriptolojiOdev.Sifreleme.Class
                 {
                     byte[] inputBytes = Encoding.UTF8.GetBytes(metin);
                     byte[] encryptedBytes = encryptor.TransformFinalBlock(inputBytes, 0, inputBytes.Length);
-
                     byte[] resultWithIV = new byte[des.IV.Length + encryptedBytes.Length];
                     Array.Copy(des.IV, 0, resultWithIV, 0, des.IV.Length);
                     Array.Copy(encryptedBytes, 0, resultWithIV, des.IV.Length, encryptedBytes.Length);
-
                     return Convert.ToBase64String(resultWithIV);
                 }
             }
+        }
+
+        public string RsaEncrypt(string metin, string publicKeyXml)
+        {
+            try
+            {
+                byte[] dataToEncrypt = Encoding.UTF8.GetBytes(metin);
+                using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+                {
+                    rsa.FromXmlString(publicKeyXml);
+                    byte[] encryptedData = rsa.Encrypt(dataToEncrypt, false);
+                    return Convert.ToBase64String(encryptedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RSA Şifreleme Hatası: " + ex.Message);
+            }
+        }
+
+        public string ManuelDesEncrypt(string metin, string key, string iv = null)
+        {
+            if (string.IsNullOrEmpty(key) || key.Length != 8) throw new ArgumentException("Manuel DES için Key tam 8 karakter (64-bit) olmalıdır.");
+
+            byte[] inputBytes = Encoding.UTF8.GetBytes(metin);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] ivBytes;
+
+            if (!string.IsNullOrEmpty(iv) && iv.Length == 8) ivBytes = Encoding.UTF8.GetBytes(iv);
+            else ivBytes = new byte[8];
+
+            int blockSize = 8;
+            int padding = blockSize - (inputBytes.Length % blockSize);
+            byte[] paddedInput = new byte[inputBytes.Length + padding];
+            Array.Copy(inputBytes, paddedInput, inputBytes.Length);
+            for (int i = inputBytes.Length; i < paddedInput.Length; i++) paddedInput[i] = (byte)padding;
+
+            byte[] output = new byte[paddedInput.Length];
+            byte[] previousBlock = new byte[8];
+            Array.Copy(ivBytes, previousBlock, 8);
+
+            for (int i = 0; i < paddedInput.Length; i += blockSize)
+            {
+                byte[] block = new byte[8];
+                Array.Copy(paddedInput, i, block, 0, 8);
+
+                for (int j = 0; j < 8; j++) block[j] ^= previousBlock[j];
+
+                UInt32 L = BitConverter.ToUInt32(block, 0);
+                UInt32 R = BitConverter.ToUInt32(block, 4);
+                UInt64 key64 = BitConverter.ToUInt64(keyBytes, 0);
+
+                for (int round = 0; round < 16; round++)
+                {
+                    UInt32 temp = R;
+                    UInt32 subKey = (UInt32)((key64 >> ((round * 3) % 32)) & 0xFFFFFFFF);
+                    UInt32 fResult = (R ^ subKey);
+                    fResult = (fResult << 3) | (fResult >> 29);
+                    R = L ^ fResult;
+                    L = temp;
+                }
+
+                byte[] encBlock = new byte[8];
+                BitConverter.GetBytes(L).CopyTo(encBlock, 0);
+                BitConverter.GetBytes(R).CopyTo(encBlock, 4);
+
+                Array.Copy(encBlock, 0, output, i, 8);
+                Array.Copy(encBlock, previousBlock, 8);
+            }
+
+            byte[] finalResult = new byte[ivBytes.Length + output.Length];
+            Array.Copy(ivBytes, 0, finalResult, 0, ivBytes.Length);
+            Array.Copy(output, 0, finalResult, ivBytes.Length, output.Length);
+
+            return Convert.ToBase64String(finalResult);
         }
 
         private int GCD(int x, int y)
@@ -490,30 +521,5 @@ namespace KriptolojiOdev.Sifreleme.Class
             AesAddRoundKey(state, roundKeys[Nr]);
             return state;
         }
-        public string RsaEncrypt(string metin, string publicKeyXml)
-        {
-            try
-            {
-          
-                byte[] dataToEncrypt = Encoding.UTF8.GetBytes(metin);
-
-                using (System.Security.Cryptography.RSACryptoServiceProvider rsa = new System.Security.Cryptography.RSACryptoServiceProvider())
-                {
-
-                    rsa.FromXmlString(publicKeyXml);
-
-
-                    byte[] encryptedData = rsa.Encrypt(dataToEncrypt, false);
-
-        
-                    return Convert.ToBase64String(encryptedData);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("RSA Şifreleme Hatası: " + ex.Message);
-            }
-        }
     }
-
 }

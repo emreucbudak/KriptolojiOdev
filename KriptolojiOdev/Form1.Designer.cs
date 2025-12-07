@@ -155,7 +155,7 @@
             // 
             clientLog.Location = new Point(522, 13);
             clientLog.Name = "clientLog";
-            clientLog.Size = new Size(732, 611);
+            clientLog.Size = new Size(762, 664);
             clientLog.TabIndex = 12;
             clientLog.Text = "";
             // 
@@ -548,6 +548,7 @@
             button27.TabIndex = 26;
             button27.Text = "Manuel DES";
             button27.UseVisualStyleBackColor = true;
+            button27.Click += button27_Click;
             // 
             // button28
             // 
@@ -557,12 +558,13 @@
             button28.TabIndex = 21;
             button28.Text = "Manuel DES";
             button28.UseVisualStyleBackColor = true;
+            button28.Click += button28_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1287, 718);
+            ClientSize = new Size(1287, 682);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(clientLog);
