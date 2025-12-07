@@ -245,20 +245,6 @@ namespace KriptolojiOdev
                 MessageBox.Show("Hata: " + ex.Message);
             }
         }
-
-        private async void button26_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Lütfen RSA özel anahtarýnýzý giriniz.");
-            try
-            {
-                await SendMessageToServerAsync("Decrypt", "RSA", textBox4.Text, textBox5.Text, "");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hata: " + ex.Message);
-            }
-        }
-
         private void groupBox1_Enter(object sender, EventArgs e) { }
         private void label5_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
