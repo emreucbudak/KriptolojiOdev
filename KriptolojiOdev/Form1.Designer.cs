@@ -73,6 +73,8 @@
             label2 = new Label();
             textBox4 = new TextBox();
             label5 = new Label();
+            button27 = new Button();
+            button28 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -176,6 +178,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button27);
             groupBox1.Controls.Add(button25);
             groupBox1.Controls.Add(textBox7);
             groupBox1.Controls.Add(label7);
@@ -199,7 +202,7 @@
             groupBox1.Controls.Add(button3);
             groupBox1.Location = new Point(12, 13);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(471, 314);
+            groupBox1.Size = new Size(471, 329);
             groupBox1.TabIndex = 15;
             groupBox1.TabStop = false;
             groupBox1.Text = "Encrypt";
@@ -209,7 +212,7 @@
             // 
             button25.Location = new Point(356, 258);
             button25.Name = "button25";
-            button25.Size = new Size(94, 29);
+            button25.Size = new Size(99, 29);
             button25.TabIndex = 25;
             button25.Text = "RSA";
             button25.UseVisualStyleBackColor = true;
@@ -313,6 +316,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(button28);
             groupBox2.Controls.Add(button26);
             groupBox2.Controls.Add(textBox8);
             groupBox2.Controls.Add(label8);
@@ -334,9 +338,9 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(textBox4);
             groupBox2.Controls.Add(label5);
-            groupBox2.Location = new Point(12, 333);
+            groupBox2.Location = new Point(12, 348);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(471, 301);
+            groupBox2.Size = new Size(471, 329);
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
@@ -536,11 +540,29 @@
             label5.Text = "Metin :";
             label5.Click += label5_Click;
             // 
+            // button27
+            // 
+            button27.Location = new Point(35, 293);
+            button27.Name = "button27";
+            button27.Size = new Size(143, 29);
+            button27.TabIndex = 26;
+            button27.Text = "Manuel DES";
+            button27.UseVisualStyleBackColor = true;
+            // 
+            // button28
+            // 
+            button28.Location = new Point(28, 293);
+            button28.Name = "button28";
+            button28.Size = new Size(150, 29);
+            button28.TabIndex = 21;
+            button28.Text = "Manuel DES";
+            button28.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1287, 639);
+            ClientSize = new Size(1287, 718);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(clientLog);
@@ -600,5 +622,7 @@
         private Label label8;
         private Button button25;
         private Button button26;
+        private Button button27;
+        private Button button28;
     }
 }
