@@ -23,10 +23,12 @@
 
 ## ✨ Desteklenen Algoritmalar
 
-Proje, hem klasik hem de modern (Blok) şifreleme algoritmalarını desteklemektedir.
+Proje, klasik, modern (Blok) ve asimetrik şifreleme algoritmalarını desteklemektedir. Ayrıca eğitim amaçlı manuel implementasyonlar içerir.
 
 | Algoritma | Key / IV Durumu | Açıklama |
 | :--- | :---: | :--- |
+| **RSA Encryption** | 🔑 Public / Private Pair | **(YENİ)** Asimetrik şifreleme standardı. 2048-bit anahtar çifti kullanır. |
+| **Manuel DES (No-Lib)** | 🔑 Key + IV | **(YENİ)** Kütüphanesiz, eğitim amaçlı manuel implementasyon (Feistel Ağı / Bitwise işlemler). |
 | **AES Encryption** | 🔑 Key + Opsiyonel IV | Modern standart (Advanced Encryption Standard). 128-bit blok şifreleme. |
 | **DES Encryption** | 🔑 Key + Opsiyonel IV | Klasik standart (Data Encryption Standard). 64-bit blok şifreleme. |
 | **Vigenere Cipher** | 🔑 Key Var | Key sadece harflerden oluşmalıdır (A-Z). |
@@ -44,11 +46,12 @@ Proje, hem klasik hem de modern (Blok) şifreleme algoritmalarını desteklemekt
 
 ## ⚡ Nasıl Kullanılır?
 
-1.  **Metin Girişi:** Şifrelenmesi veya çözülmesi istenen metni ilgili kutuya girin.
-2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa geçerli bir key girin.
-3.  **Opsiyonel IV (AES/DES):** AES veya DES seçerseniz, dilerseniz özel bir IV (Initialization Vector) girebilirsiniz. Boş bırakırsanız sistem otomatik güvenli bir IV üretir.
-4.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
-5.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
+1.  **Metin Girişi:** Şifrelenmesi veya çözülmesi istenen metni ilgili kutuya girin.
+2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa geçerli bir key girin.
+    * *Not: RSA seçerseniz sistem otomatik olarak Public/Private anahtar çifti oluşturur.*
+3.  **Opsiyonel IV (AES/DES):** AES veya DES seçerseniz, dilerseniz özel bir IV (Initialization Vector) girebilirsiniz. Boş bırakırsanız sistem otomatik güvenli bir IV üretir.
+4.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
+5.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
 
 ---
 
@@ -72,7 +75,7 @@ Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
 <br>
 
 **Caesar, Polybius vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="800" src="<img width="1287" height="681" alt="image" src="https://github.com/user-attachments/assets/8fa531f9-edab-49d5-918b-b0e64d5da811" />
+<img width="800" src="https://github.com/user-attachments/assets/8fa531f9-edab-49d5-918b-b0e64d5da811" />
 </details>
 
 <details>
@@ -80,7 +83,7 @@ Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
 <br>
 
 **Vigenere, Hill, Rota vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="1282" height="673" alt="image" src="https://github.com/user-attachments/assets/2b4070a3-5ec0-4a4c-91f3-aaeb00c0aa43" />
+<img width="1282" height="673" src="https://github.com/user-attachments/assets/2b4070a3-5ec0-4a4c-91f3-aaeb00c0aa43" />
 </details>
 
 ---
