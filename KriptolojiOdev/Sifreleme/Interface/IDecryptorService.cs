@@ -20,5 +20,6 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string TrenRayiDecrypt (string metin, string key);
         string AesDecrypt(string metin, string key, string iv = null);
         string DesDecrypt(string metin, string key, string iv = null);
+        string RsaDecrypt(string metin, string privateKeyXml);
     }
 }

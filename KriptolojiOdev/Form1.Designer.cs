@@ -40,6 +40,7 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            button25 = new Button();
             textBox7 = new TextBox();
             label7 = new Label();
             button22 = new Button();
@@ -51,6 +52,7 @@
             button10 = new Button();
             button9 = new Button();
             groupBox2 = new GroupBox();
+            button26 = new Button();
             textBox8 = new TextBox();
             label8 = new Label();
             button24 = new Button();
@@ -174,6 +176,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button25);
             groupBox1.Controls.Add(textBox7);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(button22);
@@ -201,6 +204,16 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // button25
+            // 
+            button25.Location = new Point(356, 258);
+            button25.Name = "button25";
+            button25.Size = new Size(94, 29);
+            button25.TabIndex = 25;
+            button25.Text = "RSA";
+            button25.UseVisualStyleBackColor = true;
+            button25.Click += button25_Click;
             // 
             // textBox7
             // 
@@ -300,6 +313,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(button26);
             groupBox2.Controls.Add(textBox8);
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(button24);
@@ -322,10 +336,20 @@
             groupBox2.Controls.Add(label5);
             groupBox2.Location = new Point(12, 333);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(471, 291);
+            groupBox2.Size = new Size(471, 301);
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Decrypt";
+            // 
+            // button26
+            // 
+            button26.Location = new Point(361, 258);
+            button26.Name = "button26";
+            button26.Size = new Size(94, 29);
+            button26.TabIndex = 20;
+            button26.Text = "RSA";
+            button26.UseVisualStyleBackColor = true;
+            button26.Click += button26_Click_1;
             // 
             // textBox8
             // 
@@ -574,5 +598,7 @@
         private Label label7;
         private TextBox textBox8;
         private Label label8;
+        private Button button25;
+        private Button button26;
     }
 }
