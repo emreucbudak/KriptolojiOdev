@@ -27,8 +27,8 @@ Proje, klasik, modern (Blok) ve asimetrik şifreleme algoritmalarını desteklem
 
 | Algoritma | Key / IV Durumu | Açıklama |
 | :--- | :---: | :--- |
-| **RSA Encryption** | 🔑 Public / Private Pair | **(YENİ)** Asimetrik şifreleme standardı. 2048-bit anahtar çifti kullanır. |
-| **Manuel DES (No-Lib)** | 🔑 Key + IV | **(YENİ)** Kütüphanesiz, eğitim amaçlı manuel implementasyon (Feistel Ağı / Bitwise işlemler). |
+| **RSA Encryption** | 🔑 Public / Private Pair |  Asimetrik şifreleme standardı. 2048-bit anahtar çifti kullanır. |
+| **Manuel DES (No-Lib)** | 🔑 Key + IV | Kütüphanesiz, eğitim amaçlı manuel implementasyon (Feistel Ağı / Bitwise işlemler). |
 | **AES Encryption** | 🔑 Key + Opsiyonel IV | Modern standart (Advanced Encryption Standard). 128-bit blok şifreleme. |
 | **DES Encryption** | 🔑 Key + Opsiyonel IV | Klasik standart (Data Encryption Standard). 64-bit blok şifreleme. |
 | **Vigenere Cipher** | 🔑 Key Var | Key sadece harflerden oluşmalıdır (A-Z). |
