@@ -15,10 +15,14 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string ColumnarEncrypt(string metin, string key);
         string PolybiusEncrypt(string metin, string key);
         string PigpenEncrypt(string metin, string key);
-        string HillEncrypt (string metin, string key);
+        string HillEncrypt(string metin, string key);
         string RotaEncrypt(string metin, string key);
         string TrenRayiEncrypt(string metin, string key);
         string AesEncrypt(string metin, string key, string iv = null);
         string DesEncrypt(string metin, string key, string iv = null);
+
+        // --- YENİ EKLENEN KISIM ---
+        // RSA Şifreleme (Parametre olarak Public Key alır)
+        string RsaEncrypt(string metin, string publicKeyXml);
     }
 }
