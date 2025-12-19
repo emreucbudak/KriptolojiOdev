@@ -52,13 +52,14 @@
             textBox3 = new TextBox();
             textBox4 = new TextBox();
             label5 = new Label();
+            textBox5 = new TextBox();
             SuspendLayout();
             // 
             // serverLog
             // 
             serverLog.Location = new Point(367, 12);
             serverLog.Name = "serverLog";
-            serverLog.Size = new Size(775, 477);
+            serverLog.Size = new Size(775, 509);
             serverLog.TabIndex = 0;
             serverLog.Text = "";
             // 
@@ -276,11 +277,19 @@
             label5.TabIndex = 23;
             label5.Text = "Public Key (RSA ICIN)";
             // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(310, 47);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(125, 27);
+            textBox5.TabIndex = 24;
+            // 
             // SunucuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1154, 528);
+            Controls.Add(textBox5);
             Controls.Add(label5);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
@@ -338,5 +347,6 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private Label label5;
+        private TextBox textBox5;
     }
 }

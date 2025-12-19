@@ -15,7 +15,7 @@ namespace KriptolojiOdev
             ApplicationConfiguration.Initialize(); // Önce yapýlandýrmayý baþlat
 
             SunucuForm serverForm = new SunucuForm();
-            Form1 clientForm = new Form1(serverForm);
+            Form1 clientForm = new Form1();
 
             serverForm.Show();
             clientForm.Show();
