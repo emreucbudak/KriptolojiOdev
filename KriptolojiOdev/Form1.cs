@@ -13,6 +13,7 @@ namespace KriptolojiOdev
         private IConnectionService connectionService = new ConnectionService();
         private ITransportSecurityService transportService = new TransportSecurityService();
         private IEncryptorService encryptorService = new EncryptorService();
+        private IDecryptorService decryptorService = new DecryptorService();
         private SunucuForm serverForm;
         private TcpClient _activeClient;
         private NetworkStream _activeStream;
@@ -36,9 +37,45 @@ namespace KriptolojiOdev
                         string incoming = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         this.Invoke((MethodInvoker)(() =>
                         {
-                            clientLog.AppendText($"[SUNUCUDAN]: {incoming}{Environment.NewLine}");
+                            MesajCozVeLogla(incoming);
                         }));
                     }
+                }
+            }
+            catch { }
+        }
+
+        private void MesajCozVeLogla(string paket)
+        {
+            try
+            {
+                var parcalar = paket.Split('|');
+                if (parcalar.Length < 4 || parcalar[0] != "CLIENT") return;
+
+                string islemTipi = parcalar[1];
+                string algoritma = parcalar[2].ToUpperInvariant();
+                string sifreliMetin = transportService.Decrypt(parcalar[3]);
+                string gelenKey = parcalar.Length > 4 ? transportService.Decrypt(parcalar[4]) : "";
+                string iv = parcalar.Length > 5 ? transportService.Decrypt(parcalar[5]) : "";
+
+                string gercekKey = gelenKey;
+                if (!string.IsNullOrEmpty(gelenKey) && (algoritma == "AES" || algoritma == "DES" || algoritma == "MANUEL_DES"))
+                {
+                    try { gercekKey = decryptorService.RsaDecrypt(gelenKey, textBox4.Text); } catch { }
+                }
+
+                string sonuc = decryptorService.DecryptByAlgorithm(algoritma, sifreliMetin, gercekKey, iv);
+
+                if (islemTipi == "Response")
+                {
+                    clientLog.AppendText($"[CEVAP]: {sonuc}{Environment.NewLine}");
+                }
+                else
+                {
+                    clientLog.SelectionColor = Color.Blue;
+                    clientLog.AppendText($"[SUNUCUDAN YENÝ MESAJ!]{Environment.NewLine}");
+                    clientLog.SelectionColor = Color.Black;
+                    clientLog.AppendText($"Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
                 }
             }
             catch { }
@@ -52,8 +89,6 @@ namespace KriptolojiOdev
                 {
                     var (info, client) = await connectionService.ConnectToServer();
                     _activeClient = client;
-                    clientLog.AppendText(info);
-
                     if (_activeClient != null)
                     {
                         _activeStream = _activeClient.GetStream();
@@ -66,13 +101,9 @@ namespace KriptolojiOdev
                 string finalKey = key;
                 string algoUpper = algorithm.ToUpperInvariant();
 
-                if (algoUpper == "AES" || algoUpper == "DES" || algoUpper == "MANUEL_DES" || algoUpper == "RSA")
+                if (!string.IsNullOrEmpty(key) && (algoUpper == "AES" || algoUpper == "DES" || algoUpper == "MANUEL_DES" || algoUpper == "RSA"))
                 {
-                    string targetPubKey = textBox1.Text;
-                    if (!string.IsNullOrEmpty(targetPubKey) && !string.IsNullOrEmpty(key))
-                    {
-                        finalKey = encryptorService.RsaEncrypt(key, targetPubKey);
-                    }
+                    if (!string.IsNullOrEmpty(textBox1.Text)) finalKey = encryptorService.RsaEncrypt(key, textBox1.Text);
                 }
 
                 string securedText = transportService.Encrypt(text);
@@ -83,29 +114,17 @@ namespace KriptolojiOdev
                 byte[] data = Encoding.UTF8.GetBytes(msg);
                 await _activeStream.WriteAsync(data, 0, data.Length);
 
-                serverForm.MesajYaz(msg);
-                clientLog.AppendText($"Gönderildi: {algoUpper}{Environment.NewLine}");
+                clientLog.AppendText($"[GÖNDERÝLDÝ]: {algoUpper}{Environment.NewLine}");
             }
-            catch (Exception ex)
-            {
-                clientLog.AppendText($"Hata: {ex.Message}{Environment.NewLine}");
-            }
+            catch (Exception ex) { clientLog.AppendText($"Hata: {ex.Message}{Environment.NewLine}"); }
         }
 
         public async Task SendRawMessageAsync(string rawMessage)
         {
-            try
+            if (_activeClient != null && _activeClient.Connected)
             {
-                if (_activeClient != null && _activeClient.Connected)
-                {
-                    byte[] data = Encoding.UTF8.GetBytes(rawMessage);
-                    await _activeStream.WriteAsync(data, 0, data.Length);
-                    clientLog.AppendText($"[SÝZ]: {rawMessage}{Environment.NewLine}");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                byte[] data = Encoding.UTF8.GetBytes(rawMessage);
+                await _activeStream.WriteAsync(data, 0, data.Length);
             }
         }
 
@@ -119,23 +138,9 @@ namespace KriptolojiOdev
         }
 
         private async void button2_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "CAESAR", textBox2.Text);
-
-        private async void button4_Click(object sender, EventArgs e)
-        {
-            string key = textBox3.Text.ToUpper();
-            if (key.Length != 26) return;
-            await SendMessageToServerAsync("Encrypt", "SUBSTITUTION", textBox2.Text, key);
-        }
-
+        private async void button4_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "SUBSTITUTION", textBox2.Text, textBox3.Text);
         private async void button5_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AFFINE", textBox2.Text);
-
-        private async void button3_Click(object sender, EventArgs e)
-        {
-            string key = textBox3.Text.ToUpper();
-            if (string.IsNullOrWhiteSpace(key)) return;
-            await SendMessageToServerAsync("Encrypt", "VIGENERE", textBox2.Text, key);
-        }
-
+        private async void button3_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "VIGENERE", textBox2.Text, textBox3.Text);
         private async void button9_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "ROTA", textBox2.Text, textBox3.Text);
         private async void button10_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "COLUMNAR", textBox2.Text, textBox3.Text);
         private async void button11_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "POLYBIUS", textBox2.Text, textBox3.Text);
@@ -163,8 +168,13 @@ namespace KriptolojiOdev
             if (textBox3.Text.Length != 8) return;
             await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, textBox3.Text, textBox7.Text);
         }
+        private async void label1_Click(object sender, EventArgs e)
+        {
 
-        private void label1_Click(object sender, EventArgs e) { }
-        private void groupBox1_Enter(object sender, EventArgs e) { }
+        }
+        private async void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

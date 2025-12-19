@@ -47,29 +47,21 @@ namespace KriptolojiOdev
             try
             {
                 var parcalar = paket.Split('|');
-                if (parcalar.Length < 5)
-                {
-                    serverLog.AppendText($"[SİSTEM]: {paket}{Environment.NewLine}");
-                    return;
-                }
+                if (parcalar.Length < 5) return;
 
                 string hedef = parcalar[0];
                 string algoritma = parcalar[1];
-                string sifreliHali = parcalar[2];
-                string cozulunKey = parcalar[3];
+                string sifreliMetin = parcalar[2];
+                string anahtar = parcalar[3];
                 string sonuc = parcalar[4];
 
                 serverLog.SelectionColor = Color.Blue;
-                serverLog.AppendText($"[{hedef}] {algoritma} İşlemi Alındı.{Environment.NewLine}");
-                serverLog.SelectionColor = Color.Red;
-                serverLog.AppendText($"Gelen Şifre: {sifreliHali}{Environment.NewLine}");
-                serverLog.SelectionColor = Color.Green;
-                serverLog.AppendText($"Çözülen Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
+                serverLog.AppendText($"[İSTEMCİDEN YENİ MESAJ!]{Environment.NewLine}");
+                serverLog.SelectionColor = Color.Black;
+                serverLog.AppendText($"Yöntem: {algoritma}{Environment.NewLine}");
+                serverLog.AppendText($"Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
             }
-            catch (Exception ex)
-            {
-                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
-            }
+            catch { }
         }
 
         private async Task SendToClientAsync(string algorithm, string text, string key = "", string iv = "")
@@ -77,19 +69,20 @@ namespace KriptolojiOdev
             try
             {
                 string clientPubKey = textBox4.Text;
-                string encryptedKey = key;
+                string finalKeyForPacket = key;
 
-                if (!string.IsNullOrEmpty(clientPubKey) && !string.IsNullOrEmpty(key))
+                if (!string.IsNullOrEmpty(clientPubKey) && !string.IsNullOrEmpty(key) &&
+                   (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {
-                    encryptedKey = encryptorService.RsaEncrypt(key, clientPubKey);
+                    finalKeyForPacket = encryptorService.RsaEncrypt(key, clientPubKey);
                 }
 
-                connectionService.Broadcast("CLIENT", "Encrypt", algorithm, text, encryptedKey, iv);
-                serverLog.AppendText($"[SUNUCU -> CLIENT]: {algorithm} paketi gönderildi." + Environment.NewLine);
+                connectionService.Broadcast("CLIENT", "Encrypt", algorithm, text, finalKeyForPacket, iv);
+                serverLog.AppendText($"[GÖNDERİLDİ]: {algorithm}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gönderim Hatası: " + ex.Message);
+                MessageBox.Show("Hata: " + ex.Message);
             }
         }
 
@@ -112,7 +105,9 @@ namespace KriptolojiOdev
         private async void button12_Click(object sender, EventArgs e) => await SendToClientAsync("AES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
+        private async void SunucuForm_Load(object sender, EventArgs e)
+        {
 
-        private void SunucuForm_Load(object sender, EventArgs e) { }
+        }
     }
 }
