@@ -12,6 +12,7 @@ namespace KriptolojiOdev
     {
         private IConnectionService connectionService = new ConnectionService();
         private ITransportSecurityService transportService = new TransportSecurityService();
+        private IEncryptorService encryptorService = new EncryptorService();
         private SunucuForm serverForm;
         private TcpClient _activeClient;
         private NetworkStream _activeStream;
@@ -24,7 +25,7 @@ namespace KriptolojiOdev
 
         private async Task StartListeningAsync()
         {
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[8192];
             try
             {
                 while (_activeClient != null && _activeClient.Connected)
@@ -62,16 +63,29 @@ namespace KriptolojiOdev
 
                 if (_activeClient == null) return;
 
+                string finalKey = key;
+                string algoUpper = algorithm.ToUpperInvariant();
+
+                if (algoUpper == "AES" || algoUpper == "DES" || algoUpper == "MANUEL_DES" || algoUpper == "RSA")
+                {
+                    string targetPubKey = txtTargetPubKey.Text;
+                    if (!string.IsNullOrEmpty(targetPubKey) && !string.IsNullOrEmpty(key))
+                    {
+                        byte[] encKeyBytes = encryptorService.RsaEncrypt(Encoding.UTF8.GetBytes(key), targetPubKey);
+                        finalKey = Convert.ToBase64String(encKeyBytes);
+                    }
+                }
+
                 string securedText = transportService.Encrypt(text);
-                string securedKey = string.IsNullOrEmpty(key) ? "" : transportService.Encrypt(key);
+                string securedKey = string.IsNullOrEmpty(finalKey) ? "" : transportService.Encrypt(finalKey);
                 string securedIV = string.IsNullOrEmpty(iv) ? "" : transportService.Encrypt(iv);
 
-                string msg = $"SUNUCU|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
+                string msg = $"SUNUCU|{operation}|{algoUpper}|{securedText}|{securedKey}|{securedIV}";
                 byte[] data = Encoding.UTF8.GetBytes(msg);
                 await _activeStream.WriteAsync(data, 0, data.Length);
 
                 serverForm.MesajYaz(msg);
-                clientLog.AppendText($"Gönderilen: {msg}{Environment.NewLine}");
+                clientLog.AppendText($"Gönderildi: {algoUpper}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
@@ -110,24 +124,24 @@ namespace KriptolojiOdev
         private async void button4_Click(object sender, EventArgs e)
         {
             string key = textBox3.Text.ToUpper();
-            if (key.Length != 26 || key.Distinct().Count() != 26) return;
-            await SendMessageToServerAsync("Encrypt", "SUBSTÝTÝUÝON", textBox2.Text, key);
+            if (key.Length != 26) return;
+            await SendMessageToServerAsync("Encrypt", "SUBSTITUTION", textBox2.Text, key);
         }
 
-        private async void button5_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AFFÝNE", textBox2.Text);
+        private async void button5_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AFFINE", textBox2.Text);
 
         private async void button3_Click(object sender, EventArgs e)
         {
             string key = textBox3.Text.ToUpper();
             if (string.IsNullOrWhiteSpace(key)) return;
-            await SendMessageToServerAsync("Encrypt", "VÝGENERE", textBox2.Text, key);
+            await SendMessageToServerAsync("Encrypt", "VIGENERE", textBox2.Text, key);
         }
 
         private async void button9_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "ROTA", textBox2.Text, textBox3.Text);
         private async void button10_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "COLUMNAR", textBox2.Text, textBox3.Text);
-        private async void button11_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "POLYBÝUS", textBox2.Text, textBox3.Text);
-        private async void button12_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "PÝGPEN", textBox2.Text, textBox3.Text);
-        private async void button13_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "HÝLL", textBox2.Text, textBox3.Text);
+        private async void button11_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "POLYBIUS", textBox2.Text, textBox3.Text);
+        private async void button12_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "PIGPEN", textBox2.Text, textBox3.Text);
+        private async void button13_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "HILL", textBox2.Text, textBox3.Text);
         private async void button19_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "TRENRAYI", textBox2.Text, textBox3.Text);
         private async void button21_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AES", textBox2.Text, textBox3.Text, textBox7.Text);
         private async void button22_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "DES", textBox2.Text, textBox3.Text, textBox7.Text);
@@ -135,13 +149,13 @@ namespace KriptolojiOdev
         private async void button25_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox2.Text)) return;
-            if (string.IsNullOrEmpty(textBox3.Text))
+            if (string.IsNullOrEmpty(txtTargetPubKey.Text))
             {
                 string pub, priv;
                 RsaAnahtarUret(out pub, out priv);
-                textBox3.Text = pub;
+                txtTargetPubKey.Text = pub;
             }
-            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, textBox3.Text, "");
+            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, txtTargetPubKey.Text, "");
         }
 
         private async void button27_Click(object sender, EventArgs e)

@@ -19,6 +19,11 @@ namespace KriptolojiOdev
             InitializeComponent();
             RsaAnahtarUret();
 
+            if (connectionService is ConnectionService cs)
+            {
+                cs.ServerPrivateKey = serverPrivateKey;
+            }
+
             connectionService.OnMessage = (msg) =>
             {
                 this.Invoke((MethodInvoker)(() =>
@@ -42,25 +47,28 @@ namespace KriptolojiOdev
             try
             {
                 var parcalar = paket.Split('|');
-                if (parcalar.Length < 4)
+                if (parcalar.Length < 5)
                 {
-                    serverLog.AppendText(paket + Environment.NewLine);
+                    serverLog.AppendText($"[SİSTEM]: {paket}{Environment.NewLine}");
                     return;
                 }
 
                 string hedef = parcalar[0];
-                string islem = parcalar[1];
-                string algoritma = parcalar[2];
-                string sifreliMetin = parcalar[3];
+                string algoritma = parcalar[1];
+                string sifreliHali = parcalar[2];
+                string cozulunKey = parcalar[3];
+                string sonuc = parcalar[4];
 
                 serverLog.SelectionColor = Color.Blue;
-                serverLog.AppendText($"[{hedef}] {algoritma} işlemi yapıldı." + Environment.NewLine);
-                serverLog.SelectionColor = Color.Black;
-                serverLog.AppendText($"Ham Paket: {paket}" + Environment.NewLine + "---" + Environment.NewLine);
+                serverLog.AppendText($"[{hedef}] {algoritma} İşlemi Alındı.{Environment.NewLine}");
+                serverLog.SelectionColor = Color.Red;
+                serverLog.AppendText($"Gelen Şifre: {sifreliHali}{Environment.NewLine}");
+                serverLog.SelectionColor = Color.Green;
+                serverLog.AppendText($"Çözülen Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                serverLog.AppendText("Görüntüleme Hatası: " + ex.Message + Environment.NewLine);
+                serverLog.AppendText("Hata: " + ex.Message + Environment.NewLine);
             }
         }
 
@@ -68,13 +76,12 @@ namespace KriptolojiOdev
         {
             try
             {
-                string clientPubKey = txtClientPubKey.Text;
+                string clientPubKey = textBox4.Text;
                 string encryptedKey = key;
 
                 if (!string.IsNullOrEmpty(clientPubKey) && !string.IsNullOrEmpty(key))
                 {
-                    byte[] rsaBytes = encryptorService.RSAEncrypt(Encoding.UTF8.GetBytes(key), clientPubKey);
-                    encryptedKey = Convert.ToBase64String(rsaBytes);
+                    encryptedKey = encryptorService.RsaEncrypt(key, clientPubKey);
                 }
 
                 connectionService.Broadcast("CLIENT", "Encrypt", algorithm, text, encryptedKey, iv);
@@ -89,22 +96,22 @@ namespace KriptolojiOdev
         private void button1_Click(object sender, EventArgs e)
         {
             serverLog.AppendText(connectionService.StartServer());
-            txtServerPublicKey.Text = serverPublicKey;
+            textBox4.Text = serverPublicKey;
         }
 
-        private async void button2_Click(object sender, EventArgs e) => await SendToClientAsync("CAESAR", txtInput.Text, txtKey.Text);
-        private async void button3_Click(object sender, EventArgs e) => await SendToClientAsync("VİGENERE", txtInput.Text, txtKey.Text);
-        private async void button4_Click(object sender, EventArgs e) => await SendToClientAsync("SUBSTİTİUİON", txtInput.Text, txtKey.Text);
-        private async void button5_Click(object sender, EventArgs e) => await SendToClientAsync("AFFİNE", txtInput.Text, txtKey.Text);
-        private async void button6_Click(object sender, EventArgs e) => await SendToClientAsync("ROTA", txtInput.Text, txtKey.Text);
-        private async void button7_Click(object sender, EventArgs e) => await SendToClientAsync("COLUMNAR", txtInput.Text, txtKey.Text);
-        private async void button8_Click(object sender, EventArgs e) => await SendToClientAsync("POLYBİUS", txtInput.Text, txtKey.Text);
-        private async void button9_Click(object sender, EventArgs e) => await SendToClientAsync("PİGPEN", txtInput.Text, txtKey.Text);
-        private async void button10_Click(object sender, EventArgs e) => await SendToClientAsync("HİLL", txtInput.Text, txtKey.Text);
-        private async void button11_Click(object sender, EventArgs e) => await SendToClientAsync("TRENRAYI", txtInput.Text, txtKey.Text);
-        private async void button12_Click(object sender, EventArgs e) => await SendToClientAsync("AES", txtInput.Text, txtKey.Text, txtIv.Text);
-        private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", txtInput.Text, txtKey.Text, txtIv.Text);
-        private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", txtInput.Text, txtKey.Text, txtIv.Text);
+        private async void button2_Click(object sender, EventArgs e) => await SendToClientAsync("CAESAR", textBox1.Text, textBox2.Text);
+        private async void button3_Click(object sender, EventArgs e) => await SendToClientAsync("VIGENERE", textBox1.Text, textBox2.Text);
+        private async void button4_Click(object sender, EventArgs e) => await SendToClientAsync("SUBSTITUTION", textBox1.Text, textBox2.Text);
+        private async void button5_Click(object sender, EventArgs e) => await SendToClientAsync("AFFINE", textBox1.Text, textBox2.Text);
+        private async void button6_Click(object sender, EventArgs e) => await SendToClientAsync("ROTA", textBox1.Text, textBox2.Text);
+        private async void button7_Click(object sender, EventArgs e) => await SendToClientAsync("COLUMNAR", textBox1.Text, textBox2.Text);
+        private async void button8_Click(object sender, EventArgs e) => await SendToClientAsync("POLYBIUS", textBox1.Text, textBox2.Text);
+        private async void button9_Click(object sender, EventArgs e) => await SendToClientAsync("PIGPEN", textBox1.Text, textBox2.Text);
+        private async void button10_Click(object sender, EventArgs e) => await SendToClientAsync("HILL", textBox1.Text, textBox2.Text);
+        private async void button11_Click(object sender, EventArgs e) => await SendToClientAsync("TRENRAYI", textBox1.Text, textBox2.Text);
+        private async void button12_Click(object sender, EventArgs e) => await SendToClientAsync("AES", textBox1.Text, textBox2.Text, textBox3.Text);
+        private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", textBox1.Text, textBox2.Text, textBox3.Text);
+        private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
 
         private void SunucuForm_Load(object sender, EventArgs e) { }
     }
