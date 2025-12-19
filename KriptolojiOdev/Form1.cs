@@ -68,11 +68,10 @@ namespace KriptolojiOdev
 
                 if (algoUpper == "AES" || algoUpper == "DES" || algoUpper == "MANUEL_DES" || algoUpper == "RSA")
                 {
-                    string targetPubKey = txtTargetPubKey.Text;
+                    string targetPubKey = textBox1.Text;
                     if (!string.IsNullOrEmpty(targetPubKey) && !string.IsNullOrEmpty(key))
                     {
-                        byte[] encKeyBytes = encryptorService.RsaEncrypt(Encoding.UTF8.GetBytes(key), targetPubKey);
-                        finalKey = Convert.ToBase64String(encKeyBytes);
+                        finalKey = encryptorService.RsaEncrypt(key, targetPubKey);
                     }
                 }
 
@@ -149,13 +148,14 @@ namespace KriptolojiOdev
         private async void button25_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox2.Text)) return;
-            if (string.IsNullOrEmpty(txtTargetPubKey.Text))
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
                 string pub, priv;
                 RsaAnahtarUret(out pub, out priv);
-                txtTargetPubKey.Text = pub;
+                textBox1.Text = pub;
+                textBox4.Text = priv;
             }
-            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, txtTargetPubKey.Text, "");
+            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, textBox1.Text, "");
         }
 
         private async void button27_Click(object sender, EventArgs e)
