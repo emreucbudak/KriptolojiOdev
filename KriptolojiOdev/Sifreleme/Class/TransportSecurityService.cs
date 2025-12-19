@@ -8,7 +8,7 @@ namespace KriptolojiOdev.Sifreleme.Class
     public class TransportSecurityService : ITransportSecurityService
     {
         private readonly string TunnelKey = "X7kP9mL2nQ5wE1rT4yU8iO";
-
+        
         private string XorCipher(string input)
         {
             StringBuilder sb = new StringBuilder();
