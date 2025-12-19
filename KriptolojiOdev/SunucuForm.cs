@@ -40,7 +40,7 @@ namespace KriptolojiOdev
             }
         }
 
- 
+
         public void MesajYaz(string paket)
         {
             try
@@ -147,5 +147,10 @@ namespace KriptolojiOdev
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
 
         private void SunucuForm_Load(object sender, EventArgs e) { }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
