@@ -186,12 +186,25 @@ namespace KriptolojiOdev.Sifreleme.Class
             using (Aes aes = Aes.Create())
             {
                 aes.Key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(key));
-                aes.IV = new byte[16];
-                if (!string.IsNullOrEmpty(iv)) Array.Copy(Encoding.UTF8.GetBytes(iv), aes.IV, Math.Min(iv.Length, 16));
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                byte[] fullData = Convert.FromBase64String(metin);
+
+                if (fullData.Length < 16) return "Hata: Veri çok kısa!";
+
+                byte[] extractedIv = new byte[16];
+                byte[] cipherText = new byte[fullData.Length - 16];
+
+                Array.Copy(fullData, 0, extractedIv, 0, 16);
+                Array.Copy(fullData, 16, cipherText, 0, cipherText.Length);
+
+                aes.IV = extractedIv;
+
                 using (var dec = aes.CreateDecryptor())
                 {
-                    byte[] data = Convert.FromBase64String(metin);
-                    return Encoding.UTF8.GetString(dec.TransformFinalBlock(data, 0, data.Length));
+                    byte[] decryptedBytes = dec.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                    return Encoding.UTF8.GetString(decryptedBytes);
                 }
             }
         }
@@ -201,12 +214,22 @@ namespace KriptolojiOdev.Sifreleme.Class
             using (DES des = DES.Create())
             {
                 des.Key = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(key)).Take(8).ToArray();
-                des.IV = new byte[8];
-                if (!string.IsNullOrEmpty(iv)) Array.Copy(Encoding.UTF8.GetBytes(iv), des.IV, Math.Min(iv.Length, 8));
+                des.Mode = CipherMode.CBC;
+                des.Padding = PaddingMode.PKCS7;
+
+                byte[] fullData = Convert.FromBase64String(metin);
+
+                byte[] extractedIv = new byte[8];
+                byte[] cipherText = new byte[fullData.Length - 8];
+
+                Array.Copy(fullData, 0, extractedIv, 0, 8);
+                Array.Copy(fullData, 8, cipherText, 0, cipherText.Length);
+
+                des.IV = extractedIv;
+
                 using (var dec = des.CreateDecryptor())
                 {
-                    byte[] data = Convert.FromBase64String(metin);
-                    return Encoding.UTF8.GetString(dec.TransformFinalBlock(data, 0, data.Length));
+                    return Encoding.UTF8.GetString(dec.TransformFinalBlock(cipherText, 0, cipherText.Length));
                 }
             }
         }
@@ -221,7 +244,64 @@ namespace KriptolojiOdev.Sifreleme.Class
             }
         }
 
-        public string ManuelDesDecrypt(string metin, string key, string iv = null) => DesDecrypt(metin, key, iv);
+        public string ManuelDesDecrypt(string metin, string key, string iv = null)
+        {
+            if (string.IsNullOrEmpty(key) || key.Length != 8) throw new ArgumentException("Key 8 karakter olmalı.");
+
+            byte[] fullData = Convert.FromBase64String(metin);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+
+            byte[] ivBytes = new byte[8];
+            byte[] cipherText = new byte[fullData.Length - 8];
+            Array.Copy(fullData, 0, ivBytes, 0, 8);
+            Array.Copy(fullData, 8, cipherText, 0, cipherText.Length);
+
+            byte[] output = new byte[cipherText.Length];
+            byte[] previousBlock = new byte[8];
+            Array.Copy(ivBytes, previousBlock, 8);
+
+            for (int i = 0; i < cipherText.Length; i += 8)
+            {
+                byte[] currentBlock = new byte[8];
+                Array.Copy(cipherText, i, currentBlock, 0, 8);
+                byte[] originalBlock = (byte[])currentBlock.Clone();
+
+                UInt32 L = BitConverter.ToUInt32(currentBlock, 0);
+                UInt32 R = BitConverter.ToUInt32(currentBlock, 4);
+                UInt64 key64 = BitConverter.ToUInt64(keyBytes, 0);
+
+                for (int round = 15; round >= 0; round--)
+                {
+                    UInt32 temp = L;
+                    UInt32 subKey = (UInt32)((key64 >> ((round * 3) % 32)) & 0xFFFFFFFF);
+
+                    UInt32 fResult = (L ^ subKey);
+                    fResult = (fResult << 3) | (fResult >> 29);
+
+                    L = R ^ fResult;
+                    R = temp;
+                }
+
+                byte[] decryptedBlock = new byte[8];
+                BitConverter.GetBytes(L).CopyTo(decryptedBlock, 0);
+                BitConverter.GetBytes(R).CopyTo(decryptedBlock, 4);
+
+                for (int j = 0; j < 8; j++) decryptedBlock[j] ^= previousBlock[j];
+
+                Array.Copy(decryptedBlock, 0, output, i, 8);
+                Array.Copy(originalBlock, previousBlock, 8);
+            }
+
+            int paddingCount = output[output.Length - 1];
+            if (paddingCount > 0 && paddingCount <= 8)
+            {
+                byte[] result = new byte[output.Length - paddingCount];
+                Array.Copy(output, result, result.Length);
+                return Encoding.UTF8.GetString(result);
+            }
+
+            return Encoding.UTF8.GetString(output);
+        }
 
         public string DecryptByAlgorithm(string algorithm, string text, string key, string iv)
         {

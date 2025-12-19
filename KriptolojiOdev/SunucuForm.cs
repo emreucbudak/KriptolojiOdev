@@ -40,7 +40,6 @@ namespace KriptolojiOdev
             }
         }
 
-
         public void MesajYaz(string paket)
         {
             try
@@ -66,7 +65,6 @@ namespace KriptolojiOdev
                 serverLog.AppendText("[CLIENT'TAN MESAJ]\n");
                 serverLog.SelectionColor = Color.Black;
                 serverLog.AppendText($"Mesaj: {algoritma}\n");
-
                 serverLog.AppendText("------------------\n");
             }
             catch (Exception ex)
@@ -100,7 +98,6 @@ namespace KriptolojiOdev
                 string clientPublicKey = textBox4.Text;
                 string finalKey = key;
 
-                // Simetrik algoritmalarda key RSA ile şifrelenir
                 if (!string.IsNullOrEmpty(clientPublicKey) &&
                     !string.IsNullOrEmpty(key) &&
                     (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
@@ -147,10 +144,6 @@ namespace KriptolojiOdev
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
 
         private void SunucuForm_Load(object sender, EventArgs e) { }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void textBox5_TextChanged(object sender, EventArgs e) { }
     }
 }
