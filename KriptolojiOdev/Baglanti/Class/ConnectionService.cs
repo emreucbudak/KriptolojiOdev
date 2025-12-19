@@ -26,6 +26,7 @@ namespace KriptolojiOdev.Baglanti.Class
         private ITransportSecurityService transportService = new TransportSecurityService();
 
         public Action<string> OnMessage { get; set; }
+        public string ServerPrivateKey { get; set; }
 
         public async Task<(string message, TcpClient client)> ConnectToServer()
         {
@@ -63,12 +64,16 @@ namespace KriptolojiOdev.Baglanti.Class
         {
             while (true)
             {
-                TcpClient client = listener.AcceptTcpClient();
-                connectedClients.Add(client);
-                OnMessage?.Invoke("Yeni client bağlandı!");
-                Thread clientThread = new Thread(() => HandleClient(client));
-                clientThread.IsBackground = true;
-                clientThread.Start();
+                try
+                {
+                    TcpClient client = listener.AcceptTcpClient();
+                    connectedClients.Add(client);
+                    OnMessage?.Invoke("Yeni client bağlandı!");
+                    Thread clientThread = new Thread(() => HandleClient(client));
+                    clientThread.IsBackground = true;
+                    clientThread.Start();
+                }
+                catch { break; }
             }
         }
 
@@ -77,36 +82,52 @@ namespace KriptolojiOdev.Baglanti.Class
             try
             {
                 NetworkStream stream = client.GetStream();
-                byte[] buffer = new byte[4096];
+                byte[] buffer = new byte[8192];
                 int bytesRead;
 
                 while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
                 {
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    string[] parts = message.Split('|');
+                    string incomingMessage = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    string[] parts = incomingMessage.Split('|');
 
                     if (parts.Length < 4) continue;
 
                     string target = parts[0];
-                    string chooseCrypt = parts[1];
-                    string algorithm = parts[2].ToUpper();
+                    if (target != "SUNUCU") continue;
+
+                    string operation = parts[1];
+                    string algorithm = parts[2].ToUpperInvariant();
 
                     string text = transportService.Decrypt(parts[3]);
-                    string key = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
+                    string xorDecKey = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
                     string iv = parts.Length > 5 ? transportService.Decrypt(parts[5]) : string.Empty;
 
-                    OnMessage?.Invoke($"Hedef: {target} | İşlem: {chooseCrypt} | Algoritma: {algorithm}");
+                    string actualKey = xorDecKey;
 
-                    string responseText = chooseCrypt switch
+                    if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES") && !string.IsNullOrEmpty(xorDecKey))
                     {
-                        "Encrypt" => EncryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key, string.IsNullOrEmpty(iv) ? null : iv),
-                        "Decrypt" => DecryptorServiceCaller(algorithm, text, string.IsNullOrEmpty(key) ? null : key, string.IsNullOrEmpty(iv) ? null : iv),
-                        _ => "Hata: Geçersiz işlem türü"
+                        try
+                        {
+                            actualKey = decryptor.RsaDecrypt(xorDecKey, ServerPrivateKey);
+                        }
+                        catch
+                        {
+                            actualKey = xorDecKey;
+                        }
+                    }
+
+                    string responseText = operation switch
+                    {
+                        "Encrypt" => EncryptorServiceCaller(algorithm, text, actualKey, iv),
+                        "Decrypt" => DecryptorServiceCaller(algorithm, text, actualKey, iv),
+                        _ => "Hata"
                     };
 
+                    OnMessage?.Invoke($"{target}|{algorithm}|{text}|{actualKey}|{responseText}");
+
                     string fullResponse = $"CLIENT|Response|{algorithm}|{transportService.Encrypt(responseText)}||";
-                    byte[] response = Encoding.UTF8.GetBytes(fullResponse);
-                    stream.Write(response, 0, response.Length);
+                    byte[] responseData = Encoding.UTF8.GetBytes(fullResponse);
+                    stream.Write(responseData, 0, responseData.Length);
                 }
             }
             catch { }
@@ -145,21 +166,21 @@ namespace KriptolojiOdev.Baglanti.Class
             {
                 return algorithm switch
                 {
-                    "SUBSTİTİUİON" => encryptor.SubstitutionEncrypt(metin, key),
-                    "VİGENERE" => encryptor.VigenereEncrypt(metin, key),
-                    "AFFİNE" => encryptor.AffineEncrypt(metin),
+                    "SUBSTITUTION" => encryptor.SubstitutionEncrypt(metin, key),
+                    "VIGENERE" => encryptor.VigenereEncrypt(metin, key),
+                    "AFFINE" => encryptor.AffineEncrypt(metin),
                     "CAESAR" => encryptor.CaesarEncrypt(metin),
                     "ROTA" => encryptor.RotaEncrypt(metin, key),
                     "COLUMNAR" => encryptor.ColumnarEncrypt(metin, key),
-                    "POLYBİUS" => encryptor.PolybiusEncrypt(metin, key),
-                    "PİGPEN" => encryptor.PigpenEncrypt(metin, key),
-                    "HİLL" => encryptor.HillEncrypt(metin, key),
+                    "POLYBIUS" => encryptor.PolybiusEncrypt(metin, key),
+                    "PIGPEN" => encryptor.PigpenEncrypt(metin, key),
+                    "HILL" => encryptor.HillEncrypt(metin, key),
                     "TRENRAYI" => encryptor.TrenRayiEncrypt(metin, key),
                     "AES" => encryptor.AesEncrypt(metin, key, iv),
                     "DES" => encryptor.DesEncrypt(metin, key, iv),
                     "RSA" => encryptor.RsaEncrypt(metin, key),
                     "MANUEL_DES" => encryptor.ManuelDesEncrypt(metin, key, iv),
-                    _ => "İstenilen Algoritma Bulunamadı"
+                    _ => "Hata"
                 };
             }
             catch (Exception ex) { return "Hata: " + ex.Message; }
@@ -171,21 +192,21 @@ namespace KriptolojiOdev.Baglanti.Class
             {
                 return algorithm switch
                 {
-                    "SUBSTİTİUİON" => decryptor.DecryptorSubstitiuion(metin, key),
-                    "VİGENERE" => decryptor.DecryptorVigenere(metin, key),
-                    "AFFİNE" => decryptor.DecryptorAffine(metin),
+                    "SUBSTITUTION" => decryptor.DecryptorSubstitiuion(metin, key),
+                    "VIGENERE" => decryptor.DecryptorVigenere(metin, key),
+                    "AFFINE" => decryptor.DecryptorAffine(metin),
                     "CAESAR" => decryptor.DecryptorCaesar(metin),
                     "ROTA" => decryptor.RotaDecrypt(metin, key),
                     "COLUMNAR" => decryptor.ColumnarDecrypt(metin, key),
-                    "POLYBİUS" => decryptor.PolybiusDecrypt(metin, key),
-                    "PİGPEN" => decryptor.PigpenDecrypt(metin, key),
-                    "HİLL" => decryptor.HillDecrypt(metin, key),
+                    "POLYBIUS" => decryptor.PolybiusDecrypt(metin, key),
+                    "PIGPEN" => decryptor.PigpenDecrypt(metin, key),
+                    "HILL" => decryptor.HillDecrypt(metin, key),
                     "TRENRAYI" => decryptor.TrenRayiDecrypt(metin, key),
                     "AES" => decryptor.AesDecrypt(metin, key, iv),
                     "DES" => decryptor.DesDecrypt(metin, key, iv),
                     "RSA" => decryptor.RsaDecrypt(metin, key),
                     "MANUEL_DES" => decryptor.ManuelDesDecrypt(metin, key, iv),
-                    _ => "İstenilen Algoritma Bulunamadı"
+                    _ => "Hata"
                 };
             }
             catch (Exception ex) { return "Hata: " + ex.Message; }
