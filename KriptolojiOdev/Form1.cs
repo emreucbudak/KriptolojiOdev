@@ -66,7 +66,7 @@ namespace KriptolojiOdev
                 string securedKey = string.IsNullOrEmpty(key) ? "" : transportService.Encrypt(key);
                 string securedIV = string.IsNullOrEmpty(iv) ? "" : transportService.Encrypt(iv);
 
-                string msg = $"{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
+                string msg = $"SUNUCU|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
                 byte[] data = Encoding.UTF8.GetBytes(msg);
                 await _activeStream.WriteAsync(data, 0, data.Length);
 
@@ -149,13 +149,8 @@ namespace KriptolojiOdev
             if (textBox3.Text.Length != 8) return;
             await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, textBox3.Text, textBox7.Text);
         }
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void groupBox1_Enter(object sender, EventArgs e) { }
     }
 }
