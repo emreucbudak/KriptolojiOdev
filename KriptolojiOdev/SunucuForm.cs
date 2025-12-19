@@ -11,8 +11,10 @@ namespace KriptolojiOdev
     {
         private IConnectionService connectionService = new ConnectionService();
         private IEncryptorService encryptorService = new EncryptorService();
+        private IDecryptorService decryptorService = new DecryptorService();
         private string serverPrivateKey;
         private string serverPublicKey;
+ 
 
         public SunucuForm()
         {
@@ -53,13 +55,14 @@ namespace KriptolojiOdev
                 string algoritma = parcalar[1];
                 string sifreliMetin = parcalar[2];
                 string anahtar = parcalar[3];
-                string sonuc = parcalar[4];
-
+                string cozulunMesaj = parcalar[4];
+                string cozukMesaj = decryptorService.DecryptorCaesar(cozulunMesaj);
                 serverLog.SelectionColor = Color.Blue;
-                serverLog.AppendText($"[İSTEMCİDEN YENİ MESAJ!]{Environment.NewLine}");
+                serverLog.AppendText($"[İSTEMCİDEN MESAJ]: {algoritma}{Environment.NewLine}");
                 serverLog.SelectionColor = Color.Black;
-                serverLog.AppendText($"Yöntem: {algoritma}{Environment.NewLine}");
-                serverLog.AppendText($"Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
+                serverLog.AppendText($"İçerik: {sifreliMetin}{Environment.NewLine}---{Environment.NewLine}");
+
+     
             }
             catch { }
         }
@@ -78,11 +81,13 @@ namespace KriptolojiOdev
                 }
 
                 connectionService.Broadcast("CLIENT", "Encrypt", algorithm, text, finalKeyForPacket, iv);
-                serverLog.AppendText($"[GÖNDERİLDİ]: {algorithm}{Environment.NewLine}");
+
+                serverLog.SelectionColor = Color.Green;
+                serverLog.AppendText($"[GÖNDERİLDİ -> CLIENT]: {algorithm}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hata: " + ex.Message);
+                MessageBox.Show("Gönderim Hatası: " + ex.Message);
             }
         }
 
@@ -105,9 +110,7 @@ namespace KriptolojiOdev
         private async void button12_Click(object sender, EventArgs e) => await SendToClientAsync("AES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
-        private async void SunucuForm_Load(object sender, EventArgs e)
-        {
 
-        }
+        private void SunucuForm_Load(object sender, EventArgs e) { }
     }
 }

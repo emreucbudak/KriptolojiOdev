@@ -52,31 +52,25 @@ namespace KriptolojiOdev
                 var parcalar = paket.Split('|');
                 if (parcalar.Length < 4 || parcalar[0] != "CLIENT") return;
 
-                string islemTipi = parcalar[1];
                 string algoritma = parcalar[2].ToUpperInvariant();
                 string sifreliMetin = transportService.Decrypt(parcalar[3]);
                 string gelenKey = parcalar.Length > 4 ? transportService.Decrypt(parcalar[4]) : "";
                 string iv = parcalar.Length > 5 ? transportService.Decrypt(parcalar[5]) : "";
 
                 string gercekKey = gelenKey;
+
                 if (!string.IsNullOrEmpty(gelenKey) && (algoritma == "AES" || algoritma == "DES" || algoritma == "MANUEL_DES"))
                 {
-                    try { gercekKey = decryptorService.RsaDecrypt(gelenKey, textBox4.Text); } catch { }
+                    try
+                    {
+                        gercekKey = decryptorService.RsaDecrypt(gelenKey, textBox4.Text);
+                    }
+                    catch { }
                 }
 
-                string sonuc = decryptorService.DecryptByAlgorithm(algoritma, sifreliMetin, gercekKey, iv);
 
-                if (islemTipi == "Response")
-                {
-                    clientLog.AppendText($"[CEVAP]: {sonuc}{Environment.NewLine}");
-                }
-                else
-                {
-                    clientLog.SelectionColor = Color.Blue;
-                    clientLog.AppendText($"[SUNUCUDAN YENÝ MESAJ!]{Environment.NewLine}");
-                    clientLog.SelectionColor = Color.Black;
-                    clientLog.AppendText($"Mesaj: {sonuc}{Environment.NewLine}---{Environment.NewLine}");
-                }
+
+
             }
             catch { }
         }
@@ -103,7 +97,8 @@ namespace KriptolojiOdev
 
                 if (!string.IsNullOrEmpty(key) && (algoUpper == "AES" || algoUpper == "DES" || algoUpper == "MANUEL_DES" || algoUpper == "RSA"))
                 {
-                    if (!string.IsNullOrEmpty(textBox1.Text)) finalKey = encryptorService.RsaEncrypt(key, textBox1.Text);
+                    if (!string.IsNullOrEmpty(textBox1.Text))
+                        finalKey = encryptorService.RsaEncrypt(key, textBox1.Text);
                 }
 
                 string securedText = transportService.Encrypt(text);
@@ -116,7 +111,10 @@ namespace KriptolojiOdev
 
                 clientLog.AppendText($"[GÖNDERÝLDÝ]: {algoUpper}{Environment.NewLine}");
             }
-            catch (Exception ex) { clientLog.AppendText($"Hata: {ex.Message}{Environment.NewLine}"); }
+            catch (Exception ex)
+            {
+                clientLog.AppendText($"Hata: {ex.Message}{Environment.NewLine}");
+            }
         }
 
         public async Task SendRawMessageAsync(string rawMessage)
@@ -168,13 +166,8 @@ namespace KriptolojiOdev
             if (textBox3.Text.Length != 8) return;
             await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, textBox3.Text, textBox7.Text);
         }
-        private async void label1_Click(object sender, EventArgs e)
-        {
 
-        }
-        private async void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void groupBox1_Enter(object sender, EventArgs e) { }
     }
 }
