@@ -2,6 +2,8 @@
 using KriptolojiOdev.Sifreleme.Class;
 using KriptolojiOdev.Sifreleme.Interface;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -17,6 +19,7 @@ namespace KriptolojiOdev.Baglanti.Class
         private TcpListener listener;
         private Thread thread;
         private TcpClient client;
+        private List<TcpClient> connectedClients = new List<TcpClient>();
 
         private IEncryptorService encryptor = new EncryptorService();
         private IDecryptorService decryptor = new DecryptorService();
@@ -61,6 +64,7 @@ namespace KriptolojiOdev.Baglanti.Class
             while (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
+                connectedClients.Add(client);
                 OnMessage?.Invoke("Yeni client bağlandı!");
                 Thread clientThread = new Thread(() => HandleClient(client));
                 clientThread.IsBackground = true;
@@ -81,12 +85,17 @@ namespace KriptolojiOdev.Baglanti.Class
                     string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                     string[] parts = message.Split('|');
 
-                    string chooseCrypt = parts[0];
-                    string algorithm = parts[1].ToUpper();
+                    if (parts.Length < 4) continue;
 
-                    string text = transportService.Decrypt(parts[2]);
-                    string key = parts.Length > 3 ? transportService.Decrypt(parts[3]) : string.Empty;
-                    string iv = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
+                    string target = parts[0];
+                    string chooseCrypt = parts[1];
+                    string algorithm = parts[2].ToUpper();
+
+                    string text = transportService.Decrypt(parts[3]);
+                    string key = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
+                    string iv = parts.Length > 5 ? transportService.Decrypt(parts[5]) : string.Empty;
+
+                    OnMessage?.Invoke($"Hedef: {target} | İşlem: {chooseCrypt} | Algoritma: {algorithm}");
 
                     string responseText = chooseCrypt switch
                     {
@@ -95,16 +104,38 @@ namespace KriptolojiOdev.Baglanti.Class
                         _ => "Hata: Geçersiz işlem türü"
                     };
 
-                    byte[] response = Encoding.UTF8.GetBytes(responseText);
+                    string fullResponse = $"CLIENT|Response|{algorithm}|{transportService.Encrypt(responseText)}||";
+                    byte[] response = Encoding.UTF8.GetBytes(fullResponse);
                     stream.Write(response, 0, response.Length);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             finally
             {
+                connectedClients.Remove(client);
                 client.Close();
+            }
+        }
+
+        public void Broadcast(string target, string operation, string algorithm, string text, string key, string iv)
+        {
+            string securedText = transportService.Encrypt(text);
+            string securedKey = string.IsNullOrEmpty(key) ? "" : transportService.Encrypt(key);
+            string securedIV = string.IsNullOrEmpty(iv) ? "" : transportService.Encrypt(iv);
+
+            string msg = $"{target}|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
+            byte[] data = Encoding.UTF8.GetBytes(msg);
+
+            foreach (var c in connectedClients.ToList())
+            {
+                try
+                {
+                    if (c.Connected)
+                    {
+                        c.GetStream().Write(data, 0, data.Length);
+                    }
+                }
+                catch { connectedClients.Remove(c); }
             }
         }
 

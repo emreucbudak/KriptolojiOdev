@@ -56,7 +56,7 @@
             // 
             serverLog.Location = new Point(367, 12);
             serverLog.Name = "serverLog";
-            serverLog.Size = new Size(775, 426);
+            serverLog.Size = new Size(775, 477);
             serverLog.TabIndex = 0;
             serverLog.Text = "";
             // 
