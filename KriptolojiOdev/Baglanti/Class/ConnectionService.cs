@@ -51,7 +51,6 @@ namespace KriptolojiOdev.Baglanti.Class
                 thread = new Thread(ListenForClients);
                 thread.IsBackground = true;
                 thread.Start();
-
                 return "Server " + ip + ":" + port + " Başlatıldı." + Environment.NewLine;
             }
             catch (Exception ex)
@@ -116,16 +115,16 @@ namespace KriptolojiOdev.Baglanti.Class
                         }
                     }
 
-                    string responseText = operation switch
+                    string resultText = operation switch
                     {
-                        "Encrypt" => EncryptorServiceCaller(algorithm, text, actualKey, iv),
-                        "Decrypt" => DecryptorServiceCaller(algorithm, text, actualKey, iv),
+                        "Encrypt" => decryptor.DecryptByAlgorithm(algorithm, text, actualKey, iv),
+                        "Decrypt" => encryptor.AesEncrypt(text, actualKey, iv),
                         _ => "Hata"
                     };
 
-                    OnMessage?.Invoke($"{target}|{algorithm}|{text}|{actualKey}|{responseText}");
+                    OnMessage?.Invoke($"{target}|{algorithm}|{text}|{actualKey}|{resultText}");
 
-                    string fullResponse = $"CLIENT|Response|{algorithm}|{transportService.Encrypt(responseText)}||";
+                    string fullResponse = $"CLIENT|Response|{algorithm}|{transportService.Encrypt(resultText)}||";
                     byte[] responseData = Encoding.UTF8.GetBytes(fullResponse);
                     stream.Write(responseData, 0, responseData.Length);
                 }
