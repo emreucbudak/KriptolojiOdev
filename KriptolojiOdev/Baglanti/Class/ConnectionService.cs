@@ -89,39 +89,27 @@ namespace KriptolojiOdev.Baglanti.Class
                     string target = parts[0];
                     if (target != "SUNUCU") continue;
 
-                    string operation = parts[1];
                     string algorithm = parts[2].ToUpperInvariant();
+                    string cipherText = transportService.Decrypt(parts[3]);
+                    string securedKey = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
+                    string securedIv = parts.Length > 5 ? transportService.Decrypt(parts[5]) : string.Empty;
 
-                    string text = transportService.Decrypt(parts[3]);
-                    string xorDecKey = parts.Length > 4 ? transportService.Decrypt(parts[4]) : string.Empty;
-                    string iv = parts.Length > 5 ? transportService.Decrypt(parts[5]) : string.Empty;
-
-                    string actualKey = xorDecKey;
-
-                    if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES") && !string.IsNullOrEmpty(xorDecKey))
+                    string actualKey = securedKey;
+                    if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES") && !string.IsNullOrEmpty(securedKey))
                     {
                         try
                         {
-                            actualKey = decryptor.RsaDecrypt(xorDecKey, ServerPrivateKey);
+                            actualKey = decryptor.RsaDecrypt(securedKey, ServerPrivateKey);
                         }
                         catch
                         {
-                            actualKey = xorDecKey;
+                            actualKey = securedKey;
                         }
                     }
 
-                    string resultText = operation switch
-                    {
-                        "Encrypt" => decryptor.DecryptByAlgorithm(algorithm, text, actualKey, iv),
-                        "Decrypt" => encryptor.AesEncrypt(text, actualKey, iv),
-                        _ => "Hata"
-                    };
+                    string resultText = decryptor.DecryptByAlgorithm(algorithm, cipherText, actualKey, securedIv);
 
-                    OnMessage?.Invoke($"{target}|{algorithm}|{text}|{actualKey}|{resultText}");
-
-                    string fullResponse = $"CLIENT|Response|{algorithm}|{transportService.Encrypt(resultText)}||";
-                    byte[] responseData = Encoding.UTF8.GetBytes(fullResponse);
-                    stream.Write(responseData, 0, responseData.Length);
+                    OnMessage?.Invoke($"SUNUCU|MESSAGE|{algorithm}|{resultText}");
                 }
             }
             catch { }
@@ -152,58 +140,6 @@ namespace KriptolojiOdev.Baglanti.Class
                 }
                 catch { connectedClients.Remove(c); }
             }
-        }
-
-        private string EncryptorServiceCaller(string algorithm, string metin, string? key, string? iv)
-        {
-            try
-            {
-                return algorithm switch
-                {
-                    "SUBSTITUTION" => encryptor.SubstitutionEncrypt(metin, key),
-                    "VIGENERE" => encryptor.VigenereEncrypt(metin, key),
-                    "AFFINE" => encryptor.AffineEncrypt(metin),
-                    "CAESAR" => encryptor.CaesarEncrypt(metin),
-                    "ROTA" => encryptor.RotaEncrypt(metin, key),
-                    "COLUMNAR" => encryptor.ColumnarEncrypt(metin, key),
-                    "POLYBIUS" => encryptor.PolybiusEncrypt(metin, key),
-                    "PIGPEN" => encryptor.PigpenEncrypt(metin, key),
-                    "HILL" => encryptor.HillEncrypt(metin, key),
-                    "TRENRAYI" => encryptor.TrenRayiEncrypt(metin, key),
-                    "AES" => encryptor.AesEncrypt(metin, key, iv),
-                    "DES" => encryptor.DesEncrypt(metin, key, iv),
-                    "RSA" => encryptor.RsaEncrypt(metin, key),
-                    "MANUEL_DES" => encryptor.ManuelDesEncrypt(metin, key, iv),
-                    _ => "Hata"
-                };
-            }
-            catch (Exception ex) { return "Hata: " + ex.Message; }
-        }
-
-        private string DecryptorServiceCaller(string algorithm, string metin, string? key, string? iv)
-        {
-            try
-            {
-                return algorithm switch
-                {
-                    "SUBSTITUTION" => decryptor.DecryptorSubstitiuion(metin, key),
-                    "VIGENERE" => decryptor.DecryptorVigenere(metin, key),
-                    "AFFINE" => decryptor.DecryptorAffine(metin),
-                    "CAESAR" => decryptor.DecryptorCaesar(metin),
-                    "ROTA" => decryptor.RotaDecrypt(metin, key),
-                    "COLUMNAR" => decryptor.ColumnarDecrypt(metin, key),
-                    "POLYBIUS" => decryptor.PolybiusDecrypt(metin, key),
-                    "PIGPEN" => decryptor.PigpenDecrypt(metin, key),
-                    "HILL" => decryptor.HillDecrypt(metin, key),
-                    "TRENRAYI" => decryptor.TrenRayiDecrypt(metin, key),
-                    "AES" => decryptor.AesDecrypt(metin, key, iv),
-                    "DES" => decryptor.DesDecrypt(metin, key, iv),
-                    "RSA" => decryptor.RsaDecrypt(metin, key),
-                    "MANUEL_DES" => decryptor.ManuelDesDecrypt(metin, key, iv),
-                    _ => "Hata"
-                };
-            }
-            catch (Exception ex) { return "Hata: " + ex.Message; }
         }
     }
 }

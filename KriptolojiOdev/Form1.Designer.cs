@@ -204,7 +204,7 @@
             // 
             // button27
             // 
-            button27.Location = new Point(297, 408);
+            button27.Location = new Point(202, 408);
             button27.Name = "button27";
             button27.Size = new Size(143, 29);
             button27.TabIndex = 26;
@@ -230,9 +230,9 @@
             // 
             // button22
             // 
-            button22.Location = new Point(346, 373);
+            button22.Location = new Point(346, 408);
             button22.Name = "button22";
-            button22.Size = new Size(94, 29);
+            button22.Size = new Size(69, 29);
             button22.TabIndex = 22;
             button22.Text = "DES";
             button22.UseVisualStyleBackColor = true;
@@ -242,7 +242,7 @@
             // 
             button21.Location = new Point(131, 408);
             button21.Name = "button21";
-            button21.Size = new Size(94, 29);
+            button21.Size = new Size(65, 29);
             button21.TabIndex = 21;
             button21.Text = "AES";
             button21.UseVisualStyleBackColor = true;

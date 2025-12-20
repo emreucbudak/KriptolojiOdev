@@ -13,7 +13,7 @@ namespace KriptolojiOdev
         private IConnectionService connectionService = new ConnectionService();
         private ITransportSecurityService transportService = new TransportSecurityService();
         private IDecryptorService decryptorService = new DecryptorService();
-
+        private IEncryptorService encryptorService = new EncryptorService();
         private TcpClient _activeClient;
         private NetworkStream _activeStream;
 
@@ -25,16 +25,13 @@ namespace KriptolojiOdev
         private async Task StartListeningAsync()
         {
             byte[] buffer = new byte[8192];
-
             try
             {
                 while (_activeClient != null && _activeClient.Connected)
                 {
                     int bytesRead = await _activeStream.ReadAsync(buffer, 0, buffer.Length);
                     if (bytesRead <= 0) continue;
-
                     string incoming = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
                     Invoke((MethodInvoker)(() =>
                     {
                         MesajLogla(incoming);
@@ -49,33 +46,29 @@ namespace KriptolojiOdev
             try
             {
                 var p = paket.Split('|');
-                if (p.Length < 4) return;
-                if (p[0] != "CLIENT") return;
+                if (p.Length < 4 || p[0] != "CLIENT") return;
 
-                string islem = p[1];
-                string algoritma = p[2];
+                // Paket: CLIENT|MESSAGE|ALGO|DATA|KEY|IV
+                string algoritma = p[2].Trim().ToUpperInvariant(); // Boşlukları sil ve büyük harf yap
 
-                string encryptedText = transportService.Decrypt(p[3]);
-                string incomingKey = p.Length > 4 ? transportService.Decrypt(p[4]) : "";
-                string incomingIv = p.Length > 5 ? transportService.Decrypt(p[5]) : "";
+                string transportDecrypted = transportService.Decrypt(p[3]).Trim();
+                string securedKey = p.Length > 4 ? transportService.Decrypt(p[4]).Trim() : "";
+                string securedIv = p.Length > 5 ? transportService.Decrypt(p[5]).Trim() : "";
 
-                string keyToUse = !string.IsNullOrEmpty(incomingKey) ? incomingKey : textBox3.Text;
+                string keyToUse = !string.IsNullOrEmpty(securedKey) ? securedKey : textBox3.Text;
 
-                string plainText = decryptorService.DecryptByAlgorithm(
-                    algoritma,
-                    encryptedText,
-                    keyToUse,
-                    incomingIv
-                );
+                // 🛡️ KRİTİK NOKTA: Buradaki algoritma ismi (CAESAR) 
+                // DecryptorService içindeki case ile BİREBİR aynı olmalı.
+                string plainText = decryptorService.DecryptByAlgorithm(algoritma, transportDecrypted, keyToUse, securedIv);
 
-                clientLog.SelectionColor = (islem == "Response") ? Color.Gray : Color.DarkGreen;
-                clientLog.AppendText($"[{DateTime.Now:HH:mm}] {plainText} ({algoritma})\n");
+                clientLog.SelectionColor = Color.Red;
+                clientLog.AppendText("[SUNUCUDAN YENİ MESAJ]\n");
+                clientLog.SelectionColor = Color.Black;
+                clientLog.AppendText($"Mesaj: {plainText}\n"); // Burası artık çözülmüş olmalı
+                clientLog.AppendText("-----------------------\n");
                 clientLog.ScrollToCaret();
             }
-            catch (Exception ex)
-            {
-                clientLog.AppendText($"[HATA]: {ex.Message}\n");
-            }
+            catch (Exception ex) { clientLog.AppendText($"[HATA]: {ex.Message}\n"); }
         }
 
         private async Task SendMessageToServerAsync(string operation, string algorithm, string text, string key = "", string iv = "")
@@ -87,25 +80,50 @@ namespace KriptolojiOdev
                     var (_, client) = await connectionService.ConnectToServer();
                     _activeClient = client;
                     if (_activeClient == null) return;
-
                     _activeStream = _activeClient.GetStream();
                     _ = Task.Run(StartListeningAsync);
                 }
 
-                string securedText = transportService.Encrypt(text);
-                string securedKey = string.IsNullOrEmpty(key) ? "" : transportService.Encrypt(key);
+                string encryptedByAlgo = algorithm switch
+                {
+                    "CAESAR" => encryptorService.CaesarEncrypt(text),
+                    "VIGENERE" => encryptorService.VigenereEncrypt(text, key),
+                    "SUBSTITUTION" => encryptorService.SubstitutionEncrypt(text, key),
+                    "AFFINE" => encryptorService.AffineEncrypt(text),
+                    "ROTA" => encryptorService.RotaEncrypt(text, key),
+                    "COLUMNAR" => encryptorService.ColumnarEncrypt(text, key),
+                    "POLYBIUS" => encryptorService.PolybiusEncrypt(text, key),
+                    "PIGPEN" => encryptorService.PigpenEncrypt(text, key),
+                    "HILL" => encryptorService.HillEncrypt(text, key),
+                    "TRENRAYI" => encryptorService.TrenRayiEncrypt(text, key),
+                    "AES" => encryptorService.AesEncrypt(text, key, iv),
+                    "DES" => encryptorService.DesEncrypt(text, key, iv),
+                    "MANUEL_DES" => encryptorService.ManuelDesEncrypt(text, key, iv),
+                    "RSA" => encryptorService.RsaEncrypt(text, key),
+                    _ => text
+                };
+
+                string finalKeyToSend = key;
+                if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES") && !string.IsNullOrEmpty(textBox1.Text))
+                {
+                    finalKeyToSend = encryptorService.RsaEncrypt(key, textBox1.Text);
+                }
+
+                string securedText = transportService.Encrypt(encryptedByAlgo);
+                string securedKey = string.IsNullOrEmpty(finalKeyToSend) ? "" : transportService.Encrypt(finalKeyToSend);
                 string securedIV = string.IsNullOrEmpty(iv) ? "" : transportService.Encrypt(iv);
 
                 string msg = $"SUNUCU|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
                 byte[] data = Encoding.UTF8.GetBytes(msg);
-
                 await _activeStream.WriteAsync(data, 0, data.Length);
 
+                clientLog.SelectionColor = Color.Blue;
                 clientLog.AppendText($"[GÖNDERİLDİ]: {algorithm}\n");
+                clientLog.SelectionColor = Color.Black;
             }
             catch (Exception ex)
             {
-                clientLog.AppendText("Hata: " + ex.Message + "\n");
+                MessageBox.Show("Hata: " + ex.Message);
             }
         }
 
@@ -130,6 +148,7 @@ namespace KriptolojiOdev
         private async void button19_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "TRENRAYI", textBox2.Text, textBox3.Text);
         private async void button21_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AES", textBox2.Text, textBox3.Text, textBox7.Text);
         private async void button22_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "DES", textBox2.Text, textBox3.Text, textBox7.Text);
+
         private async void button27_Click(object sender, EventArgs e)
         {
             if (textBox3.Text.Length != 8) return;
@@ -138,17 +157,22 @@ namespace KriptolojiOdev
         private async void button25_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox2.Text)) return;
-
             if (string.IsNullOrEmpty(textBox1.Text))
             {
                 RsaAnahtarUret(out string pub, out string priv);
                 textBox1.Text = pub;
                 textBox4.Text = priv;
             }
-
             await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, textBox1.Text);
         }
-        private async void label1_Click(object sender, EventArgs e) { }
-        private async void groupBox1_Enter(object sender, EventArgs e) { }
+        private async void label1_Click(object sender, EventArgs e)
+
+        {
+        }
+
+        private async void groupBox1_Enter(object sender, EventArgs e)
+
+        {
+        }
     }
 }
