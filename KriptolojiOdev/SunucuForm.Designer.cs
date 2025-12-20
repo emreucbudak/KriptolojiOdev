@@ -54,6 +54,7 @@
             label5 = new Label();
             textBox5 = new TextBox();
             label6 = new Label();
+            button15 = new Button();
             SuspendLayout();
             // 
             // serverLog
@@ -295,11 +296,21 @@
             label6.TabIndex = 25;
             label6.Text = "Oluşturulan RSA Keyi";
             // 
+            // button15
+            // 
+            button15.Location = new Point(260, 554);
+            button15.Name = "button15";
+            button15.Size = new Size(94, 29);
+            button15.TabIndex = 26;
+            button15.Text = "ECC";
+            button15.UseVisualStyleBackColor = true;
+            // 
             // SunucuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1154, 589);
+            Controls.Add(button15);
             Controls.Add(label6);
             Controls.Add(textBox5);
             Controls.Add(label5);
@@ -361,5 +372,6 @@
         private Label label5;
         private TextBox textBox5;
         private Label label6;
+        private Button button15;
     }
 }
