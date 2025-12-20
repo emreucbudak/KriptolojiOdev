@@ -38,6 +38,7 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            button1 = new Button();
             textBox4 = new TextBox();
             textBox1 = new TextBox();
             label4 = new Label();
@@ -53,7 +54,9 @@
             button11 = new Button();
             button10 = new Button();
             button9 = new Button();
-            button1 = new Button();
+            label5 = new Label();
+            checkBox1 = new CheckBox();
+            checkBox2 = new CheckBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +78,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(19, 339);
+            button2.Location = new Point(19, 402);
             button2.Name = "button2";
             button2.Size = new Size(58, 28);
             button2.TabIndex = 8;
@@ -85,7 +88,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(83, 339);
+            button3.Location = new Point(83, 402);
             button3.Name = "button3";
             button3.Size = new Size(80, 28);
             button3.TabIndex = 9;
@@ -95,7 +98,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(169, 339);
+            button4.Location = new Point(169, 402);
             button4.Name = "button4";
             button4.Size = new Size(102, 28);
             button4.TabIndex = 10;
@@ -105,7 +108,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(277, 339);
+            button5.Location = new Point(277, 402);
             button5.Name = "button5";
             button5.Size = new Size(58, 28);
             button5.TabIndex = 11;
@@ -140,6 +143,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox2);
+            groupBox1.Controls.Add(checkBox1);
+            groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox4);
             groupBox1.Controls.Add(textBox1);
@@ -171,6 +177,15 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(21, 506);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 31;
+            button1.Text = "ECC";
+            button1.UseVisualStyleBackColor = true;
             // 
             // textBox4
             // 
@@ -206,7 +221,7 @@
             // 
             // button27
             // 
-            button27.Location = new Point(202, 408);
+            button27.Location = new Point(202, 471);
             button27.Name = "button27";
             button27.Size = new Size(143, 29);
             button27.TabIndex = 26;
@@ -232,7 +247,7 @@
             // 
             // button22
             // 
-            button22.Location = new Point(346, 408);
+            button22.Location = new Point(346, 471);
             button22.Name = "button22";
             button22.Size = new Size(69, 29);
             button22.TabIndex = 22;
@@ -242,7 +257,7 @@
             // 
             // button21
             // 
-            button21.Location = new Point(131, 408);
+            button21.Location = new Point(131, 471);
             button21.Name = "button21";
             button21.Size = new Size(65, 29);
             button21.TabIndex = 21;
@@ -252,7 +267,7 @@
             // 
             // button19
             // 
-            button19.Location = new Point(19, 408);
+            button19.Location = new Point(19, 471);
             button19.Name = "button19";
             button19.Size = new Size(94, 29);
             button19.TabIndex = 20;
@@ -262,7 +277,7 @@
             // 
             // button13
             // 
-            button13.Location = new Point(241, 408);
+            button13.Location = new Point(358, 436);
             button13.Name = "button13";
             button13.Size = new Size(50, 29);
             button13.TabIndex = 19;
@@ -272,7 +287,7 @@
             // 
             // button12
             // 
-            button12.Location = new Point(241, 373);
+            button12.Location = new Point(241, 436);
             button12.Name = "button12";
             button12.Size = new Size(94, 29);
             button12.TabIndex = 18;
@@ -282,7 +297,7 @@
             // 
             // button11
             // 
-            button11.Location = new Point(131, 373);
+            button11.Location = new Point(131, 436);
             button11.Name = "button11";
             button11.Size = new Size(94, 29);
             button11.TabIndex = 17;
@@ -292,7 +307,7 @@
             // 
             // button10
             // 
-            button10.Location = new Point(19, 373);
+            button10.Location = new Point(19, 436);
             button10.Name = "button10";
             button10.Size = new Size(94, 29);
             button10.TabIndex = 16;
@@ -302,7 +317,7 @@
             // 
             // button9
             // 
-            button9.Location = new Point(346, 342);
+            button9.Location = new Point(346, 405);
             button9.Name = "button9";
             button9.Size = new Size(62, 25);
             button9.TabIndex = 15;
@@ -310,14 +325,34 @@
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
-            // button1
+            // label5
             // 
-            button1.Location = new Point(21, 443);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 31;
-            button1.Text = "ECC";
-            button1.UseVisualStyleBackColor = true;
+            label5.AutoSize = true;
+            label5.Location = new Point(19, 350);
+            label5.Name = "label5";
+            label5.Size = new Size(192, 20);
+            label5.TabIndex = 32;
+            label5.Text = "AES DES ŞİFRELEME SEÇİMİ";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(217, 346);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(62, 24);
+            checkBox1.TabIndex = 33;
+            checkBox1.Text = "RSA ";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(307, 346);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(57, 24);
+            checkBox2.TabIndex = 34;
+            checkBox2.Text = "ECC";
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -361,5 +396,8 @@
         private Label label4;
         private Label label2;
         private Button button1;
+        private Label label5;
+        private CheckBox checkBox2;
+        private CheckBox checkBox1;
     }
 }
