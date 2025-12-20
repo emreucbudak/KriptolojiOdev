@@ -55,8 +55,8 @@
             button10 = new Button();
             button9 = new Button();
             label5 = new Label();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -143,8 +143,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(checkBox2);
-            groupBox1.Controls.Add(checkBox1);
+            groupBox1.Controls.Add(radioButton2);
+            groupBox1.Controls.Add(radioButton1);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox4);
@@ -334,25 +334,27 @@
             label5.TabIndex = 32;
             label5.Text = "AES DES ŞİFRELEME SEÇİMİ";
             // 
-            // checkBox1
+            // radioButton1
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(217, 346);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(62, 24);
-            checkBox1.TabIndex = 33;
-            checkBox1.Text = "RSA ";
-            checkBox1.UseVisualStyleBackColor = true;
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(241, 348);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(57, 24);
+            radioButton1.TabIndex = 33;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "RSA";
+            radioButton1.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // radioButton2
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(307, 346);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(57, 24);
-            checkBox2.TabIndex = 34;
-            checkBox2.Text = "ECC";
-            checkBox2.UseVisualStyleBackColor = true;
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(340, 346);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(56, 24);
+            radioButton2.TabIndex = 34;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "ECC";
+            radioButton2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -397,7 +399,7 @@
         private Label label2;
         private Button button1;
         private Label label5;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
     }
 }
