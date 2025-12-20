@@ -55,9 +55,9 @@
             textBox5 = new TextBox();
             label6 = new Label();
             button15 = new Button();
-            checkBox1 = new CheckBox();
             label7 = new Label();
-            checkBox2 = new CheckBox();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
             SuspendLayout();
             // 
             // serverLog
@@ -308,16 +308,6 @@
             button15.Text = "ECC";
             button15.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(283, 360);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(57, 24);
-            checkBox1.TabIndex = 27;
-            checkBox1.Text = "ECC";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -327,24 +317,36 @@
             label7.TabIndex = 28;
             label7.Text = "AES DES ŞİFRELEME SEÇİMİ";
             // 
-            // checkBox2
+            // radioButton1
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(210, 360);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(58, 24);
-            checkBox2.TabIndex = 29;
-            checkBox2.Text = "RSA";
-            checkBox2.UseVisualStyleBackColor = true;
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(210, 356);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(57, 24);
+            radioButton1.TabIndex = 29;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "RSA";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(273, 356);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(56, 24);
+            radioButton2.TabIndex = 30;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "ECC";
+            radioButton2.UseVisualStyleBackColor = true;
             // 
             // SunucuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1154, 627);
-            Controls.Add(checkBox2);
+            Controls.Add(radioButton2);
+            Controls.Add(radioButton1);
             Controls.Add(label7);
-            Controls.Add(checkBox1);
             Controls.Add(button15);
             Controls.Add(label6);
             Controls.Add(textBox5);
@@ -408,8 +410,8 @@
         private TextBox textBox5;
         private Label label6;
         private Button button15;
-        private CheckBox checkBox1;
         private Label label7;
-        private CheckBox checkBox2;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
     }
 }
