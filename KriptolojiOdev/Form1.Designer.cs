@@ -38,8 +38,11 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
+            textBox4 = new TextBox();
+            textBox1 = new TextBox();
+            label4 = new Label();
+            label2 = new Label();
             button27 = new Button();
-            button25 = new Button();
             textBox7 = new TextBox();
             label7 = new Label();
             button22 = new Button();
@@ -50,10 +53,6 @@
             button11 = new Button();
             button10 = new Button();
             button9 = new Button();
-            label2 = new Label();
-            label4 = new Label();
-            textBox1 = new TextBox();
-            textBox4 = new TextBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -145,7 +144,6 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(button27);
-            groupBox1.Controls.Add(button25);
             groupBox1.Controls.Add(textBox7);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(button22);
@@ -172,25 +170,47 @@
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
             // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(169, 190);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(246, 27);
+            textBox4.TabIndex = 30;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(169, 148);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(246, 27);
+            textBox1.TabIndex = 29;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(20, 197);
+            label4.Name = "label4";
+            label4.Size = new Size(82, 20);
+            label4.TabIndex = 28;
+            label4.Text = "Private Key";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(18, 148);
+            label2.Name = "label2";
+            label2.Size = new Size(77, 20);
+            label2.TabIndex = 27;
+            label2.Text = "Public Key";
+            // 
             // button27
             // 
-            button27.Location = new Point(20, 443);
+            button27.Location = new Point(202, 408);
             button27.Name = "button27";
             button27.Size = new Size(143, 29);
             button27.TabIndex = 26;
             button27.Text = "Manuel DES";
             button27.UseVisualStyleBackColor = true;
             button27.Click += button27_Click;
-            // 
-            // button25
-            // 
-            button25.Location = new Point(341, 408);
-            button25.Name = "button25";
-            button25.Size = new Size(99, 29);
-            button25.TabIndex = 25;
-            button25.Text = "RSA";
-            button25.UseVisualStyleBackColor = true;
-            button25.Click += button25_Click;
             // 
             // textBox7
             // 
@@ -210,9 +230,9 @@
             // 
             // button22
             // 
-            button22.Location = new Point(241, 408);
+            button22.Location = new Point(346, 408);
             button22.Name = "button22";
-            button22.Size = new Size(94, 29);
+            button22.Size = new Size(69, 29);
             button22.TabIndex = 22;
             button22.Text = "DES";
             button22.UseVisualStyleBackColor = true;
@@ -222,7 +242,7 @@
             // 
             button21.Location = new Point(131, 408);
             button21.Name = "button21";
-            button21.Size = new Size(94, 29);
+            button21.Size = new Size(65, 29);
             button21.TabIndex = 21;
             button21.Text = "AES";
             button21.UseVisualStyleBackColor = true;
@@ -288,38 +308,6 @@
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(18, 148);
-            label2.Name = "label2";
-            label2.Size = new Size(77, 20);
-            label2.TabIndex = 27;
-            label2.Text = "Public Key";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(20, 197);
-            label4.Name = "label4";
-            label4.Size = new Size(82, 20);
-            label4.TabIndex = 28;
-            label4.Text = "Private Key";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(169, 148);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(246, 27);
-            textBox1.TabIndex = 29;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(169, 190);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(246, 27);
-            textBox4.TabIndex = 30;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -356,7 +344,6 @@
         private Button button21;
         private TextBox textBox7;
         private Label label7;
-        private Button button25;
         private Button button27;
         private TextBox textBox4;
         private TextBox textBox1;

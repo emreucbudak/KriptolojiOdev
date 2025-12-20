@@ -7,46 +7,38 @@ namespace KriptolojiOdev.Sifreleme.Class
 {
     public class TransportSecurityService : ITransportSecurityService
     {
-        private readonly string TunnelKey = "X7kP9mL2nQ5wE1rT4yU8iO";
-        
-        private string XorCipher(string input)
+        private readonly byte[] TunnelKey = Encoding.UTF8.GetBytes("X7kP9mL2nQ5wE1rT4yU8iO");
+
+        private byte[] XorProcess(byte[] data)
         {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < input.Length; i++)
+            byte[] result = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
             {
-                char inputChar = input[i];
-                char keyChar = TunnelKey[i % TunnelKey.Length];
-
-                char encryptedChar = (char)(inputChar ^ keyChar);
-                sb.Append(encryptedChar);
+                result[i] = (byte)(data[i] ^ TunnelKey[i % TunnelKey.Length]);
             }
-
-            return sb.ToString();
+            return result;
         }
 
         public string Encrypt(string plainText)
         {
             if (string.IsNullOrEmpty(plainText)) return "";
-
-            string xored = XorCipher(plainText);
-            byte[] bytes = Encoding.UTF8.GetBytes(xored);
-            return Convert.ToBase64String(bytes);
+            byte[] data = Encoding.UTF8.GetBytes(plainText);
+            byte[] xored = XorProcess(data);
+            return Convert.ToBase64String(xored);
         }
 
         public string Decrypt(string cipherText)
         {
             if (string.IsNullOrEmpty(cipherText)) return "";
-
             try
             {
-                byte[] bytes = Convert.FromBase64String(cipherText);
-                string xored = Encoding.UTF8.GetString(bytes);
-                return XorCipher(xored);
+                byte[] data = Convert.FromBase64String(cipherText);
+                byte[] xored = XorProcess(data);
+                return Encoding.UTF8.GetString(xored);
             }
             catch
             {
-                return "Hata: Veri çözülemedi";
+                return cipherText;
             }
         }
     }

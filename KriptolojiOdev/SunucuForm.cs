@@ -11,6 +11,7 @@ namespace KriptolojiOdev
         private IConnectionService connectionService = new ConnectionService();
         private IEncryptorService encryptorService = new EncryptorService();
         private IDecryptorService decryptorService = new DecryptorService();
+        private ITransportSecurityService transportService = new TransportSecurityService();
         private string serverPrivateKey;
         private string serverPublicKey;
 
@@ -40,45 +41,31 @@ namespace KriptolojiOdev
             }
         }
 
-
         public void MesajYaz(string paket)
         {
             try
             {
                 var p = paket.Split('|');
-                if (p.Length < 4) return;
+                if (p.Length < 4) return; // SUNUCU|MESSAGE|ALGO|TEXT -> En az 4 parça
                 if (p[0] != "SUNUCU") return;
 
-                string islem = p[1];
-                string algoritma = p[2];
-                string sifreliMetin = p[3];
-                string anahtar = p.Length > 4 ? p[4] : "";
-                string iv = p.Length > 5 ? p[5] : "";
-
-                string cozulmus = decryptorService.DecryptByAlgorithm(
-                    algoritma,
-                    sifreliMetin,
-                    anahtar,
-                    iv
-                );
+                string algoritma = p[2]; // ALGO kısmını al
+                string cozulmusMetin = p[3]; // TEXT kısmını al (Service zaten çözdü)
 
                 serverLog.SelectionColor = Color.Blue;
-                serverLog.AppendText("[CLIENT'TAN MESAJ]\n");
+                serverLog.AppendText("[CLIENT'TAN YENİ MESAJ]\n");
                 serverLog.SelectionColor = Color.Black;
-                serverLog.AppendText($"Mesaj: {algoritma}\n");
-
+                serverLog.AppendText($"Mesaj: {cozulmusMetin} ({algoritma})\n"); // Artık düzgün metin basar
                 serverLog.AppendText("------------------\n");
+                serverLog.ScrollToCaret();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
         }
-
         private async Task SendToClientAsync(string algorithm, string text, string key = "", string iv = "")
         {
             try
             {
+                // 1. Önce algoritma ile şifrele (Caesar, AES vs.)
                 string encryptedText = algorithm switch
                 {
                     "CAESAR" => encryptorService.CaesarEncrypt(text),
@@ -100,30 +87,22 @@ namespace KriptolojiOdev
                 string clientPublicKey = textBox4.Text;
                 string finalKey = key;
 
-                // Simetrik algoritmalarda key RSA ile şifrelenir
-                if (!string.IsNullOrEmpty(clientPublicKey) &&
-                    !string.IsNullOrEmpty(key) &&
+                // RSA ile Key şifreleme (Bu kalmalı, çünkü bu algoritma güvenliği)
+                if (!string.IsNullOrEmpty(clientPublicKey) && !string.IsNullOrEmpty(key) &&
                     (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {
                     finalKey = encryptorService.RsaEncrypt(key, clientPublicKey);
                 }
 
-                connectionService.Broadcast(
-                    "CLIENT",
-                    "Encrypt",
-                    algorithm,
-                    encryptedText,
-                    finalKey,
-                    iv
-                );
+                // ✅ DÜZELTME: securedText/Key/Iv değişkenlerini burada oluşturma!
+                // Doğrudan ham (algoritma ile şifrelenmiş ama transport katmanına girmemiş) hallerini gönder.
+                connectionService.Broadcast("CLIENT", "MESSAGE", algorithm, encryptedText, finalKey, iv);
 
                 serverLog.SelectionColor = Color.Green;
                 serverLog.AppendText($"[CLIENT'A GÖNDERİLDİ]: {algorithm}\n");
+                serverLog.ScrollToCaret();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gönderim Hatası: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Gönderim Hatası: " + ex.Message); }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -146,11 +125,7 @@ namespace KriptolojiOdev
         private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
 
+        private void textBox5_TextChanged(object sender, EventArgs e) { }
         private void SunucuForm_Load(object sender, EventArgs e) { }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
