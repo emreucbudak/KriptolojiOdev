@@ -8,6 +8,6 @@ namespace KriptolojiOdev.Baglanti.Interface
         Task<(string message, TcpClient client)> ConnectToServer();
 
         public Action<string> OnMessage { get; set; }
-        void Broadcast(string target, string operation, string algorithm, string text, string key, string iv);
+        void Broadcast(string target, string operation, string algorithm, string text, string key, string iv, string secType);
     }
 }

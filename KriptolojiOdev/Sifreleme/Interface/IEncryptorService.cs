@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KriptolojiOdev.Sifreleme.Interface
+﻿namespace KriptolojiOdev.Sifreleme.Interface
 {
     public interface IEncryptorService
     {
@@ -22,5 +16,7 @@ namespace KriptolojiOdev.Sifreleme.Interface
         string DesEncrypt(string metin, string key, string iv = null);
         string RsaEncrypt(string metin, string publicKeyXml);
         string ManuelDesEncrypt(string metin, string key, string iv = null);
+        string EccEncrypt(string metin, string publicKeyBase64);
+        public void EccKeyGenerate(out string pubBase64, out string privBase64);
     }
 }

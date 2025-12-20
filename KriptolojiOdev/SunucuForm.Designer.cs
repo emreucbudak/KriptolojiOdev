@@ -54,10 +54,15 @@
             label5 = new Label();
             textBox5 = new TextBox();
             label6 = new Label();
-            button15 = new Button();
             label7 = new Label();
             radioButton1 = new RadioButton();
             radioButton2 = new RadioButton();
+            textBox6 = new TextBox();
+            textBox7 = new TextBox();
+            label8 = new Label();
+            textBox8 = new TextBox();
+            label9 = new Label();
+            textBox9 = new TextBox();
             SuspendLayout();
             // 
             // serverLog
@@ -270,13 +275,13 @@
             // 
             textBox4.Location = new Point(12, 260);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(349, 27);
+            textBox4.Size = new Size(168, 27);
             textBox4.TabIndex = 22;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(146, 238);
+            label5.Location = new Point(12, 237);
             label5.Name = "label5";
             label5.Size = new Size(150, 20);
             label5.TabIndex = 23;
@@ -286,27 +291,18 @@
             // 
             textBox5.Location = new Point(12, 314);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(349, 27);
+            textBox5.Size = new Size(168, 27);
             textBox5.TabIndex = 24;
             textBox5.TextChanged += textBox5_TextChanged;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(146, 291);
+            label6.Location = new Point(12, 290);
             label6.Name = "label6";
-            label6.Size = new Size(147, 20);
+            label6.Size = new Size(117, 20);
             label6.TabIndex = 25;
-            label6.Text = "Oluşturulan RSA Keyi";
-            // 
-            // button15
-            // 
-            button15.Location = new Point(258, 589);
-            button15.Name = "button15";
-            button15.Size = new Size(94, 29);
-            button15.TabIndex = 26;
-            button15.Text = "ECC";
-            button15.UseVisualStyleBackColor = true;
+            label6.Text = "Private RSA Keyi";
             // 
             // label7
             // 
@@ -339,15 +335,66 @@
             radioButton2.Text = "ECC";
             radioButton2.UseVisualStyleBackColor = true;
             // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(1190, 79);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(125, 27);
+            textBox6.TabIndex = 32;
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(1190, 46);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(125, 27);
+            textBox7.TabIndex = 33;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(202, 237);
+            label8.Name = "label8";
+            label8.Size = new Size(149, 20);
+            label8.TabIndex = 34;
+            label8.Text = "Public Key (ECC ICIN)";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(186, 260);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(168, 27);
+            textBox8.TabIndex = 35;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(202, 290);
+            label9.Name = "label9";
+            label9.Size = new Size(116, 20);
+            label9.TabIndex = 36;
+            label9.Text = "Private ECC Keyi";
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(186, 313);
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(168, 27);
+            textBox9.TabIndex = 37;
+            // 
             // SunucuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1154, 627);
+            ClientSize = new Size(1148, 627);
+            Controls.Add(textBox9);
+            Controls.Add(label9);
+            Controls.Add(textBox8);
+            Controls.Add(label8);
+            Controls.Add(textBox7);
+            Controls.Add(textBox6);
             Controls.Add(radioButton2);
             Controls.Add(radioButton1);
             Controls.Add(label7);
-            Controls.Add(button15);
             Controls.Add(label6);
             Controls.Add(textBox5);
             Controls.Add(label5);
@@ -409,9 +456,14 @@
         private Label label5;
         private TextBox textBox5;
         private Label label6;
-        private Button button15;
         private Label label7;
         private RadioButton radioButton1;
         private RadioButton radioButton2;
+        private TextBox textBox6;
+        private TextBox textBox7;
+        private Label label8;
+        private TextBox textBox8;
+        private Label label9;
+        private TextBox textBox9;
     }
 }

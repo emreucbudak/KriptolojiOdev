@@ -1,4 +1,11 @@
 ﻿using KriptolojiOdev.Sifreleme.Interface;
+using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -312,8 +319,48 @@ namespace KriptolojiOdev.Sifreleme.Class
                 return Encoding.UTF8.GetString(rsa.Decrypt(data, false));
             }
         }
+        public string EccDecrypt(string metinBase64, string privateKeyBase64)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(metinBase64)) return "";
 
-        // Algoritma Seçici
+                byte[] fullPackage = Convert.FromBase64String(metinBase64);
+                byte[] privateKeyBytes = Convert.FromBase64String(privateKeyBase64);
+                AsymmetricKeyParameter myPrivateKey = PrivateKeyFactory.CreateKey(privateKeyBytes);
+
+                using (var asn1Stream = new Asn1InputStream(fullPackage))
+                {
+                    var pubKeyAsn1 = asn1Stream.ReadObject();
+                    if (pubKeyAsn1 == null) throw new Exception("Geçici Public Key okunamadı!");
+
+                    byte[] ephPubBytes = pubKeyAsn1.GetEncoded();
+                    int keyLength = ephPubBytes.Length;
+
+                    byte[] encryptedData = new byte[fullPackage.Length - keyLength];
+                    Array.Copy(fullPackage, keyLength, encryptedData, 0, encryptedData.Length);
+
+                    AsymmetricKeyParameter ephemeralPublicKey = PublicKeyFactory.CreateKey(ephPubBytes);
+
+                    var engine = new IesEngine(
+                        new Org.BouncyCastle.Crypto.Agreement.ECDHBasicAgreement(),
+                        new Org.BouncyCastle.Crypto.Generators.Kdf2BytesGenerator(new Org.BouncyCastle.Crypto.Digests.Sha256Digest()),
+                        new Org.BouncyCastle.Crypto.Macs.HMac(new Org.BouncyCastle.Crypto.Digests.Sha256Digest()));
+
+                    var iesParams = new IesParameters(new byte[0], new byte[0], 128);
+
+                    engine.Init(false, myPrivateKey, ephemeralPublicKey, iesParams);
+                    byte[] decryptedData = engine.ProcessBlock(encryptedData, 0, encryptedData.Length);
+
+                    return Encoding.UTF8.GetString(decryptedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("ECC Çözme Kritik Hatası: " + ex.Message);
+            }
+        }
+
         public string DecryptByAlgorithm(string algorithm, string text, string key, string iv)
         {
             return algorithm.ToUpperInvariant() switch
@@ -332,6 +379,7 @@ namespace KriptolojiOdev.Sifreleme.Class
                 "DES" => DesDecrypt(text, key, iv),
                 "MANUEL_DES" => ManuelDesDecrypt(text, key, iv),
                 "RSA" => RsaDecrypt(text, key),
+                "ECC" => EccDecrypt(text, key),
                 _ => text
             };
         }

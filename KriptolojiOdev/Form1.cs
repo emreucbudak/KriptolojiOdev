@@ -20,6 +20,17 @@ namespace KriptolojiOdev
         public Form1()
         {
             InitializeComponent();
+            OtomatikAnahtarHazirla();
+        }
+
+        private void OtomatikAnahtarHazirla()
+        {
+            RsaAnahtarUret(out string rsaPub, out string rsaPriv);
+            textBox1.Text = rsaPub;
+            textBox4.Text = rsaPriv;
+            encryptorService.EccKeyGenerate(out string eccPub, out string eccPriv);
+            textBox5.Text = eccPub;
+            textBox6.Text = eccPriv;
         }
 
         private async Task StartListeningAsync()
@@ -32,10 +43,7 @@ namespace KriptolojiOdev
                     int bytesRead = await _activeStream.ReadAsync(buffer, 0, buffer.Length);
                     if (bytesRead <= 0) continue;
                     string incoming = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        MesajLogla(incoming);
-                    }));
+                    Invoke((MethodInvoker)(() => { MesajLogla(incoming); }));
                 }
             }
             catch { }
@@ -46,31 +54,49 @@ namespace KriptolojiOdev
             try
             {
                 var p = paket.Split('|');
-                if (p.Length < 4 || p[0] != "CLIENT") return;
-
-                // Paket: CLIENT|MESSAGE|ALGO|DATA|KEY|IV
-                string algoritma = p[2].Trim().ToUpperInvariant(); // Boşlukları sil ve büyük harf yap
+                if (p.Length < 4) return;
 
                 string transportDecrypted = transportService.Decrypt(p[3]).Trim();
+
+                if (transportDecrypted.Contains("SUNUCU|KEY_EXCHANGE"))
+                {
+                    var parts = transportDecrypted.Split('|');
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        textBox8.Text = parts[2];
+                        textBox9.Text = parts[3];
+                        clientLog.AppendText("[SİSTEM]: Sunucu anahtarları başarıyla alındı. Kanal Güvenli!\n");
+                    }));
+                    return;
+                }
+
+                if (p[0] != "CLIENT") return;
+
+                string algoritma = p[2].Trim().ToUpperInvariant();
                 string securedKey = p.Length > 4 ? transportService.Decrypt(p[4]).Trim() : "";
                 string securedIv = p.Length > 5 ? transportService.Decrypt(p[5]).Trim() : "";
+                string secType = p.Length > 6 ? p[6] : "RSA";
 
-                string keyToUse = !string.IsNullOrEmpty(securedKey) ? securedKey : textBox3.Text;
+                string actualKey = securedKey;
+                if (!string.IsNullOrEmpty(securedKey))
+                {
+                    if (secType == "ECC")
+                        actualKey = decryptorService.EccDecrypt(securedKey, textBox6.Text);
+                    else
+                        actualKey = decryptorService.RsaDecrypt(securedKey, textBox4.Text);
+                }
 
-                // 🛡️ KRİTİK NOKTA: Buradaki algoritma ismi (CAESAR) 
-                // DecryptorService içindeki case ile BİREBİR aynı olmalı.
-                string plainText = decryptorService.DecryptByAlgorithm(algoritma, transportDecrypted, keyToUse, securedIv);
+                string plainText = decryptorService.DecryptByAlgorithm(algoritma, transportDecrypted, actualKey, securedIv);
 
                 clientLog.SelectionColor = Color.Red;
-                clientLog.AppendText("[SUNUCUDAN YENİ MESAJ]\n");
+                clientLog.AppendText($"[SUNUCUDAN MESAJ] ({secType})\n");
                 clientLog.SelectionColor = Color.Black;
-                clientLog.AppendText($"Mesaj: {plainText}\n"); // Burası artık çözülmüş olmalı
+                clientLog.AppendText($"Mesaj: {plainText}\n");
                 clientLog.AppendText("-----------------------\n");
                 clientLog.ScrollToCaret();
             }
             catch (Exception ex) { clientLog.AppendText($"[HATA]: {ex.Message}\n"); }
         }
-
         private async Task SendMessageToServerAsync(string operation, string algorithm, string text, string key = "", string iv = "")
         {
             try
@@ -82,8 +108,17 @@ namespace KriptolojiOdev
                     if (_activeClient == null) return;
                     _activeStream = _activeClient.GetStream();
                     _ = Task.Run(StartListeningAsync);
+                    string handshake = $"CLIENT|KEY_EXCHANGE|{textBox1.Text}|{textBox5.Text}";
+                    byte[] hsData = Encoding.UTF8.GetBytes(handshake);
+                    await _activeStream.WriteAsync(hsData, 0, hsData.Length);
+                    clientLog.AppendText("[SİSTEM]: Bağlantı kuruldu, anahtarlar sunucuya gönderildi. Bekleyin...\n");
+                    return;
                 }
-
+                if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES" || algorithm == "RSA") && string.IsNullOrEmpty(textBox8.Text))
+                {
+                    MessageBox.Show("Sunucu anahtarları henüz ulaşmadı! Lütfen 1-2 saniye bekleyip tekrar deneyin.");
+                    return;
+                }
                 string encryptedByAlgo = algorithm switch
                 {
                     "CAESAR" => encryptorService.CaesarEncrypt(text),
@@ -99,32 +134,34 @@ namespace KriptolojiOdev
                     "AES" => encryptorService.AesEncrypt(text, key, iv),
                     "DES" => encryptorService.DesEncrypt(text, key, iv),
                     "MANUEL_DES" => encryptorService.ManuelDesEncrypt(text, key, iv),
-                    "RSA" => encryptorService.RsaEncrypt(text, key),
+                    "RSA" => encryptorService.RsaEncrypt(text, textBox8.Text),
                     _ => text
                 };
-
                 string finalKeyToSend = key;
-                if ((algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES") && !string.IsNullOrEmpty(textBox1.Text))
+                string secType = "RSA";
+                if (!string.IsNullOrEmpty(key) && (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {
-                    finalKeyToSend = encryptorService.RsaEncrypt(key, textBox1.Text);
+                    if (radioButton2.Checked)
+                    {
+                        finalKeyToSend = encryptorService.EccEncrypt(key, textBox9.Text);
+                        secType = "ECC";
+                    }
+                    else
+                    {
+                        finalKeyToSend = encryptorService.RsaEncrypt(key, textBox8.Text);
+                        secType = "RSA";
+                    }
                 }
-
                 string securedText = transportService.Encrypt(encryptedByAlgo);
                 string securedKey = string.IsNullOrEmpty(finalKeyToSend) ? "" : transportService.Encrypt(finalKeyToSend);
                 string securedIV = string.IsNullOrEmpty(iv) ? "" : transportService.Encrypt(iv);
-
-                string msg = $"SUNUCU|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}";
+                string msg = $"SUNUCU|{operation}|{algorithm}|{securedText}|{securedKey}|{securedIV}|{secType}";
                 byte[] data = Encoding.UTF8.GetBytes(msg);
                 await _activeStream.WriteAsync(data, 0, data.Length);
-
                 clientLog.SelectionColor = Color.Blue;
-                clientLog.AppendText($"[GÖNDERİLDİ]: {algorithm}\n");
-                clientLog.SelectionColor = Color.Black;
+                clientLog.AppendText($"[GÖNDERİLDİ]: {algorithm} ({secType})\n");
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hata: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
         }
 
         private void RsaAnahtarUret(out string publicKey, out string privateKey)
@@ -148,32 +185,17 @@ namespace KriptolojiOdev
         private async void button19_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "TRENRAYI", textBox2.Text, textBox3.Text);
         private async void button21_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "AES", textBox2.Text, textBox3.Text, textBox7.Text);
         private async void button22_Click(object sender, EventArgs e) => await SendMessageToServerAsync("Encrypt", "DES", textBox2.Text, textBox3.Text, textBox7.Text);
-
         private async void button27_Click(object sender, EventArgs e)
         {
             if (textBox3.Text.Length != 8) return;
             await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, textBox3.Text, textBox7.Text);
         }
-
         private async void button25_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox2.Text)) return;
-            if (string.IsNullOrEmpty(textBox1.Text))
-            {
-                RsaAnahtarUret(out string pub, out string priv);
-                textBox1.Text = pub;
-                textBox4.Text = priv;
-            }
-            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text, textBox1.Text);
+            await SendMessageToServerAsync("Encrypt", "RSA", textBox2.Text);
         }
-        private async void label1_Click(object sender, EventArgs e)
-
-        {
-        }
-
-        private async void groupBox1_Enter(object sender, EventArgs e)
-
-        {
-        }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void groupBox1_Enter(object sender, EventArgs e) { }
     }
 }
