@@ -154,7 +154,6 @@ namespace KriptolojiOdev
             if (textBox3.Text.Length != 8) return;
             await SendMessageToServerAsync("Encrypt", "MANUEL_DES", textBox2.Text, textBox3.Text, textBox7.Text);
         }
-
         private async void button25_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox2.Text)) return;
