@@ -53,6 +53,7 @@
             button11 = new Button();
             button10 = new Button();
             button9 = new Button();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -139,6 +140,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox4);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label4);
@@ -308,6 +310,15 @@
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(21, 443);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 31;
+            button1.Text = "ECC";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -349,5 +360,6 @@
         private TextBox textBox1;
         private Label label4;
         private Label label2;
+        private Button button1;
     }
 }
