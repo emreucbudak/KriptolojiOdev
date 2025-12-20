@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KriptolojiOdev.Sifreleme.Interface
+﻿namespace KriptolojiOdev.Sifreleme.Interface
 {
     public interface IDecryptorService
     {

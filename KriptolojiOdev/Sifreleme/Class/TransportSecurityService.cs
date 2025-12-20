@@ -1,6 +1,4 @@
-﻿using KriptolojiOdev.Baglanti.Interface;
-using KriptolojiOdev.Sifreleme.Interface;
-using System;
+﻿using KriptolojiOdev.Sifreleme.Interface;
 using System.Text;
 
 namespace KriptolojiOdev.Sifreleme.Class
