@@ -16,6 +16,7 @@
         string DesDecrypt(string metin, string key, string iv = null);
         string RsaDecrypt(string metin, string privateKeyXml);
         string ManuelDesDecrypt(string metin, string key, string iv = null);
+        string EccDecrypt(string metin, string privateKeyBase64);
 
         string DecryptByAlgorithm(string algorithm, string text, string key, string iv);
     }

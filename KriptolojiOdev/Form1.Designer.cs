@@ -38,7 +38,11 @@
             label1 = new Label();
             textBox3 = new TextBox();
             groupBox1 = new GroupBox();
-            button1 = new Button();
+            textBox6 = new TextBox();
+            textBox5 = new TextBox();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
+            label5 = new Label();
             textBox4 = new TextBox();
             textBox1 = new TextBox();
             label4 = new Label();
@@ -54,9 +58,8 @@
             button11 = new Button();
             button10 = new Button();
             button9 = new Button();
-            label5 = new Label();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
+            textBox8 = new TextBox();
+            textBox9 = new TextBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -120,7 +123,7 @@
             // 
             clientLog.Location = new Point(522, 13);
             clientLog.Name = "clientLog";
-            clientLog.Size = new Size(762, 664);
+            clientLog.Size = new Size(753, 664);
             clientLog.TabIndex = 12;
             clientLog.Text = "";
             // 
@@ -143,10 +146,11 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(textBox6);
+            groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(radioButton2);
             groupBox1.Controls.Add(radioButton1);
             groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(textBox4);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label4);
@@ -178,27 +182,63 @@
             groupBox1.Text = "Encrypt";
             groupBox1.Enter += groupBox1_Enter;
             // 
-            // button1
+            // textBox6
             // 
-            button1.Location = new Point(21, 506);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 31;
-            button1.Text = "ECC";
-            button1.UseVisualStyleBackColor = true;
+            textBox6.Location = new Point(304, 148);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(111, 27);
+            textBox6.TabIndex = 36;
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(304, 190);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(111, 27);
+            textBox5.TabIndex = 35;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(340, 346);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(56, 24);
+            radioButton2.TabIndex = 34;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "ECC";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(241, 348);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(57, 24);
+            radioButton1.TabIndex = 33;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "RSA";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(19, 350);
+            label5.Name = "label5";
+            label5.Size = new Size(192, 20);
+            label5.TabIndex = 32;
+            label5.Text = "AES DES ŞİFRELEME SEÇİMİ";
             // 
             // textBox4
             // 
             textBox4.Location = new Point(169, 190);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(246, 27);
+            textBox4.Size = new Size(129, 27);
             textBox4.TabIndex = 30;
             // 
             // textBox1
             // 
             textBox1.Location = new Point(169, 148);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(246, 27);
+            textBox1.Size = new Size(129, 27);
             textBox1.TabIndex = 29;
             // 
             // label4
@@ -325,42 +365,27 @@
             button9.UseVisualStyleBackColor = true;
             button9.Click += button9_Click;
             // 
-            // label5
+            // textBox8
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(19, 350);
-            label5.Name = "label5";
-            label5.Size = new Size(192, 20);
-            label5.TabIndex = 32;
-            label5.Text = "AES DES ŞİFRELEME SEÇİMİ";
+            textBox8.Location = new Point(1302, 42);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(116, 27);
+            textBox8.TabIndex = 16;
             // 
-            // radioButton1
+            // textBox9
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(241, 348);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(57, 24);
-            radioButton1.TabIndex = 33;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "RSA";
-            radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(340, 346);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(56, 24);
-            radioButton2.TabIndex = 34;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "ECC";
-            radioButton2.UseVisualStyleBackColor = true;
+            textBox9.Location = new Point(1302, 107);
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(116, 27);
+            textBox9.TabIndex = 17;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1287, 682);
+            ClientSize = new Size(1291, 682);
+            Controls.Add(textBox9);
+            Controls.Add(textBox8);
             Controls.Add(groupBox1);
             Controls.Add(clientLog);
             Name = "Form1";
@@ -368,6 +393,7 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -397,9 +423,12 @@
         private TextBox textBox1;
         private Label label4;
         private Label label2;
-        private Button button1;
         private Label label5;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
+        private TextBox textBox6;
+        private TextBox textBox5;
+        private TextBox textBox8;
+        private TextBox textBox9;
     }
 }
