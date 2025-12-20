@@ -136,48 +136,45 @@ namespace KriptolojiOdev.Sifreleme.Class
         public string PolybiusEncrypt(string metin, string key)
         {
             string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-            string square = "";
-
-            foreach (char c in key.ToUpper())
-            {
-                if (!square.Contains(c) && alphabet.Contains(c)) square += c;
-            }
-            foreach (char c in alphabet)
-            {
-                if (!square.Contains(c)) square += c;
-            }
-
+            string square = BuildPolybiusSquare(key, alphabet); // Yardımcı metod kullanıyoruz
             StringBuilder cipherText = new StringBuilder();
             metin = metin.ToUpper().Replace("J", "I");
 
             foreach (char c in metin)
             {
-                if (!alphabet.Contains(c)) continue;
                 int index = square.IndexOf(c);
+                if (index == -1) continue;
                 cipherText.Append(index / 5 + 1).Append(index % 5 + 1);
             }
             return cipherText.ToString();
         }
 
+
+        private string BuildPolybiusSquare(string key, string alphabet)
+        {
+            string square = "";
+            foreach (char c in (key ?? "").ToUpper())
+                if (!square.Contains(c) && alphabet.Contains(c)) square += c;
+            foreach (char c in alphabet)
+                if (!square.Contains(c)) square += c;
+            return square;
+        }
+
         public string PigpenEncrypt(string metin, string key)
         {
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            string[] symbols = new string[] {
-                "!", "@", "#", "$", "%", "^", "&", "*", "(", ")",
-                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
-                "1", "2", "3", "4", "5", "6"
-            };
-
+            string symbols = "!@#$%^&*()abcdefghij123456"; // 26 karakter
+            int shift = string.IsNullOrEmpty(key) ? 0 : key.Length;
             metin = metin.ToUpper();
             StringBuilder cipherText = new StringBuilder();
 
             foreach (char c in metin)
             {
-                if (letters.Contains(c))
+                int idx = letters.IndexOf(c);
+                if (idx != -1)
                 {
-                    int idx = letters.IndexOf(c);
-                    if (!string.IsNullOrEmpty(key)) idx = (idx + key.Length) % letters.Length;
-                    cipherText.Append(symbols[idx]);
+                    int encryptedIdx = (idx + shift) % 26;
+                    cipherText.Append(symbols[encryptedIdx]);
                 }
                 else cipherText.Append(c);
             }
