@@ -1,124 +1,87 @@
 <div align="center">
 
-# 🛡️ Kriptoloji – TCP Tabanlı Şifreleme Simülasyonu
+# 🛡️ Kriptoloji – TCP Tabanlı Güvenli Mesajlaşma ve Şifreleme Simülasyonu
 
 [![C#](https://img.shields.io/badge/Language-C%23-239120?style=for-the-badge&logo=c-sharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![.NET](https://img.shields.io/badge/Framework-.NET_Windows_Forms-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 [![TCP](https://img.shields.io/badge/Protocol-TCP%2FIP-blue?style=for-the-badge)](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
 
-<p>Bu proje, TCP soket programlama kullanılarak geliştirilmiş bir Client-Server (İstemci-Sunucu) şifreleme uygulamasıdır. Windows Forms arayüzü üzerinden metinleri ve anahtarları alır, sunucuda işler ve sonucu döndürür.</p>
+<p>Bu proje, TCP/IP protokolü üzerinden çalışan, <b>uçtan uca şifreli (E2EE)</b> bir mesajlaşma simülasyonudur. Klasik yöntemlerden modern asimetrik sistemlere (ECC, RSA) kadar geniş bir algoritma yelpazesini destekler.</p>
 
 </div>
 
 ---
 
-## 🏗️ Mimari Yapı
+## 🏗️ Mimari Yapı ve Çift Yönlü İletişim
 
-| Bileşen | Görevi |
-| :--- | :--- |
-| **🌐 Client (İstemci)** | Kullanıcıdan ham metni ve (gerekirse) şifreleme anahtarını (Key) alır, TCP üzerinden sunucuya iletir. |
-| **🖥️ Server (Sunucu)** | Gelen veriyi yakalar, seçilen algoritmaya göre **Şifreleme (Encrypt)** veya **Çözme (Decrypt)** işlemini yapar ve sonucu Client'a geri yollar. |
+Proje, sadece veri işleyen bir araç değil, tam teşekküllü bir **Client-Server Mesajlaşma** uygulamasıdır. 
+
+* **🌐 Bidirectional (Çift Yönlü):** Hem İstemci hem de Sunucu birbirine şifreli mesajlar gönderebilir ve gelen mesajları anlık olarak deşifre edebilir.
+* **🤝 Otomatik Handshake:** Bağlantı kurulduğu an, taraflar karşılıklı olarak **RSA** ve **ECC Public Key** takası gerçekleştirerek güvenli bir iletişim kanalı oluşturur.
+* **🔒 Transport Layer Security:** Veriler ağ üzerinde ham halde değil, `TransportSecurity` katmanında ek bir koruma ve Base64 formatında iletilir.
 
 ---
 
 ## ✨ Desteklenen Algoritmalar
 
-Proje, klasik, modern (Blok) ve asimetrik şifreleme algoritmalarını desteklemektedir. Ayrıca eğitim amaçlı manuel implementasyonlar içerir.
+Uygulama, kriptoloji tarihini ve modern standartları kapsayan 15'ten fazla algoritma içerir:
 
-| Algoritma | Key / IV Durumu | Açıklama |
-| :--- | :---: | :--- |
-| **RSA Encryption** | 🔑 Public / Private Pair |  Asimetrik şifreleme standardı. 2048-bit anahtar çifti kullanır. |
-| **Manuel DES (No-Lib)** | 🔑 Key + IV | Kütüphanesiz, eğitim amaçlı manuel implementasyon (Feistel Ağı / Bitwise işlemler). |
-| **AES Encryption** | 🔑 Key + Opsiyonel IV | Modern standart (Advanced Encryption Standard). 128-bit blok şifreleme. |
-| **DES Encryption** | 🔑 Key + Opsiyonel IV | Klasik standart (Data Encryption Standard). 64-bit blok şifreleme. |
-| **Vigenere Cipher** | 🔑 Key Var | Key sadece harflerden oluşmalıdır (A-Z). |
-| **Substitution Cipher** | 🔑 Key Var | 26 benzersiz harften oluşan bir alfabe anahtarı gerektirir. |
-| **Caesar Cipher** | 🔓 Key Yok | Sabit (+3) kaydırma algoritması. |
-| **Affine Cipher** | 🔑 Key Var | Doğrusal fonksiyon (ax + b) mantığıyla çalışır. |
-| **Rota Cipher** | 🔑 Key Var | Key sayı olmalıdır; yönlü kaydırma yapar. |
-| **Columnar Transposition**| 🔑 Key Var | Metin, anahtara göre sütunlar halinde yeniden sıralanır. |
-| **Hill Cipher** | 🔑 Key Var | 2x2 matris anahtarı kullanır (Lineer Cebir). |
-| **Polybius Cipher** | 🔓 Key Yok | 5x5 tablo ile harfleri koordinat (rakam) çiftlerine dönüştürür. |
-| **Tren Rayı (Rail Fence)** | 🔑 Key Var | Metni zikzak (ray) şeklinde yazar ve şifreler. |
-| **Pigpen Cipher** | 🔓 Key Yok | Harfleri geometrik şekillerle sembolize eder. |
+| Kategori | Algoritma | Key / IV Mekanizması | Açıklama |
+| :--- | :--- | :---: | :--- |
+| **Asimetrik** | **ECC (Elliptic Curve)** | 🔑 Secp256r1 | RSA'ya göre çok daha kısa anahtarlarla üst düzey güvenlik sağlar (ECIES). |
+| **Asimetrik** | **RSA Encryption** | 🔑 2048-bit Pair | Endüstri standardı asimetrik şifreleme. Anahtar takasında kullanılır. |
+| **Blok (Modern)**| **AES Encryption** | 🔑 256-bit + IV | Gelişmiş Şifreleme Standardı. Simetrik şifreleme lideri. |
+| **Blok (Klasik)**| **DES / Manuel DES** | 🔑 64-bit + IV | Klasik DES ve eğitim amaçlı kütüphanesiz (Manuel) bitwise implementasyonu. |
+| **Klasik** | **Vigenere / Hill** | 🔑 Kelime / Matris | Çok alfabeli ve lineer cebir tabanlı klasik şifrelemeler. |
+| **Yerine Koyma** | **Caesar / Affine** | 🔓 Sabit / Fonksiyon | Tarihteki en eski şifreleme tekniklerinin modern yazılım uyarlaması. |
+| **Transpozisyon**| **Columnar / Rail Fence**| 🔑 Karakter Dizilimi | Metnin geometrik veya sütun bazlı yer değiştirmesiyle şifreleme. |
+| **Sembolik** | **Pigpen / Polybius** | 🔓 Geometrik / 5x5 | Harflerin sembollere veya sayı çiftlerine (koordinatlara) dönüştürülmesi. |
 
 ---
 
-## ⚡ Nasıl Kullanılır?
+## 🚀 Güvenli İletişim Akışı
 
-1.  **Metin Girişi:** Şifrelenmesi veya çözülmesi istenen metni ilgili kutuya girin.
-2.  **Key Girişi:** Seçtiğiniz algoritma anahtar gerektiriyorsa geçerli bir key girin.
-    * *Not: RSA seçerseniz sistem otomatik olarak Public/Private anahtar çifti oluşturur.*
-3.  **Opsiyonel IV (AES/DES):** AES veya DES seçerseniz, dilerseniz özel bir IV (Initialization Vector) girebilirsiniz. Boş bırakırsanız sistem otomatik güvenli bir IV üretir.
-4.  **İşlem Seçimi:** İlgili algoritmanın butonuna tıklayın.
-5.  **Sonuç:** Program arka planda TCP bağlantısını kurar, veriyi sunucuya gönderir ve işlenen veriyi ekrana yansıtır.
+1.  **Sunucu Başlatma:** Sunucu (Server) dinleme moduna geçer ve kendi asimetrik anahtarlarını (RSA/ECC) üretir.
+2.  **Bağlantı ve El Sıkışma:** İstemci (Client) bağlandığı an kendi Public Key'lerini sunucuya gönderir; sunucu da kendi anahtarlarıyla yanıt verir.
+3.  **Hibrit Şifreleme:** Mesajlar (AES/DES vb.) simetrik anahtarlarla şifrelenir. Bu simetrik anahtarlar ise ağ üzerinden gönderilmeden önce **RSA** veya **ECC** ile korunur.
+4.  **Çift Yönlü Mesajlaşma:** Artık her iki taraf da anahtar kutuları dolduktan sonra tıkır tıkır güvenli mesajlaşabilir.
 
 ---
 
 ## 📸 Uygulama Ekran Görüntüleri
 
-Aşağıdaki başlıklara tıklayarak ekran görüntülerini inceleyebilirsiniz.
-
 <details>
-<summary><b>1️⃣ Sunucu Durumları (Başlatma)</b></summary>
+<summary><b>1️⃣ Güvenli Kanal Kurulumu (RSA & ECC Exchange)</b></summary>
 <br>
 
-**Sunucu Başlatılmadan Önce:**
-<img width="800" src="https://github.com/user-attachments/assets/ddf718f3-1bb1-4d91-8bab-561f4f4a2a12" />
-
-**Sunucu Başlatıldığında (Dinleme Modu):**
-<img width="800" src="https://github.com/user-attachments/assets/e7faa831-8dbd-499e-b360-954a2d70fe01" />
+**Anahtarların Otomatik Üretilmesi ve Takası:**
+*Buraya asimetrik anahtarların kutulara dolduğu ekran görüntüsünü ekleyin.*
 </details>
 
 <details>
-<summary><b>2️⃣ Şifreleme Örnekleri (Key Gerektirmeyen)</b></summary>
+<summary><b>2️⃣ Sunucudan İstemciye (Server-to-Client) Mesajlaşma</b></summary>
 <br>
 
-**Caesar, Polybius vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="800" src="https://github.com/user-attachments/assets/8fa531f9-edab-49d5-918b-b0e64d5da811" />
-</details>
-
-<details>
-<summary><b>3️⃣ Şifreleme Örnekleri (Key Gerektiren)</b></summary>
-<br>
-
-**Vigenere, Hill, Rota vb. algoritmalar için Encrypt/Decrypt işlemleri:**
-<img width="1282" height="673" src="https://github.com/user-attachments/assets/2b4070a3-5ec0-4a4c-91f3-aaeb00c0aa43" />
+**Sunucunun mesajı şifreleyip göndermesi ve İstemcinin çözmesi:**
+*Buraya SunucuForm'un mesaj gönderdiği görseli ekleyin.*
 </details>
 
 ---
 
-## 🦈 Wireshark Ağ Analizi
+## 🦈 Wireshark Ağ Analizi (ECC & RSA Kanıtı)
 
-Uygulamanın TCP paketleri üzerinden veri transferini kanıtlayan analiz görüntüleri.
-
-<details>
-<summary><b>📡 Genel Wireshark Görünümü</b></summary>
-<br>
-<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/63af27f9-6a9d-4327-8322-773a3a9b8cee" />
-
-</details>
+Uygulamanın ağ katmanında veriyi nasıl paketlediğini gösteren analizler:
 
 <details>
-<summary><b>🔒 Şifreleme (Encrypt) Paketleri</b></summary>
+<summary><b>📡 ECC Destekli Paket Analizi</b></summary>
 <br>
-
-**Key GEREKTİRMEYEN algoritma ile gönderilen paket:**
-<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/7401c454-67b5-48cc-b8b2-c254c6b795d5" />
-
-
-**Key GEREKTİREN algoritma ile gönderilen paket:**
+ECC ile korunan bir anahtarın ağ üzerindeki görünümü:
 <img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/982f9c18-30c6-4c63-9ede-385510a16b5d" />
-
 </details>
 
 <details>
-<summary><b>🔓 Şifre Çözme (Decrypt) Paketleri</b></summary>
+<summary><b>🔒 Şifreli Veri Transferi</b></summary>
 <br>
-
-**Key GEREKTİRMEYEN algoritma için Decrypt paketi:**
-<img width="1918" height="1017" alt="image" src="https://github.com/user-attachments/assets/5e3ceff4-3511-40ca-abfa-d5d7f08ae496" />
-**Key GEREKTİREN algoritma için Decrypt paketi:**
-<img width="1917" height="1018" alt="image" src="https://github.com/user-attachments/assets/f4ccb0e6-838a-4e3d-8f2d-61c671da7b8e" />
-
+Açık metin yerine geçen karmaşık `TransportLayer` verisi:
+<img width="1918" height="1020" alt="image" src="https://github.com/user-attachments/assets/7401c454-67b5-48cc-b8b2-c254c6b795d5" />
 </details>
