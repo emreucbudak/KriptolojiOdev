@@ -32,10 +32,7 @@ namespace KriptolojiOdev
 
             connectionService.OnMessage = (msg) =>
             {
-                Invoke((MethodInvoker)(() =>
-                {
-                    MesajYaz(msg);
-                }));
+                Invoke((MethodInvoker)(() => { MesajYaz(msg); }));
             };
         }
 
@@ -61,20 +58,13 @@ namespace KriptolojiOdev
             {
                 var p = paket.Split('|');
 
-                if (p[0] == "HATA")
-                {
-                    serverLog.SelectionColor = Color.Red;
-                    serverLog.AppendText($"[SİSTEM HATASI]: {p[1]}\n");
-                    return;
-                }
-
                 if (p.Length >= 4 && p[0] == "CLIENT" && p[1] == "KEY_EXCHANGE")
                 {
                     Invoke((MethodInvoker)(() =>
                     {
                         textBox7.Text = p[2];
                         textBox6.Text = p[3];
-                        serverLog.AppendText("[SİSTEM]: İstemci anahtarları alındı. Güvenli kanal aktif.\n");
+                        serverLog.AppendText("[SİSTEM]: İstemci bağlandı, anahtarlar alındı.\n");
                         string response = $"SUNUCU|KEY_EXCHANGE|{serverPublicKey}|{serverEccPublicKey}";
                         connectionService.Broadcast("CLIENT", "INFO", "HANDSHAKE", response, "", "", "NONE");
                     }));
@@ -102,7 +92,7 @@ namespace KriptolojiOdev
             {
                 if (string.IsNullOrEmpty(textBox7.Text))
                 {
-                    MessageBox.Show("İstemci henüz bağlanmadı veya anahtarlar alınmadı!");
+                    MessageBox.Show("İstemci henüz bağlanmadı!");
                     return;
                 }
 
@@ -125,7 +115,7 @@ namespace KriptolojiOdev
                 };
 
                 string finalKeyToSend = key;
-                string secType = "RSA";
+                string secType = "NONE";
 
                 if (!string.IsNullOrEmpty(key) && (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {
@@ -145,7 +135,7 @@ namespace KriptolojiOdev
                 serverLog.SelectionColor = Color.Green;
                 serverLog.AppendText($"[GÖNDERİLDİ]: {algorithm} ({secType})\n");
             }
-            catch (Exception ex) { MessageBox.Show("Gönderim Hatası: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -168,7 +158,7 @@ namespace KriptolojiOdev
         private async void button12_Click(object sender, EventArgs e) => await SendToClientAsync("AES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button13_Click(object sender, EventArgs e) => await SendToClientAsync("DES", textBox1.Text, textBox2.Text, textBox3.Text);
         private async void button14_Click(object sender, EventArgs e) => await SendToClientAsync("MANUEL_DES", textBox1.Text, textBox2.Text, textBox3.Text);
-        private void textBox5_TextChanged(object sender, EventArgs e) { }
-        private void SunucuForm_Load(object sender, EventArgs e) { }
+        private async void textBox5_TextChanged(object sender, EventArgs e) { }
+        private async void SunucuForm_Load(object sender, EventArgs e) { }
     }
 }
