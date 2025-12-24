@@ -50,7 +50,6 @@
             textBox2 = new TextBox();
             label4 = new Label();
             textBox3 = new TextBox();
-            textBox4 = new TextBox();
             label5 = new Label();
             textBox5 = new TextBox();
             label6 = new Label();
@@ -62,7 +61,6 @@
             label8 = new Label();
             textBox8 = new TextBox();
             label9 = new Label();
-            textBox9 = new TextBox();
             SuspendLayout();
             // 
             // serverLog
@@ -271,13 +269,6 @@
             textBox3.Size = new Size(349, 27);
             textBox3.TabIndex = 21;
             // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(12, 260);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(168, 27);
-            textBox4.TabIndex = 22;
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -337,16 +328,16 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(1190, 79);
+            textBox6.Location = new Point(186, 313);
             textBox6.Name = "textBox6";
-            textBox6.Size = new Size(125, 27);
+            textBox6.Size = new Size(165, 27);
             textBox6.TabIndex = 32;
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(1190, 46);
+            textBox7.Location = new Point(12, 260);
             textBox7.Name = "textBox7";
-            textBox7.Size = new Size(125, 27);
+            textBox7.Size = new Size(168, 27);
             textBox7.TabIndex = 33;
             // 
             // label8
@@ -374,19 +365,11 @@
             label9.TabIndex = 36;
             label9.Text = "Private ECC Keyi";
             // 
-            // textBox9
-            // 
-            textBox9.Location = new Point(186, 313);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(168, 27);
-            textBox9.TabIndex = 37;
-            // 
             // SunucuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1148, 627);
-            Controls.Add(textBox9);
+            ClientSize = new Size(1162, 627);
             Controls.Add(label9);
             Controls.Add(textBox8);
             Controls.Add(label8);
@@ -398,7 +381,6 @@
             Controls.Add(label6);
             Controls.Add(textBox5);
             Controls.Add(label5);
-            Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(label4);
             Controls.Add(textBox2);
@@ -464,6 +446,5 @@
         private Label label8;
         private TextBox textBox8;
         private Label label9;
-        private TextBox textBox9;
     }
 }

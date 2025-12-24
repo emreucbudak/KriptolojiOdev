@@ -70,7 +70,6 @@ namespace KriptolojiOdev
                     }));
                     return;
                 }
-
                 if (p.Length < 4 || p[0] != "SUNUCU") return;
 
                 string algoritma = p[2];
@@ -115,7 +114,7 @@ namespace KriptolojiOdev
                 };
 
                 string finalKeyToSend = key;
-                string secType = "NONE";
+                string secType = "KLASİK";
 
                 if (!string.IsNullOrEmpty(key) && (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {

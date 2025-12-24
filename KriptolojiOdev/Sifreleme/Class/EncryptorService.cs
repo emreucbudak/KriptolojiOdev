@@ -549,13 +549,12 @@ namespace KriptolojiOdev.Sifreleme.Class
                     new Org.BouncyCastle.Crypto.Generators.Kdf2BytesGenerator(new Org.BouncyCastle.Crypto.Digests.Sha256Digest()),
                     new Org.BouncyCastle.Crypto.Macs.HMac(new Org.BouncyCastle.Crypto.Digests.Sha256Digest()));
 
-                // ✅ KRİTİK DÜZELTME: null yerine new byte[0] veriyoruz. 
-                // Bazı BC versiyonları null gelince MAC başlatırken NullReference atar.
+             
                 var iesParams = new Org.BouncyCastle.Crypto.Parameters.IesParameters(new byte[0], new byte[0], 128);
 
                 engine.Init(true, ephemeralKeyPair.Private, remotePublicKey, iesParams);
 
-                // Artık bu satır patlamayacak kanka
+              
                 byte[] encryptedData = engine.ProcessBlock(inputData, 0, inputData.Length);
 
                 var ephPubEncoded = Org.BouncyCastle.X509.SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(ephemeralKeyPair.Public).GetEncoded();
@@ -569,20 +568,20 @@ namespace KriptolojiOdev.Sifreleme.Class
         }
         public void EccKeyGenerate(out string pubBase64, out string privBase64)
         {
-            // 1. Daha geniş kapsamlı olan ECNamedCurveTable kullanıyoruz
-            // secp256r1 ve prime256v1 aynı eğridir, ikisini de deniyoruz kanka
+            
+            
             var ecP = Org.BouncyCastle.Asn1.X9.ECNamedCurveTable.GetByName("secp256r1")
                       ?? Org.BouncyCastle.Asn1.X9.ECNamedCurveTable.GetByName("prime256v1");
 
-            // Güvenlik kontrolü: Eğer hala null ise hata fırlat ki nerede durduğunu anla
+         
             if (ecP == null)
                 throw new Exception("HATA: ECC eğrisi (secp256r1/prime256v1) kütüphanede bulunamadı!");
 
-            // 2. DomainParameters nesnesine dönüştür
+           
             var domainParams = new Org.BouncyCastle.Crypto.Parameters.ECDomainParameters(
                 ecP.Curve, ecP.G, ecP.N, ecP.H, ecP.GetSeed());
 
-            // 3. Anahtar üreticiyi kur
+            
             var gen = new Org.BouncyCastle.Crypto.Generators.ECKeyPairGenerator();
             var keyGenParam = new Org.BouncyCastle.Crypto.Parameters.ECKeyGenerationParameters(
                 domainParams,
@@ -592,7 +591,7 @@ namespace KriptolojiOdev.Sifreleme.Class
             gen.Init(keyGenParam);
             Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair keyPair = gen.GenerateKeyPair();
 
-            // 4. Base64 olarak dışa aktar
+          
             var pubInfo = Org.BouncyCastle.X509.SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(keyPair.Public);
             pubBase64 = Convert.ToBase64String(pubInfo.GetEncoded());
 
