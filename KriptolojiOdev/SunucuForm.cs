@@ -2,6 +2,7 @@
 using KriptolojiOdev.Baglanti.Interface;
 using KriptolojiOdev.Sifreleme.Class;
 using KriptolojiOdev.Sifreleme.Interface;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -74,11 +75,14 @@ namespace KriptolojiOdev
 
                 string algoritma = p[2];
                 string plainText = p[3];
-
+                string durationMs = p.Length > 4 ? p[4] : "0";
                 serverLog.SelectionColor = Color.Blue;
                 serverLog.AppendText("[CLIENT'TAN MESAJ]\n");
                 serverLog.SelectionColor = Color.Black;
                 serverLog.AppendText($"Mesaj: {plainText} (Algoritma: {algoritma})\n");
+                serverLog.SelectionColor = Color.DarkGray;
+                serverLog.AppendText($"Sunucu Çözme Süresi: {durationMs} ms\n"); // Ekrana yazdır
+                serverLog.SelectionColor = Color.Black;
                 serverLog.AppendText("------------------\n");
                 serverLog.ScrollToCaret();
             }
@@ -94,7 +98,7 @@ namespace KriptolojiOdev
                     MessageBox.Show("İstemci henüz bağlanmadı!");
                     return;
                 }
-
+                Stopwatch sw = Stopwatch.StartNew();
                 string encryptedText = algorithm switch
                 {
                     "CAESAR" => encryptorService.CaesarEncrypt(text),
@@ -112,7 +116,8 @@ namespace KriptolojiOdev
                     "MANUEL_DES" => encryptorService.ManuelDesEncrypt(text, key, iv),
                     _ => text
                 };
-
+                sw.Stop();
+                double encDuration = sw.Elapsed.TotalMilliseconds;
                 string finalKeyToSend = key;
                 string secType = "KLASİK";
 
@@ -133,6 +138,8 @@ namespace KriptolojiOdev
                 connectionService.Broadcast("CLIENT", "MESSAGE", algorithm, encryptedText, finalKeyToSend, iv, secType);
                 serverLog.SelectionColor = Color.Green;
                 serverLog.AppendText($"[GÖNDERİLDİ]: {algorithm} ({secType})\n");
+                serverLog.SelectionColor = Color.DarkGray;
+                serverLog.AppendText($"Şifreleme Süresi: {encDuration} ms\n");
             }
             catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
         }
