@@ -75,7 +75,7 @@ namespace KriptolojiOdev
                 string algoritma = p[2].Trim().ToUpperInvariant();
                 string securedKey = p.Length > 4 ? transportService.Decrypt(p[4]).Trim() : "";
                 string securedIv = p.Length > 5 ? transportService.Decrypt(p[5]).Trim() : "";
-                string secType = p.Length > 6 ? p[6] : "NONE";
+                string secType = p.Length > 6 ? p[6] : "KLASİK";
 
                 string actualKey = securedKey;
                 if (!string.IsNullOrEmpty(securedKey) && (secType == "RSA" || secType == "ECC"))
@@ -142,7 +142,7 @@ namespace KriptolojiOdev
                 };
 
                 string finalKeyToSend = key;
-                string secType = "NONE";
+                string secType = "KLASİK";
 
                 if (!string.IsNullOrEmpty(key) && (algorithm == "AES" || algorithm == "DES" || algorithm == "MANUEL_DES"))
                 {
