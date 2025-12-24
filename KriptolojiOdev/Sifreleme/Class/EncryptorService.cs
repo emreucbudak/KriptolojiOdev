@@ -143,7 +143,7 @@ namespace KriptolojiOdev.Sifreleme.Class
         public string PolybiusEncrypt(string metin, string key)
         {
             string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
-            string square = BuildPolybiusSquare(key, alphabet); // Yardımcı metod kullanıyoruz
+            string square = BuildPolybiusSquare(key, alphabet); 
             StringBuilder cipherText = new StringBuilder();
             metin = metin.ToUpper().Replace("J", "I");
 
@@ -170,7 +170,7 @@ namespace KriptolojiOdev.Sifreleme.Class
         public string PigpenEncrypt(string metin, string key)
         {
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            string symbols = "!@#$%^&*()abcdefghij123456"; // 26 karakter
+            string symbols = "!@#$%^&*()abcdefghij123456"; 
             int shift = string.IsNullOrEmpty(key) ? 0 : key.Length;
             metin = metin.ToUpper();
             StringBuilder cipherText = new StringBuilder();

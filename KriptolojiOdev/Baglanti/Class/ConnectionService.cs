@@ -3,6 +3,7 @@ using KriptolojiOdev.Sifreleme.Class;
 using KriptolojiOdev.Sifreleme.Interface;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -116,8 +117,10 @@ namespace KriptolojiOdev.Baglanti.Class
                                 actualKey = decryptor.RsaDecrypt(securedKey, ServerPrivateKey);
                         }
 
+                        Stopwatch sw = Stopwatch.StartNew();
                         string resultText = decryptor.DecryptByAlgorithm(algorithm, cipherText, actualKey, securedIv);
-                        OnMessage?.Invoke($"SUNUCU|MESSAGE|{algorithm}|{resultText}");
+                        sw.Stop();
+                        OnMessage?.Invoke($"SUNUCU|MESSAGE|{algorithm}|{resultText}|{sw.Elapsed.TotalMilliseconds}");
                     }
                     catch (Exception ex)
                     {

@@ -384,7 +384,8 @@ namespace KriptolojiOdev.Sifreleme.Class
             };
         }
 
-        // Matematiksel Yardımcılar
+        
+
         private int GCD(int a, int b) { while (b != 0) { int t = b; b = a % b; a = t; } return a; }
         private int ModInverse(int a, int m)
         {

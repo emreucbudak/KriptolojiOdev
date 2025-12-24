@@ -5,6 +5,7 @@ using KriptolojiOdev.Sifreleme.Interface;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics;
 
 namespace KriptolojiOdev
 {
@@ -86,12 +87,16 @@ namespace KriptolojiOdev
                         actualKey = decryptorService.RsaDecrypt(securedKey, textBox4.Text);
                 }
 
+                Stopwatch sw = Stopwatch.StartNew();
                 string plainText = decryptorService.DecryptByAlgorithm(algoritma, transportDecrypted, actualKey, securedIv);
-
+                sw.Stop();
                 clientLog.SelectionColor = Color.Red;
                 clientLog.AppendText($"[SUNUCUDAN MESAJ] ({secType})\n");
                 clientLog.SelectionColor = Color.Black;
                 clientLog.AppendText($"Mesaj: {plainText}\n");
+                clientLog.SelectionColor = Color.DarkGray; 
+                clientLog.AppendText($"Çözülme Süresi: {sw.Elapsed.TotalMilliseconds} ms\n");
+                clientLog.SelectionColor = Color.Black;
                 clientLog.AppendText("-----------------------\n");
                 clientLog.ScrollToCaret();
             }
@@ -121,7 +126,7 @@ namespace KriptolojiOdev
                     MessageBox.Show("Önce sunucu anahtarlarının gelmesini bekleyin!");
                     return;
                 }
-
+                Stopwatch sw = Stopwatch.StartNew();
                 string encryptedByAlgo = algorithm switch
                 {
                     "CAESAR" => encryptorService.CaesarEncrypt(text),
@@ -140,7 +145,8 @@ namespace KriptolojiOdev
                     "RSA" => encryptorService.RsaEncrypt(text, textBox8.Text),
                     _ => text
                 };
-
+                sw.Stop();
+                double encryptionDuration = sw.Elapsed.TotalMilliseconds;
                 string finalKeyToSend = key;
                 string secType = "KLASİK";
 
@@ -167,6 +173,8 @@ namespace KriptolojiOdev
                 await _activeStream.WriteAsync(data, 0, data.Length);
                 clientLog.SelectionColor = Color.Blue;
                 clientLog.AppendText($"[GÖNDERİLDİ]: {algorithm} ({secType})\n");
+                clientLog.SelectionColor = Color.DarkGray;
+                clientLog.AppendText($"Şifreleme Süresi: {encryptionDuration} ms\n");
             }
             catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
         }
